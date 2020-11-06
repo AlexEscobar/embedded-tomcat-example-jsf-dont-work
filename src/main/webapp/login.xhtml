@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta name="keywords" content="IMI General x-ray manager app" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+
+        <title>IMI | Login Page</title>
+        <!-- Bootstrap Core CSS -->
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <!-- Custom CSS -->
+        <h:outputStylesheet library="css" name="style.css"/>
+        <!-- font-awesome icons CSS -->
+        <h:outputStylesheet library="css" name="font-awesome.css"/>
+        <!-- side nav css file -->
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+
+        <!-- js-->
+        <h:outputScript library="js" name="jsfcrud.js"/>
+
+        <script type="application/x-javascript"> 
+            addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); 
+            function hideURLbar(){ window.scrollTo(0,1); } 
+        </script>
+        <script>
+            $(function () {
+                setConfigurationParameters();
+            });
+
+            function setConfigurationParameters() {
+
+                console.log('serverIp of login page before: ' + 404);
+                var ipIs;
+                ipIs = #{configurationController.serverIp};
+
+                localStorage.setItem('serverIp', ipIs);
+                console.log('serverIp of login page after: ' + #{configurationController.serverIp});
+            }
+
+        </script>     
+        <style>
+            html, body {
+                background-color: #F5F5F5 !important;
+                font-family: "Roboto", "Helvetica Neue", sans-serif;
+            }
+            
+            .login {
+                background-color: rgb(96, 125, 139);
+            }         
+        </style>
+        
+        <!--//Metis Menu -->
+    </h:head>
+
+    <h:body  class="cbp-spmenu-push login_page-wrapper" style="background-color: blue;">
+
+        <!--        <p:growl id="growl" life="3000" /> 
+                <p:messages id="messages" closable="true" showDetail="true" ></p:messages>-->
+        <p:outputPanel id="growl" >
+            <!--<p:autoUpdate id="auptoupatErrorMessagesDialog"></p:autoUpdate>-->
+            <h:form>
+                <p:dialog id="msgDialog" widgetVar="messageDialog" modal="true" 
+                          visible="#{not empty facesContext.messageList}">
+                    <p:messages id="messagesInDialog" showDetail="true" />
+                    <p:commandButton id="closeCreatePerson" class='closeCreatePerson btn-save' value="OK" oncomplete="PF('messageDialog').hide();"/>
+                </p:dialog>
+            </h:form>
+        </p:outputPanel>
+
+        <!--initializes the configuration controller in order to get the configuration parameters available for the current session-->
+        <input type="hidden" id="serverIp" name="serverIp" value="#{configurationController.serverIp}"/>
+
+        <div class="main-content">
+            <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+                <!--left-fixed -navigation-->
+
+            </div>
+            <!--left-fixed -navigation-->
+
+            <!-- //header-ends -->
+            <!-- main content start-->
+            <div style="margin:0; min-height: 100% !important;position:fixed;width:100%;top:12%;">
+                <div class="main-page login-page ">
+
+                    <!--<h2 class="title1">Login</h2>-->
+
+                    <div class="widget-shadow">
+                        <div class="login-body">
+                            <h:form>
+                                <h:graphicImage name="images/logo-black.png" alt="login-background" style="height: 100%;margin-bottom: 20px;" class="loginBg"  />
+                                <h:inputText class="user form-control1" value="#{loginController.selected.username}" id="email"
+                                             a:placeholder="Email or Username" required="true" requiredMessage="User name is required">                                    
+                                </h:inputText>
+                                <!--                                <hr/>-->
+                                <h:inputSecret class="lock form-control1" value="#{loginController.selected.password}" id="pass"
+                                               a:placeholder="Password" required="true" requiredMessage="Password cannot be empty"/>
+                                <h:commandButton id="loginButton"  action="#{loginController.login}" class="btn btn-primary login"  value="Sign In"/>
+                                <hr style="border-color: black"/>
+
+                            </h:form>
+                            <p style="margin-right: 20px;"  class="login_contact"><span class="fa fa-envelope"></span>&nbsp;contact@imixray.com</p> &nbsp;
+                            <p class="login_contact"><span class="fa fa-phone"></span>&nbsp;1-800-756-4204</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--footer-->
+            <h:form class="exitButton">
+                <h:commandButton id="exitButton" actionListener="#{loginController.closeApp}" class="btn btn-primary login"  value="EXIT" />
+            </h:form>
+            <!--//footer-->
+        </div>
+        <ui:include src="/WEB-INF/footer.xhtml" />
+    </h:body>
+</html>

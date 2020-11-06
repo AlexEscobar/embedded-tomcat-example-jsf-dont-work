@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PermisionProfileCreateDlg" widgetVar="PermisionProfileCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePermisionProfileTitle}">
+            <h:form id="PermisionProfileCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{permisionProfileController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePermisionProfileLabel_profiles}" for="profiles" />
+                        <p:selectOneMenu id="profiles" value="#{permisionProfileController.selected.profiles}" 
+                                         required="true" requiredMessage="#{bundle.EditPermisionProfileRequiredMessage_profiles}">
+                            <f:selectItems value="#{profilesController.itemsAvailableSelectOne}"
+                                           var="profilesItem"
+                                           itemLabel="#{profilesItem.name}"
+                                           itemValue="#{profilesItem}"/>
+                        </p:selectOneMenu>
+                       
+                        <h:outputLabel for="menu" value="#{bundle.PermissionList}" />
+                        <p:selectCheckboxMenu id="menu" value="#{permisionProfileController.selectedPermissions}" label="#{bundle.CreatePermisionProfileLabel_permisions}"
+                                              filter="true" filterMatchMode="startsWith" panelStyle="width:20%" multiple="true" converter="permissionConverter" >
+                            <f:selectItems value="#{permisionsController.itemsAvailableSelectOne}" 
+                                           var="permisionsItem"
+                                           itemLabel="#{permisionsItem.description}"
+                                           itemValue="#{permisionsItem}"/>
+                        </p:selectCheckboxMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{permisionProfileController.addPermissionsToUserProfile}" value="#{bundle.Save}" update="display,:PermisionProfileListForm:datalist,:growl" oncomplete="handleSubmit(args,'PermisionProfileCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PermisionProfileCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

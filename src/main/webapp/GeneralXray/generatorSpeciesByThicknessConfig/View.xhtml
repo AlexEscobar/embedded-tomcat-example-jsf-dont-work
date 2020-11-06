@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GeneratorSpeciesByThicknessConfigViewDlg" widgetVar="GeneratorSpeciesByThicknessConfigViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle}">
+            <h:form id="GeneratorSpeciesByThicknessConfigViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{generatorSpeciesByThicknessConfigController.selected != null}">
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_id}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.id}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_et}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.et}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_et}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_kv}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.kv}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_kv}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_mx}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.mx}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_mx}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_ms}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.ms}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_ms}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_ma}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.ma}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_ma}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_fo}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.fo}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_fo}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_fs}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.fs}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_fs}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_fi}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.fi}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_fi}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_fn}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.fn}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_fn}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_thickness}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.thickness}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_thickness}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_bodyPartId}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.bodyPartId}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_bodyPartId}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_bodyPartViewId}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.bodyPartViewId}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_bodyPartViewId}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesByThicknessConfigLabel_generatorId}"/>
+                        <h:outputText value="#{generatorSpeciesByThicknessConfigController.selected.generatorId}" title="#{bundle.ViewGeneratorSpeciesByThicknessConfigTitle_generatorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="GeneratorSpeciesByThicknessConfigViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <style>
+
+            .top-selection {
+                width: 45%; 
+                min-width: 45% !important;
+                margin-right:5%; 
+                display: inline-block; 
+                margin-top: 7px;
+            }
+
+            .top-interface {
+                display: inline-flex; 
+                width: 49%; 
+                justify-content: space-between;
+            }
+
+            .label {
+                transform: translateX(2px);
+            }
+        </style>
+
+        <h:form id="PetPatientsCreateForm" class="pet-registrationForm">
+
+            <h:panelGroup id="display"  >
+                <p:panelGrid columns="1" rendered="#{petPatientsController.selected != null}"  layout="grid">
+                    <p:outputLabel for="ownerId" value="#{bundle.CreatePetPatientsLabel_ownerId}"/>
+                    <p:row>
+                        <p:selectOneMenu id="ownerId" value="#{petPatientsController.selected.ownerId}"
+                                         filter="true" filterMatchMode="contains" 
+                                         class="top-selection"
+                                         required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_ownerId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
+                            <f:selectItems value="#{personsController.items}"
+                                           var="ownerIdItem"
+                                           itemLabel="#{ownerIdItem.FName} #{ownerIdItem.LName}"
+                                           itemValue="#{ownerIdItem}"/>
+                            <p:ajax update="@(.pet-registrationForm)" listener="#{petPatientsController.initializeItemsOnOwnerSelected}"/>
+                        </p:selectOneMenu>
+                        <div class="top-interface">
+                            <p:commandButton id="createOwnerButton" icon="ui-icon-plus" value="New" title="#{bundle.NewOwner}"
+                                             rendered="#{loginController.hasPermission(32)}" process="@this"
+                                             actionListener="#{personsController.initializeFromPetRegistrationForm}"
+                                             oncomplete="PF('PersonsCreateDialog').show()" 
+                                             update=":PersonsCreateForm @(.pet-registrationForm)"
+                                             style="width: 49%; margin:0;">
+                            </p:commandButton>
+                            <p:commandButton id="editOwnerButton" icon="ui-icon-pencil" value="#{bundle.Edit}" title="#{bundle.EditOwner}"
+                                             rendered="#{loginController.hasPermission(32)}" disabled="#{empty petPatientsController.selected.ownerId}"
+                                             process="@this"
+                                             actionListener="#{personsController.getSelectedOwnerFromPatientCreate}" 
+                                             oncomplete="PF('PersonsEditDialog').show()" 
+                                             update=":PersonsEditForm @(.pet-registrationForm)"
+                                             style="width: 49%; margin:0;">
+                            </p:commandButton>                            
+                        </div>
+
+                    </p:row>
+                    <p:outputLabel for="lazy" value="Animal:" rendered="true"/>
+                    <p:row rendered="true">
+                        <p:selectOneMenu id="lazy" value="#{petPatientsController.selected2}"  converter="petPatientsConverter"
+                                         required="false" 
+                                         class="top-selection"
+                                         filter="true" filterMatchMode="contains" 
+                                         disabled="#{petPatientsController.itemsByOwner.size() lt 0 or !petPatientsController.showItemsByOwner}"
+                                         >
+                            <f:selectItems value="#{petPatientsController.itemsByOwner}" 
+                                           var="pet" 
+                                           itemLabel="#{pet.name}, #{pet.specieId.name} #{pet.breedId.name}"
+                                           itemValue="#{pet}"/>
+                            <p:ajax update="@(.pet-registrationForm)" listener="#{petPatientsController.onPetPatientListChange}"/>
+                        </p:selectOneMenu>
+                        <p:commandButton id="createPetButton" icon="ui-icon-plus" value="#{bundle.Register}" 
+                                         update="@(.pet-registrationForm)"
+                                         disabled="#{petPatientsController.itemsByOwner.size() lt 0 or !petPatientsController.showItemsByOwner}"
+                                         rendered="#{loginController.hasPermission(1)}" actionListener="#{petPatientsController.prepareCreateOnOwnerChange}"
+                                         style="margin: 0 0 0 3.7px; width: 49%;">
+
+                        </p:commandButton>
+                    </p:row>
+                    <hr style="margin-bottom: 15px;"></hr>
+                    <h3 style="margin-top:0; text-align: center;font-size: 17px;">Patient</h3>
+                    <p:row >
+
+                        <div style="padding: 0;" class="ui-g-6">
+
+                            <p:inputText id="patientId" value="#{petPatientsController.selected.patientId}" title="#{bundle.PatientId}" 
+                                         placeholder="#{bundle.PatientId}"/>
+                        </div>
+                        <div style="padding: 0;" class="ui-g-6">
+                            <p:inputText id="accessionCode" value="#{petPatientsController.selected.accessionCode}" title="#{bundle.AccessionCode}" 
+                                         placeholder="#{bundle.AccessionCode}"/>
+                        </div>
+                    </p:row>
+
+                    <p:row >
+                        <div style="padding: 0;" class="ui-g-6">
+                            <p:inputText id="name" value="#{petPatientsController.selected.name}" 
+                                         title="#{bundle.CreatePetPatientsTitle_name}" required="true" placeholder="#{bundle.CreatePetPatientsTitle_name}" 
+                                         requiredMessage="#{bundle.CreatePetPatientsRequiredMessage_name}"/>
+                        </div>
+                        <div style="padding: 0;" class="ui-g-6">
+                            <p:calendar id="birthDate" pattern="MM/dd/yyyy"  navigator="true"  yearRange="c-90:c+0" 
+                                        value="#{petPatientsController.selected.birthDate}" 
+                                        placeholder="Animal Date Of Birth" title="#{bundle.CreatePetPatientsLabel_birthDate}"/>                            
+                        </div>
+                    </p:row>
+                    <p:row>
+                        <div style="padding: 0; display: inline-flex; align-items: center;" class="ui-g-6">
+
+                            <div style="padding: 0 0 0 2px;" class="ui-g-2">
+                                <p:outputLabel value="#{bundle.CreatePetPatientsLabel_sex}" for="sex" 
+                                               />
+                            </div>
+
+                            <div style="padding: 0;" class="ui-g-10">
+                                <p:selectOneRadio id="sex" value="#{petPatientsController.selected.sex}"  
+                                                  >
+                                    <f:selectItem itemLabel="#{bundle.Male}" itemValue="false" />
+                                    <f:selectItem itemLabel="#{bundle.Female}" itemValue="true" />
+                                </p:selectOneRadio >
+                            </div>
+                        </div>
+                        <div style="padding: 0 0 0 2px; display: inline-flex; align-items: center; margin-top: 3px;" class="ui-g-6">
+                            <div style="padding: 0;" class="ui-g-8">
+                                <p:outputLabel value="#{bundle.Neutered}" for="neutered" />
+                            </div>
+                            <div style="padding: 0;" class="ui-g-1">
+                                <p:selectBooleanCheckbox style="height: 20px;" id="neutered" value="#{petPatientsController.selected.neutered}" 
+                                                         />
+                            </div>
+                        </div>
+                    </p:row>
+                    <p:row>
+                        <div style="padding: 0;" class="ui-g-6">
+                            <p:selectOneMenu id="specieId" value="#{petPatientsController.selected.specieId}" 
+                                             style="width:70%"
+                                             required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_specieId}">
+                                <f:selectItem itemLabel="Select Species" itemValue="#{null}"/>
+                                <f:selectItems value="#{speciesController.itemsAvailableSelectOne}" 
+                                               var="specieIdItem"
+                                               itemValue="#{specieIdItem}"
+                                               itemLabel="#{specieIdItem.name}"/>
+                                <p:ajax event="change" update="breedId"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div style="padding: 0;" class="ui-g-6">
+
+                            <p:selectOneMenu id="breedId" value="#{petPatientsController.selected.breedId}"
+                                             style="width:70%"
+                                             >
+                                <f:selectItem itemLabel="Select Breed" itemValue="#{null}"/>
+                                <f:selectItems value="#{breedsController.itemsBySpecie}"
+                                               var="breedIdItem"
+                                               itemValue="#{breedIdItem}"
+                                               itemLabel="#{breedIdItem.name}"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </p:row>
+
+                    <p:inputTextarea placeholder="Enter Description..." id="descript" style="width:100% !important;" value="#{petPatientsController.selected.description}" />
+                </p:panelGrid>
+                <p:commandButton  
+                    value="#{loginController.hasPermission(1026)? bundle.SaveToXray:bundle.SaveToWorklist}" 
+                    style="width:100%!important;" 
+                    update="display,@(.petListStyle) @(.worklistStyle) @(.xrayButtonStyle),:growl" 
+                    rendered="#{empty petPatientsController.selected.id and loginController.hasPermission(1)}"
+                    oncomplete="PF('ChooseDentalGeneralCreateDialog').show();"/>
+                <p:commandButton  actionListener="#{petPatientsController.update}" value="#{bundle.SaveChanges}" 
+                                  style="#{petPatientsController.enableCreateStudy? 'width:49% !important;': 'width:100% !important;'}}"
+                                  rendered="#{!empty petPatientsController.selected.id  and loginController.hasPermission(2)}"
+                                  update="display,@(.petListStyle) @(.worklistStyle) @(.xrayButtonStyle),:growl"/>
+                <p:commandButton   value="Add Study" 
+                                   style="width:50% !important; float: right;" 
+                                   rendered="#{!empty petPatientsController.selected.id and petPatientsController.enableCreateStudy and loginController.hasPermission(53)}"
+                                   update="display,@(.petListStyle) @(.worklistStyle) @(.xrayButtonStyle),:growl"
+                                   oncomplete="PF('ChooseDentalGeneralDialog').show();" >
+                    <p:tooltip value="#{bundle.AddToWorkList}" />
+                </p:commandButton>
+                <!--<p:commandButton value="#{bundle.Cancel}" styleClass="btn-refresh wide-btn" />-->
+
+            </h:panelGroup>
+        </h:form>
+
+        <ui:include src="/persons/Create.xhtml"/>
+        <ui:include src="/persons/Edit.xhtml"/>
+        <ui:include src="/studies/ChooseDentalOrGeneralPopupOnAdd.xhtml"/>
+        <ui:include src="/studies/ChooseDentalOrGeneralPopupOnCreate.xhtml"/>
+
+    </ui:composition>
+</html>

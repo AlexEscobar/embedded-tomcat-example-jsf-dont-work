@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <!-- Cat Theet Chart -->
+        <map name="catTeethMap" id="catTeethMap" class="view_screen">
+            <area alt="RU - Incisors - 101 102 103" title="RU - Incisors - 101 102 103" href="#" shape="poly" onclick="rc()" class="colorArea" id="cat101"
+                  coords="481,73,492,59,495,45,491,33,481,29,446,30,407,41,400,57,406,72,416,90,423,96,429,96,451,80">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat101')}"/>
+            </area>
+            <area alt="LU - Incisors - 201 202 203" title="LU - Incisors - 201 202 203" href="#" shape="poly" onclick="rc2()" class="colorArea"  id="cat201"
+                  coords="518,28,510,30,504,42,505,53,507,61,514,74,517,73,546,80,569,97,578,95,584,86,592,72,597,60,596,50,592,42,583,39,559,31,552,28,533,31">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc2" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat201')}"/>
+            </area>
+            <area alt="RU - Canine - 104" title="RU - Canine - 104" href="#" shape="poly" onclick="rc3()" class="colorArea" id="canine_104"
+                  coords="308,34,302,36,300,45,300,60,300,92,300,130,296,166,296,196,304,217,314,227,328,232,350,222,362,202,366,167,361,130,346,92,330,56,316,40,312,35">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc3" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('canine_104')}"/>
+            </area>
+            <area alt="LU - Canine - 204" title="LU - Canine - 204" href="#" shape="poly" onclick="rc4()" class="colorArea" id="canine_204"
+                  coords="634,187,634,162,639,128,652,92,665,66,679,44,688,35,692,32,698,35,699,42,700,56,699,73,700,99,700,120,700,139,701,153,702,177,702,194,700,204,694,217,683,
+                  226,668,230,656,226,646,219,638,210,636,196">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc4" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('canine_204')}"/>
+            </area>
+            <area alt="RU - Premolars - 106 107 108" title="RU - Premolars - 106 107 108" href="#" shape="poly" onclick="rc5()"  class="colorArea" id="cat106"
+                  coords="278,320,278,285,280,277,284,274,289,272,293,272,297,273,302,276,305,277,306,281,307,285,307,290,307,295,307,300,307,308,308,315,308,320,304,327,298,330,
+                  293,332,287,330,283,328,271,386,265,389,259,394,250,410,240,429,234,443,227,456,222,468,223,474,224,480,224,485,225,490,228,494,231,498,234,498,233,502,225,500,
+                  218,502,212,505,204,515,196,529,185,550,173,575,166,594,157,616,150,633,144,649,136,666,132,682,133,689,136,696,142,697,148,697,157,695,168,688,178,679,185,673,
+                  196,659,206,644,212,631,216,618,218,613,221,609,226,604,234,600,242,596,256,593,268,583,274,576,279,564,279,553,274,545,270,541,264,537,260,533,254,528,251,522,
+                  248,515,244,508,241,506,238,503,236,502,232,500,232,496,237,498,241,499,249,498,256,499,262,498,267,497,270,494,272,491,274,483,275,478,276,475,281,464,287,450,
+                  294,436,298,423,300,412,301,401,300,397,295,392,291,389,284,386,281,386,274,386,271,384,276,350,280,330,282,324">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc5" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat106')}"/>
+            </area>
+            <area alt="RU - Molar - 109" title="RU - Molar - 109" href="#" shape="poly" onclick="rc6()"  class="colorArea" id="cat109"
+                  coords="141,705,154,702,163,700,178,698,190,698,203,699,209,704,214,710,215,720,214,733,209,741,204,746,196,749,188,750,182,748,173,743,164,737,152,732,142,727,
+                  136,721,134,716,136,711,138,708">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc6" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat109')}"/>
+            </area>
+            <area alt="LU - Premolars - 206 207 208" title="LU - Premolars - 206 207 208" href="#" shape="poly" onclick="rc7()"  class="colorArea" id="cat206"
+                  coords="718,325,720,312,720,306,720,297,720,286,717,278,711,272,706,272,698,274,693,278,692,289,691,303,691,310,692,318,693,324,695,325,697,328,699,330,704,332,
+                  709,331,713,329,726,387,718,386,711,387,704,391,698,399,697,409,699,419,704,430,711,448,720,468,724,481,727,489,729,495,733,499,736,499,740,499,744,500,748,500,
+                  752,500,756,500,760,499,763,499,766,498,768,502,764,502,758,505,754,508,752,513,746,522,739,533,727,542,720,549,719,561,723,575,732,586,745,592,762,599,772,605,
+                  779,611,783,618,789,633,796,650,806,662,817,675,826,684,843,695,854,698,866,687,865,678,862,668,858,656,852,642,843,622,824,577,818,564,812,549,801,530,789,509,
+                  780,504,776,502,771,500,768,500,767,496,771,494,773,492,774,486,776,478,776,472,776,468,759,432,750,414,742,399,736,393,732,389,728,387,725,385,720,359,716,345,
+                  714,336,713,326">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc7" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat206')}"/>
+            </area>
+            <area alt="LU - Molar - 209" title="LU - Molar - 209" href="#" shape="poly" onclick="rc8()"  class="colorArea" id="cat209"
+                  coords="812,698,822,698,832,700,843,701,854,705,862,710,864,718,861,722,857,727,847,731,839,735,830,739,823,744,814,748,806,750,800,749,796,747,791,744,787,738,
+                  786,733,785,728,784,720,784,713,787,708,788,705,792,702,796,699,803,698">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc8" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat209')}"/>
+            </area>
+            <area alt="RL - Molar - 409" title="RL - Molar - 409" href="#" shape="poly" onclick="rc9()"  class="colorArea" id="cat409"
+                  coords="227,1094,217,1100,210,1114,208,1130,210,1142,212,1156,220,1172,227,1188,232,1197,237,1216,243,1228,249,1238,259,1246,273,1249,281,1250,293,1243,297,1235,
+                  299,1224,296,1212,293,1205,290,1201,288,1198,284,1191,279,1184,278,1178,277,1166,276,1154,275,1141,272,1130,265,1117,258,1105,250,1099,244,1096,238,1094,232,1094">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc9" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat409')}"/>
+            </area>
+            <area alt="RL - Premolars - 407 408" title="RL - Premolars - 407 408" href="#" shape="poly" onclick="rc10()"  class="colorArea" id="cat407"
+                  coords="316,1363,312,1352,309,1354,300,1354,292,1351,285,1344,280,1338,273,1320,271,1310,270,1298,267,1285,268,1272,272,1262,278,1256,289,1254,300,1259,307,1268,
+                  313,1278,319,1291,323,1306,324,1320,324,1330,323,1341,320,1347,317,1350,314,1352,314,1355,318,1363,326,1363,336,1369,342,1377,347,1393,354,1414,360,1429,360,1448,
+                  359,1460,354,1464,345,1463,336,1458,327,1448,317,1421,309,1403,305,1385,306,1374,308,1369,311,1366">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc10" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat407')}"/>
+            </area>
+            <area alt="LL - Molar - 309" title="LL - Molar - 309" href="#" shape="poly" onclick="rc11()"  class="colorArea" id="cat309"
+                  coords="745,1142,750,1126,760,1112,768,1101,780,1094,793,1094,802,1099,810,1109,812,1125,810,1143,807,1157,798,1176,790,1191,787,1203,778,1222,772,1232,766,1241,
+                  757,1246,744,1250,730,1247,722,1237,720,1221,723,1209,727,1201,732,1194,738,1186,741,1180,743,1169,745,1153">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc11" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat309')}"/>
+            </area>
+            <area alt="LL - Premolars - 307 308" title="LL - Premolars - 307 308" href="#" shape="poly" onclick="rc12()"  class="colorArea" id="cat307"
+                  coords="738,1253,726,1258,718,1263,712,1274,704,1292,698,1308,697,1329,699,1339,701,1342,704,1348,713,1353,708,1368,703,1364,693,1362,686,1364,676,1374,671,1392,
+                  665,1410,656,1429,654,1446,656,1456,660,1462,670,1462,681,1457,688,1449,696,1432,702,1415,708,1401,711,1382,710,1376,710,1370,709,1366,712,1355,716,1353,722,1354,
+                  729,1350,738,1343,746,1327,753,1302,756,1284,756,1271,751,1262,750,1259,746,1256">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc12" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat307')}"/>
+            </area>
+            <area alt="RL - Canine - 404" title="RL - Canine - 404" href="#" shape="poly" onclick="rc13()"  class="colorArea" id="canine_404"
+                  coords="386,1626,383,1639,378,1652,369,1665,358,1677,343,1687,322,1700,313,1710,314,1722,320,1727,330,1730,359,1730,373,1729,388,1724,405,1717,419,1706,430,1692,
+                  436,1674,436,1653,434,1641,431,1632,427,1624,422,1615,416,1609,410,1604,406,1602,400,1603,394,1605,388,1616">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc13" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('canine_404')}"/>
+            </area>
+            <area alt="RL - Incisors - 401 402 403" title="RL - Incisors - 401 402 403" href="#" shape="poly" onclick="rc14()"  class="colorArea" id="cat401"
+                  coords="438,1712,430,1714,422,1720,418,1725,418,1736,422,1741,429,1745,435,1747,442,1746,446,1744,448,1742,450,1739,452,1740,454,1744,458,1748,462,1749,468,1749,
+                  474,1747,478,1743,480,1742,483,1743,484,1747,490,1750,495,1751,499,1751,503,1750,505,1748,507,1743,507,1737,506,1731,502,1725,499,1720,497,1716,494,1716,491,1720,
+                  487,1725,483,1730,482,1735,479,1736,477,1728,475,1722,472,1718,470,1715,465,1716,461,1719,457,1723,453,1728,450,1732,448,1726,445,1719,444,1716,442,1714">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc14" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat401')}"/>
+            </area>
+            <area alt="LL - Incisors - 301 302 303" title="LL - Incisors - 301 302 303" href="#" shape="poly" onclick="rc15()"  class="colorArea" id="cat301"
+                  coords="516,1726,520,1720,522,1716,528,1717,532,1724,534,1724,536,1729,539,1732,542,1731,543,1727,544,1724,546,1720,548,1718,549,1716,552,1716,556,1716,560,1721,
+                  564,1727,566,1730,568,1734,570,1728,572,1723,573,1720,576,1718,579,1715,582,1714,588,1716,593,1719,596,1722,600,1723,602,1727,602,1732,600,1739,596,1744,591,1746,
+                  584,1748,578,1749,572,1745,569,1742,568,1737,566,1740,566,1742,565,1745,562,1749,555,1750,548,1751,543,1746,541,1743,538,1738,536,1742,534,1746,530,1750,526,1750,
+                  518,1749,514,1746,512,1738,514,1727">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc15" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('cat301')}"/>
+            </area>
+            <area alt="LL - Canine - 304" title="LL - Canine - 304" href="#" shape="poly" onclick="rc16()"  class="colorArea" id="canine_304"
+                  coords="595,1618,601,1609,610,1604,617,1602,623,1605,627,1609,630,1614,632,1619,636,1632,639,1646,644,1656,650,1664,655,1671,662,1677,672,1686,682,1692,693,1700,
+                  703,1705,706,1711,708,1719,706,1726,703,1728,701,1730,696,1732,689,1733,668,1733,654,1732,642,1730,631,1726,624,1725,611,1719,604,1711,594,1701,588,1690,583,1678,
+                  583,1664,583,1650,587,1636,591,1627,593,1622">
+                 <p:remoteCommand update=":growl AnnotationsListForm" name="rc16" action="#{annotationsDentalXrayController.createOrUpdateOnImageMapSelection('canine_304')}"/>
+            </area>
+
+        </map>
+
+    </ui:composition>
+</html>

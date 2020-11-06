@@ -1,0 +1,168 @@
+
+.generator-info-panel{
+    display: block;
+    width: 240px;
+    height: 60px;
+    background-color: grey;
+}
+.generator-state, .generator-powerOn-state, .generator-powerOff-state, .generator-kv-state, .generator-ms-state, .generator-ma-state, .generator-mx-state{
+    display: inline-block;
+    width:43px;
+    height: 45px;
+    transform: rotate(90deg) translate(-10%,0%);
+    text-align: center;
+    font-weight: 200;
+    margin-left: 2px;
+}
+
+.generator-panel-style {
+    display: flex; 
+    justify-content: space-between;
+    align-items: flex-end;
+} 
+
+.generator-powerOn-state{
+    background-color: greenyellow;
+    color: black;                
+}
+
+.generator-powerOff-state{
+    background-color: #8aa4af;
+    color: black;                
+}
+
+.generator-kv-state{
+    background-color: #0091cd;
+}
+.generator-ms-state{
+    background-color: #286090;
+}
+.generator-ma-state{
+    background-color: #0091cd;
+}
+.generator-mx-state{
+    background-color: #286090;
+}
+.fa-hand-o-right{
+    display: none;
+}
+
+/*Overide*/
+.ui-spinner-input{
+    text-align: left !important;
+}
+
+.pollStyle {
+    display: none;
+}  
+
+
+.config-display {
+    display: inline-block;
+    margin: 0 20px;
+    font-size: 18px;
+}
+
+.config-display p {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.config-display button {
+    height: 45px;
+    min-width: 50px; 
+}
+
+
+.config-display label {
+    text-align: center;
+    display: inline-block;
+    margin: 0 5px;
+    width: 40px;
+}
+
+.config-display button span {
+    font-size: 18px !important;
+}            
+
+
+.config-interface {
+    border: 1px solid #607D8B;
+    border-radius: 5px;
+}
+
+.config-interface button {
+    margin: 0;
+}
+
+.config-interface button[disabled="disabled"] {
+    visibility: hidden;
+}
+
+#topbar-left {
+    display: flex;
+}
+
+#topbar-left .status-panel-style {
+    display: flex;
+    align-items: flex-end;
+    margin-right: 5px;
+}
+
+#topbar-left .status-image {
+    border-radius: 180px;
+    border-width: 5px;
+    border-style: solid;
+    width: 60px;
+    height: 60px;
+    margin: 0 10px;
+}
+
+#topbar-left .status-image.green {
+    background-color: green;
+    border-color: green;
+}
+
+#topbar-left .status-image.yellow {
+    background-color: yellow;
+    border-color: yellow;
+}            
+
+#topbar-left .status-image.red {
+    background-color: red;
+    border-color: red;
+}            
+
+#topbar-left .status-image:first-of-type {
+    margin-left: 0;
+}
+
+.panel-error {
+    position: absolute;
+    bottom: 15px;
+    left: 5px;
+    color: red;
+}
+
+
+@media only screen and (max-width: 1320px) {
+    #topbar-left .status-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .config-display {
+        font-size: 16px;
+        margin: 0 10px;
+    }
+
+    .config-display label {
+        width: 25px;
+    }                
+
+    .config-display button {
+        height: 35px;
+        min-width: 40px; 
+    }
+}

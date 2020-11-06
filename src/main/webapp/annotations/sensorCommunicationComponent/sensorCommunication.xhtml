@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition> 
+        <!--This is the create annotations form-->
+        <h:form>
+            <o:socket channel="sensorMessageChannel" onmessage="sensorMessageSocketListener" />
+            <p:inputText type="hidden" widgetVar="notificationMessage" value="#{annotationsDentalXrayController.msg}" />
+            <p:remoteCommand update=":growl" name="showNotifications" action="#{annotationsDentalXrayController.reportSensorDisconnectionErrors()}"/>
+        </h:form>
+        <script>
+            $(function () {
+                console.log('loading sensor communication component...');
+            });
+
+            function showGeneratorUnconnectionError(message) {
+                console.log("Showing this swal (Stop!, '" + message + "'!error)");
+//                swal("Stop!", message + " !", "error");
+                setGeneratorStatus(undefined, "");
+                swal({title: "Stop", text: message, type:
+                            "error"})
+                        .then(function () {
+                            // add here the remote command to call sensor killer function
+                            //{generalXrayController.sensorKiller}
+                            location.reload();
+                        }
+                        );
+            }
+
+            function showNotificationsJS(message) {
+                PF('notificationMessage').jq.val(message);
+                console.log("calling showNotifications remote command... " + message);
+                showNotifications();
+            }
+
+            function sensorMessageSocketListener(message, channel, event) {
+                console.log('Calling socketListener client side SENSOR SOCKET Server');
+                console.log(message);
+//                console.log(channel);
+//                console.log(event);
+                if (message.error !== "") {
+                    let messages = message.error;
+                    if (messages.includes("Bulk")) {
+                        messages = message + ". Try disconnecting and connecting the sensor again.";
+                    }
+                    showNotificationsJS(messages);
+//                    showGeneratorUnconnectionError(message.error);
+                }
+                console.log('End Calling socketListener client side SENSOR Socket Client');
+//                console.log(message.connection)    
+
+            }
+        </script>
+    </ui:composition>
+</html>

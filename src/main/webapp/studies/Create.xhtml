@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StudiesCreateDlg" widgetVar="StudiesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateStudiesTitle}">
+            <h:form id="StudiesCreateForm" class="studyCreateFormStyle">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{studiesController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateStudiesLabel_patientId}" for="patientId" />
+                        <p:outputLabel id="patientId" value="#{studiesController.selected.patientId.name}" />
+                        <p:outputLabel value="#{bundle.CreateStudiesLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{studiesController.selected.description}" title="#{bundle.CreateStudiesTitle_description}" required="true" requiredMessage="#{bundle.CreateStudiesRequiredMessage_description}"/>
+                        <p:outputLabel value="#{bundle.CreateStudiesLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{studiesController.selected.status}" required="true" requiredMessage="#{bundle.EditStudiesRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.CreateStudiesLabel_isClosed}" for="isClosed" />
+                        <p:selectBooleanCheckbox id="isClosed" value="#{studiesController.selected.isClosed}" required="true" requiredMessage="#{bundle.EditStudiesRequiredMessage_isClosed}"/>
+                        <p:outputLabel value="#{bundle.CreateStudiesLabel_resultComment}" for="resultComment" />
+                        <p:inputText id="resultComment" value="#{studiesController.selected.resultComment}" title="#{bundle.CreateStudiesTitle_resultComment}" />
+                        <p:outputLabel value="#{bundle.CreateStudiesLabel_modaliyId}" for="modaliyId" />
+                        <p:selectOneMenu id="modaliyId" value="#{studiesController.selected.modaliyId}" 
+                                         >
+                            <f:selectItems value="#{modalitiesController.itemsAvailableSelectOne}"
+                                           var="modaliyIdItem"
+                                           itemValue="#{modaliyIdItem}"
+                                           itemLabel="#{modaliyIdItem.name}"/>
+                        </p:selectOneMenu>
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{studiesController.create}" value="#{bundle.Save}" update="display,:StudiesListForm:datalist,@(.growl)" oncomplete="handleSubmit(args,'StudiesCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="StudiesCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

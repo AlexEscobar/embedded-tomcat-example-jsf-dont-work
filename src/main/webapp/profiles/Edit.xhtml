@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProfilesEditDlg" widgetVar="ProfilesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditProfilesTitle}">
+            <h:form id="ProfilesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{profilesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditProfilesLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{profilesController.selected.id}" title="#{bundle.EditProfilesTitle_id}" required="true" requiredMessage="#{bundle.EditProfilesRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditProfilesLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{profilesController.selected.name}" title="#{bundle.EditProfilesTitle_name}" required="true" requiredMessage="#{bundle.EditProfilesRequiredMessage_name}"/>
+                        <p:outputLabel value="#{bundle.EditProfilesLabel_entryDate}" for="entryDate" />
+                        <p:calendar id="entryDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{profilesController.selected.entryDate}" title="#{bundle.EditProfilesTitle_entryDate}" required="true" requiredMessage="#{bundle.EditProfilesRequiredMessage_entryDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditProfilesLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{profilesController.selected.status}" required="true" requiredMessage="#{bundle.EditProfilesRequiredMessage_status}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{profilesController.update}" value="#{bundle.Save}" update="display,:ProfilesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ProfilesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ProfilesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

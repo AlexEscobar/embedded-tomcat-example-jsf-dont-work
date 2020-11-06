@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BranchOfficesEditDlg" widgetVar="BranchOfficesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditBranchOfficesTitle}">
+            <h:form id="BranchOfficesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{branchOfficesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditBranchOfficesLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{branchOfficesController.selected.id}" title="#{bundle.EditBranchOfficesTitle_id}" required="true" requiredMessage="#{bundle.EditBranchOfficesRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditBranchOfficesLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{branchOfficesController.selected.name}" title="#{bundle.EditBranchOfficesTitle_name}" />
+                        <p:outputLabel value="#{bundle.EditBranchOfficesLabel_address}" for="address" />
+                        <p:inputText id="address" value="#{branchOfficesController.selected.address}" title="#{bundle.EditBranchOfficesTitle_address}" />
+                        <p:outputLabel value="#{bundle.EditBranchOfficesLabel_entryDate}" for="entryDate" />
+                        <p:calendar id="entryDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{branchOfficesController.selected.entryDate}" title="#{bundle.EditBranchOfficesTitle_entryDate}" required="true" requiredMessage="#{bundle.EditBranchOfficesRequiredMessage_entryDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditBranchOfficesLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{branchOfficesController.selected.status}" required="true" requiredMessage="#{bundle.EditBranchOfficesRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.EditBranchOfficesLabel_clinicId}" for="clinicId" />
+                        <p:selectOneMenu id="clinicId" value="#{branchOfficesController.selected.clinicId}" required="true" requiredMessage="#{bundle.EditBranchOfficesRequiredMessage_clinicId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clinicsController.itemsAvailableSelectOne}"
+                                           var="clinicIdItem"
+                                           itemValue="#{clinicIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{branchOfficesController.update}" value="#{bundle.Save}" update="display,:BranchOfficesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BranchOfficesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="BranchOfficesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,109 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/serenity">
+    
+    <style>
+        .layout-wrapper .layout-sidebar {
+            background-image: none;
+            background-color: #607D8B;
+        }
+        
+        .layout-sidebar:not(.layout-sidebar-active) .sidebar-logo {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .layout-sidebar:not(.layout-sidebar-active) .sidebar-logo img {
+            height: 40px;
+            width: 40px;
+            position: relative;
+            right: 9px;
+            top: 4px;
+        }
+    </style>
+    
+    <div class="layout-sidebar #{guestPreferences.darkMenu ? 'layout-sidebar-dark' : ''}">
+        <div class="sidebar-logo">
+            <a href="/worklist">
+                <p:graphicImage name="images/new-logos/logo-red-bg.png" />
+            </a>
+            <a href="#" class="sidebar-anchor" title="Toggle Menu"></a>
+        </div>
+
+        <div class="nano">
+            <div class="nano-content sidebar-scroll-content">
+                <div class="layout-menu-container">
+                    <h:form id="menuform">                        
+                        <pm:menu id="menuBarMain" rendered="#{!loginController.hasPermission(25) and !loginController.hasPermission(18) and !loginController.hasPermission(26)
+                                                              and !loginController.hasPermission(30) and !loginController.hasPermission(38) and !loginController.hasPermission(34) 
+                                                              and loginController.selected.id ne 1}" widgetVar="serenityMenuWidget">
+                            <p:menuitem id="imi_worklist" value="Worklist" icon="&#xE14F;" outcome="pretty:worklist" rendered="#{(configurationController.isXrayServer and loginController.hasPermission(8)) or usersController.selected.id == 1}"/>
+                            <p:menuitem id="imi_studylist" value="Studylist" icon="&#xE896;" outcome="pretty:studylistCloud" rendered="#{configurationController.isViewer or usersController.selected.id == 1 or loginController.hasPermission(12)}"/>
+                        </pm:menu>
+
+                        <pm:menu id="menuBarFull" rendered="#{loginController.selected.id eq 1}" widgetVar="serenityMenuWidget">
+                            <p:menuitem id="imi_worklist2" value="Worklist" icon="&#xE14F;" outcome="pretty:worklist" rendered="#{(configurationController.isXrayServer and loginController.hasPermission(8)) or usersController.selected.id == 1}"/>
+                            <p:menuitem id="imi_studylist2" value="Studylist" icon="&#xE896;" outcome="pretty:studylistCloud" rendered="#{configurationController.isViewer or usersController.selected.id == 1 or loginController.hasPermission(12)}"/>
+                            <p:submenu id="submenuSettings" label="#{bundle.Maintenance}">
+                                <p:submenu  id="submenuSettings3" label="General X-ray Settings">
+                                    <p:menuitem value="Generator Config" outcome="/GeneralXray/highVoltageGenerators/List.xhtml" />
+                                    <p:menuitem value="Body Parts" outcome="/GeneralXray/bodyParts/List.xhtml" />
+                                    <p:menuitem value="Body Part View" outcome="/GeneralXray/bodyPartViews/List.xhtml" />
+                                    <p:menuitem value="Animal Size" outcome="/GeneralXray/animalSizes/List.xhtml" />
+                                    <p:menuitem value="Generator Config by size" outcome="/GeneralXray/generatorSpeciesBySizeConfig/List.xhtml" />
+                                    <p:menuitem value="Generator Config by thickness" outcome="/GeneralXray/generatorSpeciesByThicknessConfig/List.xhtml" />
+                                    <p:menuitem value="Acquistion Devices" outcome="/GeneralXray/acquistionDevices/List.xhtml" />
+                                </p:submenu>
+                                <p:submenu label="User Settings">
+                                    <p:menuitem value="Permisions" outcome="/permisions/List.xhtml" />
+                                    <p:menuitem value="Profiles" outcome="/profiles/List.xhtml" />
+                                    <p:menuitem value="PermisionProfile" outcome="/permisionProfile/List.xhtml" />
+                                    <p:menuitem value="User" outcome="/users/List.xhtml" />
+                                    <p:menuitem value="UserProfile" outcome="/userProfile/List.xhtml" />                    
+                                </p:submenu>
+                                <p:submenu label="Email and Dicom Settings">
+                                    <p:menuitem value="Email" outcome="/email/List.xhtml" />
+                                    <p:menuitem value="Dicom Sent" outcome="/dicomSent/List.xhtml" />
+                                    <p:menuitem value="Dicom Servers" outcome="/dicomServers/List.xhtml" />
+                                </p:submenu>
+                                <p:submenu label="General Settings">
+                                    <p:menuitem value="Breeds" outcome="/breeds/List.xhtml" />
+                                    <p:menuitem value="Clinic" outcome="/clinics/List.xhtml" />
+                                    <p:menuitem value="Modalities" outcome="/modalities/List.xhtml" />
+                                    <p:menuitem value="ModalityCategories" outcome="/modalityCategories/List.xhtml" />
+                                    <p:menuitem value="Persons" outcome="/persons/List.xhtml" />
+                                    <p:menuitem value="PetPatients" outcome="/petPatients/List.xhtml" />
+                                    <p:menuitem value="Species" outcome="/species/List.xhtml" />
+                                    <p:menuitem value="TeethNumbers" outcome="/teethNumbers/List.xhtml" />
+                                    <p:menuitem value="Configuration" outcome="/configuration/List.xhtml" />                    
+                                </p:submenu>
+                            </p:submenu>
+                        </pm:menu>                       
+
+                        <pm:menu id="menuBarClinicAdmin" 
+                                 rendered="#{(loginController.hasPermission(25) or loginController.hasPermission(18) or loginController.hasPermission(26)
+                                             or loginController.hasPermission(30) or loginController.hasPermission(38) or loginController.hasPermission(34)) and loginController.selected.id ne 1}" >
+                            <p:menuitem id="imi_worklist3" value="Worklist" icon="&#xE14F;" outcome="pretty:worklist" rendered="#{(configurationController.isXrayServer and loginController.hasPermission(8)) or usersController.selected.id == 1}"/>
+                            <p:menuitem id="imi_studylist3" value="Studylist" icon="&#xE896;" outcome="pretty:studylistCloud" rendered="#{configurationController.isViewer or usersController.selected.id == 1 or loginController.hasPermission(12)}"/>
+
+                            <p:submenu label="#{bundle.Maintenance}">
+                                <p:menuitem value="Clinic" outcome="/clinics/List.xhtml" rendered="#{loginController.hasPermission(25)}"/>
+                                <p:menuitem value="User" outcome="/users/List.xhtml"  rendered="#{loginController.hasPermission(18)}"/>
+                                <p:menuitem value="Email" outcome="/email/List.xhtml"  rendered="#{loginController.hasPermission(26)}"/> 
+                                <p:menuitem value="Dicom" outcome="/dicomServers/List.xhtml"  rendered="#{loginController.hasPermission(30)}"/> 
+                                <p:menuitem value="Breed" outcome="/breeds/List.xhtml"  rendered="false"/> 
+                                <p:menuitem value="Owner" outcome="/persons/List.xhtml"  rendered="false"/>
+                            </p:submenu>
+                        </pm:menu>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>

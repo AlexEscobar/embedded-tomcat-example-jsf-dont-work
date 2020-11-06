@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+     <ui:composition>
+        <p:dialog id="PersonsCreateDlg" widgetVar="PersonsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.NewOwner}">
+            <h:form id="PersonsCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{personsController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePersonsLabel_FName}" for="FName" />
+                        <p:inputText id="FName" class='create_first_name' value="#{personsController.selected.FName}" title="#{bundle.CreatePersonsTitle_FName}" 
+                                     required="true" requiredMessage="#{bundle.CreatePersonsRequiredMessage_FName}">
+                            <p:ajax event="keyup" update="CreatePersonButton"/>
+                        </p:inputText>
+                        <p:outputLabel class='create_last_name' value="#{bundle.CreatePersonsLabel_LName}" for="LName" />
+                        <p:inputText id="LName" value="#{personsController.selected.LName}" title="#{bundle.CreatePersonsTitle_LName}"  
+                                     required="true" requiredMessage="#{bundle.CreatePersonsRequiredMessage_LName}">
+                            <p:ajax event="keyup" update="CreatePersonButton"/>
+                        </p:inputText>
+                        <p:outputLabel  value="#{bundle.CreateBranchOfficesLabel_address}" for="Address" />
+                        <p:inputTextarea id="Address" value="#{personsController.selected.address}"  title="#{bundle.CreateBranchOfficesLabel_address}"/>
+                        <p:outputLabel value="#{bundle.CreatePersonsLabel_sex}" for="sex" rendered="false"/>
+                        <p:selectBooleanCheckbox id="sex" value="#{personsController.selected.sex}" rendered="false"/>
+                        <p:outputLabel value="#{bundle.CreatePersonsLabel_phone}" for="phone" />
+                        <p:inputText id="phone" value="#{personsController.selected.phone}" title="#{bundle.CreatePersonsTitle_phone}" />
+                        <p:outputLabel value="#{bundle.CreatePersonsLabel_email}" for="email" rendered="#{!(personsController.selected.typeId.id eq 2)}" />
+                        <p:inputText id="email" value="#{personsController.selected.email}" title="#{bundle.CreatePersonsTitle_email}" />
+                        <p:outputLabel value="#{bundle.CreatePersonsLabel_birthDate}" for="birthDate" rendered="false"/>
+                        <p:calendar id="birthDate" pattern="MM/dd/yyyy" value="#{personsController.selected.birthDate}" rendered="false" yearRange="c-90:c+0"
+                                    title="#{bundle.EditPersonsTitle_birthDate}"  showOtherMonths="true" navigator="true"/>
+
+                    </p:panelGrid>
+                        <p:commandButton id="CreatePersonButton" class="create_new_persons btn-save" actionListener="#{personsController.create}" 
+                                         oncomplete="PF('PersonsCreateDialog').hide();"
+                                         value="New Owner" 
+                                         disabled="#{empty personsController.selected.LName or empty personsController.selected.FName}"
+                                         update="display,@(.personsList) @(.pet-registrationForm),:growl" style='margin: 0 auto;width: 115px !important;'/>
+                        <p:commandButton id="closeCreatePerson" class='closeCreatePerson btn-delete' value="Close" oncomplete="PF('PersonsCreateDialog').hide();"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+    
+</html>

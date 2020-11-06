@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DicomSentViewDlg" widgetVar="DicomSentViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewDicomSentTitle}">
+            <h:form id="DicomSentViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{dicomSentController.selected != null}">
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_id}"/>
+                        <h:outputText value="#{dicomSentController.selected.id}" title="#{bundle.ViewDicomSentTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_dicomTags}"/>
+                        <h:outputText value="#{dicomSentController.selected.dicomTags}" title="#{bundle.ViewDicomSentTitle_dicomTags}"/>
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_startingDate}"/>
+                        <h:outputText value="#{dicomSentController.selected.startingDate}" title="#{bundle.ViewDicomSentTitle_startingDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_successDate}"/>
+                        <h:outputText value="#{dicomSentController.selected.successDate}" title="#{bundle.ViewDicomSentTitle_successDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_state}"/>
+                        <h:outputText value="#{dicomSentController.selected.state}" title="#{bundle.ViewDicomSentTitle_state}"/>
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_stateDescription}"/>
+                        <h:outputText value="#{dicomSentController.selected.stateDescription}" title="#{bundle.ViewDicomSentTitle_stateDescription}"/>
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{dicomSentController.selected.status}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_dicomServerId}"/>
+                        <h:outputText value="#{dicomSentController.selected.dicomServerId}" title="#{bundle.ViewDicomSentTitle_dicomServerId}"/>
+                        <h:outputText value="#{bundle.ViewDicomSentLabel_imageId}"/>
+                        <h:outputText value="#{dicomSentController.selected.imageId}" title="#{bundle.ViewDicomSentTitle_imageId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="DicomSentViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AnimalSizesEditDlg" widgetVar="AnimalSizesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditAnimalSizesTitle}">
+            <h:form id="AnimalSizesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{animalSizesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditAnimalSizesLabel_size}" for="size" />
+                        <p:inputText id="size" value="#{animalSizesController.selected.animalSize}" title="#{bundle.EditAnimalSizesTitle_size}" required="true" requiredMessage="#{bundle.EditAnimalSizesRequiredMessage_size}"/>
+                        <p:outputLabel value="#{bundle.EditAnimalSizesLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{animalSizesController.selected.status}" required="true" requiredMessage="#{bundle.EditAnimalSizesRequiredMessage_status}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{animalSizesController.update}" value="#{bundle.Save}" update="display,:AnimalSizesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AnimalSizesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="AnimalSizesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicenceViewDlg" widgetVar="LicenceViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleL.ViewLicenceTitle}">
+            <h:form id="LicenceViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{licenceController.selected != null}">
+                        <h:outputText value="#{bundleL.ViewLicenceLabel_id}"/>
+                        <h:outputText value="#{licenceController.selected.id}" title="#{bundleL.ViewLicenceTitle_id}"/>
+                        <h:outputText value="#{bundleL.ViewLicenceLabel_seed}"/>
+                        <h:outputText value="#{licenceController.selected.seed}" title="#{bundleL.ViewLicenceTitle_seed}"/>
+                        <h:outputText value="#{bundleL.ViewLicenceLabel_licenceNumber}"/>
+                        <h:outputText value="#{licenceController.selected.licenceNumber}" title="#{bundleL.ViewLicenceTitle_licenceNumber}"/>
+                        <h:outputText value="#{bundleL.ViewLicenceLabel_creationDate}"/>
+                        <h:outputText value="#{licenceController.selected.creationDate}" title="#{bundleL.ViewLicenceTitle_creationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundleL.ViewLicenceLabel_expirationDate}"/>
+                        <h:outputText value="#{licenceController.selected.expirationDate}" title="#{bundleL.ViewLicenceTitle_expirationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundleL.ViewLicenceLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{licenceController.selected.status}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundleL.Close}" onclick="LicenceViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

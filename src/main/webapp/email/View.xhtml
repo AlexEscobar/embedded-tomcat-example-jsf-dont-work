@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmailConfigViewDlg" widgetVar="EmailConfigViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewEmailConfigTitle}">
+            <h:form id="EmailConfigViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{emailConfigController.selected != null}">
+                        <h:outputText value="#{bundle.HostName}"/>
+                        <h:outputText value="#{emailConfigController.selected.hostName}" title="#{bundle.HostName}"/>
+                        <h:outputText value="#{bundle.ViewEmailConfigLabel_smtpPort}"/>
+                        <h:outputText value="#{emailConfigController.selected.smtpPort}" title="#{bundle.ViewEmailConfigTitle_smtpPort}"/>
+                        <h:outputText value="#{bundle.ViewEmailConfigLabel_emailUser}"/>
+                        <h:outputText value="#{emailConfigController.selected.emailUser}" title="#{bundle.ViewEmailConfigTitle_emailUser}"/>
+                        <h:outputText value="#{bundle.ViewEmailConfigLabel_emailPassword}"/>
+                        <h:outputText value="#{emailConfigController.selected.emailPassword}" title="#{bundle.ViewEmailConfigTitle_emailPassword}"/>
+                        <h:outputText value="#{bundle.ViewEmailConfigLabel_emailSubject}"/>
+                        <h:outputText value="#{emailConfigController.selected.emailSubject}" title="#{bundle.ViewEmailConfigTitle_emailSubject}"/>
+                        <h:outputText value="#{bundle.ViewEmailConfigLabel_creationDate}"/>
+                        <h:outputText value="#{emailConfigController.selected.creationDate}" title="#{bundle.ViewEmailConfigTitle_creationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewEmailConfigLabel_status}"/>
+                        <h:outputText value="#{emailConfigController.selected.status? 'Active':'Inactive'}" />
+                    </p:panelGrid>
+                    <div class="form-button-interface">
+                       <p:commandButton value="#{bundle.Close}" onclick="PF('EmailConfigViewDialog').hide()"/> 
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

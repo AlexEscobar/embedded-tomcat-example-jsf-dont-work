@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProfilesViewDlg" widgetVar="ProfilesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewProfilesTitle}">
+            <h:form id="ProfilesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{profilesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewProfilesLabel_id}"/>
+                        <h:outputText value="#{profilesController.selected.id}" title="#{bundle.ViewProfilesTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewProfilesLabel_name}"/>
+                        <h:outputText value="#{profilesController.selected.name}" title="#{bundle.ViewProfilesTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewProfilesLabel_entryDate}"/>
+                        <h:outputText value="#{profilesController.selected.entryDate}" title="#{bundle.ViewProfilesTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewProfilesLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{profilesController.selected.status}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ProfilesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

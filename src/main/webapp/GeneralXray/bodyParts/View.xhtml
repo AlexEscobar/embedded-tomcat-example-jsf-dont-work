@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BodyPartsViewDlg" widgetVar="BodyPartsViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleBodyParts.ViewBodyPartsTitle}">
+            <h:form id="BodyPartsViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bodyPartsController.selected != null}">
+                        <h:outputText value="#{bundleBodyParts.ViewBodyPartsLabel_id}"/>
+                        <h:outputText value="#{bodyPartsController.selected.id}" title="#{bundleBodyParts.ViewBodyPartsTitle_id}"/>
+                        <h:outputText value="#{bundleBodyParts.ViewBodyPartsLabel_description}"/>
+                        <h:outputText value="#{bodyPartsController.selected.description}" title="#{bundleBodyParts.ViewBodyPartsTitle_description}"/>
+                        <h:outputText value="#{bundleBodyParts.ViewBodyPartsLabel_entryDate}"/>
+                        <h:outputText value="#{bodyPartsController.selected.entryDate}" title="#{bundleBodyParts.ViewBodyPartsTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundleBodyParts.ViewBodyPartsLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{bodyPartsController.selected.status}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundleBodyParts.Close}" onclick="BodyPartsViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

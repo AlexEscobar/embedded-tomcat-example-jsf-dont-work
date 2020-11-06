@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImagesViewDlg" widgetVar="ImagesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewImagesTitle}">
+            <h:form id="ImagesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{imagesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewImagesLabel_id}"/>
+                        <h:outputText value="#{imagesController.selected.id}" title="#{bundle.ViewImagesTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewImagesLabel_pattern}"/>
+                        <h:outputText value="#{imagesController.selected.pattern}" title="#{bundle.ViewImagesTitle_pattern}"/>
+                        <h:outputText value="#{bundle.ViewImagesLabel_mimeType}"/>
+                        <h:outputText value="#{imagesController.selected.mimeType}" title="#{bundle.ViewImagesTitle_mimeType}"/>
+                        <h:outputText value="#{bundle.ViewImagesLabel_creationDate}"/>
+                        <h:outputText value="#{imagesController.selected.creationDate}" title="#{bundle.ViewImagesTitle_creationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewImagesLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{imagesController.selected.status}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewImagesLabel_modalityId}"/>
+                        <h:outputText value="#{imagesController.selected.modalityId}" title="#{bundle.ViewImagesTitle_modalityId}"/>
+                        <h:outputText value="#{bundle.ViewImagesLabel_studyId}"/>
+                        <h:outputText value="#{imagesController.selected.studyId}" title="#{bundle.ViewImagesTitle_studyId}"/>
+                        <h:outputText value="#{bundle.ViewImagesLabel_userId}"/>
+                        <h:outputText value="#{imagesController.selected.userId}" title="#{bundle.ViewImagesTitle_userId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ImagesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

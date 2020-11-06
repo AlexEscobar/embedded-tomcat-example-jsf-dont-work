@@ -1,0 +1,45 @@
+.ui-widget {
+    font-size: 12px !important;
+}
+.ui-layout-north {
+    z-index: 20 !important;
+    overflow: visible !important;;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow: visible !important;
+}
+.ui-widget-header {
+    text-align: center;
+    text-transform: uppercase;
+}
+.ui-button {
+
+}
+.image-container{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #2c2c2c;
+}
+
+.responsive {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+}
+
+/** on table row selected**/
+.ui-state-highlight{
+/*    background-color: #2f84eb  !important;
+    font-weight: bold !important;*/
+}
+/** on table row selected: td that is inside ui-state-highlight**/
+.ui-state-highlight td{
+    /*color: #white !important;*/
+}
+
+/** on table row over**/
+.ui-state-over{
+    background-color: whitesmoke !important;
+    font-weight: bold !important;
+}

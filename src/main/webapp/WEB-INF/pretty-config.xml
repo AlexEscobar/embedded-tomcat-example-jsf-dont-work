@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.0
+                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.0.xsd">
+
+   <!-- Begin Example RewriteRules
+
+      // These are custom rewrite-rules, and are probably not necessary for your application.
+
+      <rewrite match="^/old-url/(\w+)/$" substitute="/new_url/$1/" redirect="301" />
+
+   -->
+
+   <!-- Begin UrlMappings
+      // These are examples of URL mappings, and should be customized for your application.
+-->
+      <url-mapping id="home">
+          <pattern value="/home" />
+          <view-id value="/faces/index.xhtml" />
+      </url-mapping>
+
+      <url-mapping id="registration">
+          <pattern value="/registration" />
+          <view-id value="/faces/petPatients/List.xhtml" />
+      </url-mapping>
+
+      <url-mapping id="login">
+          <pattern value="/login/" />
+          <view-id value="/faces/login.xhtml" />
+      </url-mapping>
+
+      <url-mapping id="worklist">
+          <pattern value="/worklist" />
+          <view-id value="/faces/workList/Serenity_Worklist.xhtml" />
+      </url-mapping>
+
+      <url-mapping id="studylist">
+          <pattern value="/studylist" />
+          <view-id value="/faces/studies/List.xhtml" />
+      </url-mapping>
+
+      <url-mapping id="studylistCloud">
+          <pattern value="/studylistCloud" />
+          <view-id value="/faces/studies/ListViewerCloud.xhtml" />
+      </url-mapping>
+
+      <url-mapping id="studies">
+          <pattern value="/studies/" />
+          <view-id value="/faces/studies/ListViewerCloud.xhtml" />
+      </url-mapping>
+
+      <url-mapping id="patients">
+          <pattern value="patients" />
+          <view-id value="/faces/petPatients/List.xhtml" />
+      </url-mapping>
+
+      <url-mapping id="users">
+          <pattern value="/users/" />
+          <view-id value="/faces/users/List.xhtml" />
+      </url-mapping>
+      
+      <url-mapping id="x-ray">
+          <pattern value="/x-ray" />
+          <view-id value="/faces/x-ray.xhtml" />
+      </url-mapping>
+      
+      <url-mapping id="generalx-ray">
+          <pattern value="/generalx-ray" />
+          <view-id value="/faces/GeneralXray/xrayView/General_Xray.xhtml" />
+      </url-mapping>
+      
+      <url-mapping id="hub">
+          <pattern value="/hub" />
+          <view-id value="/faces/hub.xhtml" />
+      </url-mapping>
+      
+      <url-mapping id="viewer">
+          <pattern value="/viewer/" />
+          <view-id value="/faces/viewer/Create.xhtml" />
+      </url-mapping>
+      
+      <url-mapping id="ohif-viewer">
+          <pattern value="/ohif-viewer/" />
+          <view-id value="http://localhost:3000" />
+      </url-mapping>
+      
+      <url-mapping id="configuration">
+          <pattern value="/configuration/" />
+          <view-id value="/faces/configuration/List.xhtml" />
+      </url-mapping>
+      
+      <url-mapping id="permissions">
+          <pattern value="/permisions/" />
+          <view-id value="/faces/permisions/List.xhtml" />
+      </url-mapping>
+      
+      <url-mapping id="clinics">
+          <pattern value="/clinics/" />
+          <view-id value="/faces/clinics/List.xhtml" />
+      </url-mapping>
+      
+      <url-mapping id="email">
+          <pattern value="/email/" />
+          <view-id value="/faces/email/List.xhtml" />
+      </url-mapping>
+      <url-mapping id="breeds">
+          <pattern value="/breeds/" />
+          <view-id value="/faces/breeds/List.xhtml" />
+      </url-mapping>
+      <url-mapping id="owners">
+          <pattern value="/owners/" />
+          <view-id value="/faces/persons/List.xhtml" />
+      </url-mapping>
+      <url-mapping id="dicomServers">
+          <pattern value="/dicomServers/" />
+          <view-id value="/faces/dicomServers/List.xhtml" />
+      </url-mapping>
+      <url-mapping id="dicomSend">
+          <pattern value="/dicomSend/" />
+          <view-id value="/faces/dicomSend/List.xhtml" />
+      </url-mapping>
+      <url-mapping id="dicomSendDialog">
+          <pattern value="/dicomSendDialog/" />
+          <view-id value="/faces/viewer/dialogs/DicomSendViewer.xhtml" />
+      </url-mapping>
+      <url-mapping id="emailDialog">
+          <pattern value="/emailDialog/" />
+          <view-id value="/faces/viewer/dialogs/SendEmailViewer.xhtml" />
+      </url-mapping>
+      <url-mapping id="exportDialog">
+          <pattern value="/exportDialog/" />
+          <view-id value="/faces/viewer/dialogs/DownloadImageViewer.xhtml" />
+      </url-mapping>
+<!--
+      <url-mapping id="viewCategory">
+          <pattern value="/store/#{ cat : bean.category }/" />
+          <view-id value="/faces/shop/store.jsf" />
+      </url-mapping>
+
+      <url-mapping id="viewItem">
+          <pattern value="/store/#{ cat : bean.category }/#{ iid : bean.itemId }/" />
+          <view-id value="/faces/shop/item.jsf" />
+          <action>#{bean.loadItem}</action>
+      </url-mapping>
+   -->
+
+
+</pretty-config>

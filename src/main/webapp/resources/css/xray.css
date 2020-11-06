@@ -1,0 +1,227 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 5, 2020, 9:25:54 AM
+    Author     : PC
+*/
+
+html, body {
+    background-color: white !important;
+}
+
+body {
+    background-color: white !important;
+}
+
+body .ui-button.ui-button-icon-only {
+    border-radius: 0;
+}
+
+body .ui-button.ui-button-icon-only .ui-icon {
+    margin-top: -12px;
+}
+
+.ui-button .ui-icon::before {
+    font-size: 24px;
+}
+
+.fixed-card {
+    height: 500px;
+}
+
+.annotation-area {
+   margin-bottom: 10px;
+   overflow-y: scroll;
+}
+
+.xrayCurrent{
+    width: 90%;   
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;  
+}
+
+.image-info {
+    color: black;
+    text-align: center;
+    font-size: 15px !important;
+    margin-bottom: 5px;
+}
+
+.responsive.map {
+    margin: 0 auto;
+}
+
+.size-interface {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.size-interface > div {
+    width: 25%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+}
+
+.size-interface > div:first-of-type {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.size-interface > div:last-of-type {
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+#left .ui-button, #right .ui-button {
+    height: 45px;
+}
+
+#image-preview {
+    height: 500px;
+}
+
+#image-preview .ui-button {
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
+    margin: 10px auto 0 auto;
+    height: 35px;
+}
+
+#image-preview .display {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#image-preview .display img {
+    height: 390px;
+}
+
+#currentImage {
+    height: 100%;
+}
+
+.progress-bar {
+    padding: 0;
+    margin-bottom: 23px;
+}
+
+#body-map {
+    padding-bottom: 40px;
+}
+
+#lightgallery {
+    padding-left: 7px;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 102px;
+    scroll-behavior: smooth;
+}
+
+#lightgallery .thumbnail {
+    width: 19.5%;
+    margin-right: 0.5%;
+    border: 1px solid rgb(221, 221, 221);
+    height: inherit;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#lightgallery .thumbnail.active {
+    border: 1px solid #607D8B;
+}
+
+#lightgallery .thumbnail:hover {
+    cursor: pointer;
+}
+
+#lightgallery .img-responsive {
+    max-width: 100%;
+    height: 100px;
+}
+
+#main-interface {
+    padding: 0;
+    margin-bottom: 23px;
+}
+
+#main-interface-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#main-interface .ui-button {
+    width: 50%;
+    margin: 0;
+    border-radius: 0;
+}
+
+#main-interface > .ui-button:first-of-type {
+    border-top-left-radius: 2px;
+}
+
+#main-interface > .ui-button:nth-of-type(2) {
+    border-top-right-radius: 2px;
+}
+
+.viewSelectionListPanel .ui-datatable tbody {
+    height: 137.4px;
+}
+
+.viewSelectionListPanel .ui-datatable thead {
+    display: none;
+}
+
+.viewSelectionListPanel .ui-datatable .ui-datatable-scrollable-body {
+    margin-bottom: 20px;
+}
+
+.viewSelectionListPanel .ui-datatable tbody tr td{
+    padding: 0.857em 1em;
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewSelectionListPanel .ui-datatable tbody tr.ui-widget-content {
+    padding: 0;
+    height: 67.7px;
+    width: 33.333%;
+    display: inline-block;
+}
+
+.viewSelectionListPanel .ui-datatable .ui-datatable-footer {
+    padding: 0;
+    border-radius: 2px;
+    border: none;
+}
+
+.viewer-labels {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: center;
+}   
+
+#teeth-map {
+    padding: 0;
+}
+
+#teeth-map .ui-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

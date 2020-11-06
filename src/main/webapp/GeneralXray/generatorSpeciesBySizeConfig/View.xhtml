@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GeneratorSpeciesBySizeConfigViewDlg" widgetVar="GeneratorSpeciesBySizeConfigViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle}">
+            <h:form id="GeneratorSpeciesBySizeConfigViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{generatorSpeciesBySizeConfigController.selected != null}">
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_id}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.id}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_et}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.et}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_et}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_kv}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.kv}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_kv}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_mx}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.mx}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_mx}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_ms}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.ms}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_ms}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_ma}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.ma}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_ma}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_fo}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.fo}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_fo}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_fs}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.fs}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_fs}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_fi}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.fi}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_fi}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_fn}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.fn}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_fn}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_thickness}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.thickness}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_thickness}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_sizeId}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.sizeId}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_sizeId}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_bodyPartId}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.bodyPartId}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_bodyPartId}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_bodyPartViewId}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.bodyPartViewId}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_bodyPartViewId}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_generatorId}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.generatorId}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_generatorId}"/>
+                        <h:outputText value="#{bundle.ViewGeneratorSpeciesBySizeConfigLabel_speciesId}"/>
+                        <h:outputText value="#{generatorSpeciesBySizeConfigController.selected.speciesId}" title="#{bundle.ViewGeneratorSpeciesBySizeConfigTitle_speciesId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="GeneratorSpeciesBySizeConfigViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+                template="/WEB-INF/x-ray_template.xhtml">
+    
+    <ui:define name="content">
+        <div class="xrayPageStyle">
+            <ui:include src="/GeneralXray/xrayView/List.xhtml"  rendered="#{configurationController.isXrayServer || usersController.selected.username.equals('root')}"/>
+        </div>
+
+
+        <h:form rendered="false" id="powerButtonForm" class="generator-panel-style">
+            <p:tooltip for="generatorPowerButton" value="High Frecuency Generator - Power Indicator" />
+            <pe:fab id="generatorPowerButton" icon="fa fa-power-off" iconActive="fa fa-power-off" 
+                    style="background: #{generatorController.pw? 'yellowgreen':'orange' } ;">
+                <pe:javascript event="open" execute="getGeneratorState()"/> 
+                <pe:javascript event="close" execute="getGeneratorState()"/> 
+            </pe:fab>
+            <p:remoteCommand update="@(.generator-panel-style) @(.ui-slideout-handle),:growl" name="getGeneratorState" 
+                             actionListener="#{generatorController.turnOffGenerator}" />
+
+            <p:tooltip for="panelStateButton" value="High Frecuency Generator - Power Indicator" />
+            <pe:fab id="panelStateButton" icon="fa fa-power-off" iconActive="fa fa-power-off" 
+                    style="background: #{generalXrayController.isPanelReady? 'yellowgreen':'orange' } ;">
+                <pe:javascript event="open" execute="panelState()"/> 
+                <pe:javascript event="close" execute="panelState()"/> 
+            </pe:fab>
+        </h:form>
+    </ui:define>
+</ui:composition>

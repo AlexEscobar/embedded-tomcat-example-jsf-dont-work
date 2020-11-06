@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:outputStylesheet library="css" name="xray.css"/>
+        <h:outputScript library="js" name="xray-header.js"/>
+        
+        <style type="text/css">            
+            .annotation-area button {
+                width: 50%;
+                margin: 0;
+                height: 45px;
+            }
+            
+            .annotation-area .open-viewer {
+                width: 100%;
+            }
+            
+            #left, #right {
+                padding:0;
+            }            
+        </style>
+
+        <div class="ui-g" style="background-color: #ffffff;">
+            <div class="ui-g-12">
+                <div class="card">
+                    <ui:include src="/GeneralXray/generatorSlideoutComponent/generator_slideout_top.xhtml"/>
+                    <ui:include src="/GeneralXray/panelCommunicationComponent/panelCommunication.xhtml"/>
+                </div>
+            </div>
+
+            <div class="ui-g-7" id="left">
+                <div class="ui-g-6">
+                    
+                    <div id="size-interface">
+                        <h:form id="SizeSelectionFrom">
+                            <h:panelGroup id="bodyPartSelectionButtonsId" class="bodyPartSelectionButtons">                                    
+                                <p:row>
+                                    <p:selectOneButton class="size-interface"
+                                                       value="#{generalXrayController.animalSize}" 
+                                                       id="animalSizeContainer">
+                                        <f:selectItems value="#{animalSizesController.itemsAvailableSelectOne}"
+                                                       var="sizeItem"
+                                                       itemLabel="#{sizeItem.animalSize}"
+                                                       itemValue="#{sizeItem.id}"/>
+                                        <p:ajax listener="#{generalXrayController.setupGeneratorFromAnimalSizeSelection}" 
+                                                update="@(.ui-slideout-handle) XrayActionForm:xrayActionButtons :growl"/>
+                                    </p:selectOneButton>
+                                </p:row>
+                            </h:panelGroup>                             
+                        </h:form>
+                    </div>
+                    
+                    <h:form id="TeethChartForm" class="annotationFormStyle">
+                        <div id="body-map">
+                            <div class='col-md-6'>
+                                <h:panelGroup id="display" class="display">
+
+                                    <!--render if specie is feline-->
+                                    <h:graphicImage usemap="#catBodyMap" name="images/maps/Cat.png" class="responsive map" rendered="#{petPatientsController.selected.specieId.id eq 2}"/> 
+                                    <!--render if specie is canine or equine-->
+                                    <h:graphicImage usemap="#dogBodyMap" name="images/maps/Dog.png" class="responsive map" rendered="#{petPatientsController.selected.specieId.id eq 1 or petPatientsController.selected.specieId.id eq 3 }"/> 
+
+                                    <h:panelGroup id="catChart" rendered="#{petPatientsController.selected.specieId.id eq 2}">
+                                        <ui:include src="/GeneralXray/xrayView/BodyPartsImageMaps/Cat.xhtml"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup id="dogChart" rendered="#{petPatientsController.selected.specieId.id eq 1 or petPatientsController.selected.specieId.id eq 3 }">
+                                        <ui:include src="/GeneralXray/xrayView/BodyPartsImageMaps/Dog.xhtml"/>
+                                    </h:panelGroup> 
+
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                    </h:form>  
+                    
+                    <h:form id="ViewSelectionForm">
+                        <h:panelGroup class="viewSelectionListPanel">
+
+                            <p:dataTable id="tempDatalist" value="#{generalXrayController.tempBodyPartViews}" var="itemView"
+
+                                         selection="#{generalXrayController.temporarySelected}"
+                                         scrollable="true"
+                                         scrollHeight="300"
+                                         rowKey="#{itemView.id}"
+                                         selectionMode="single"
+                                         emptyMessage=""
+                                         >
+
+                                <p:ajax event="rowSelect" 
+                                        update="addAnnotation 
+                                        SizeSelectionFrom:bodyPartSelectionButtonsId 
+                                         @(.ui-slideout-handle) @(.generator-panel-style)"  
+                                        />
+                                <p:ajax event="rowUnselect" />
+
+                                <p:column> 
+                                    <f:facet name="header">
+                                        <!--<h:outputText value="{bundle.ListAnnotationsTitle_teethNumberId}" />-->
+                                        <h:outputText value="View selection" />
+                                    </f:facet>
+                                    <h:outputText value="#{itemView.bodyPartsId.description} #{itemView.bodyPartViewId.abbreviation}" style="font-size: 15px"/>
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:commandButton style="width: 100%;" class="add-annotation" id="addAnnotation" value="Add" 
+                                                     actionListener="#{generalXrayController.create}" 
+                                                     update="AnnotationsListForm:datalist MainInterfaceForm XrayActionForm"
+                                                     disabled="#{empty generalXrayController.temporarySelected}">
+                                    </p:commandButton>
+                                </f:facet>
+                            </p:dataTable>
+                        </h:panelGroup>                        
+                    </h:form>
+
+                </div>
+
+                <div class="ui-g-6">
+                    <div class="annotation-area">
+                        <h:form id="AnnotationsListForm" class="annotationFormStyle"> 
+                            <h:panelGroup class="annotationsListPanel">
+                                <p:dataTable id="datalist" value="#{generalXrayController.itemsToShow}" var="item" onRowClick="rowClickedd(this)"
+                                             selection="#{generalXrayController.selected}"
+                                             rowKey="#{item.id}"
+                                             selectionMode="single"
+                                             >
+
+                                    <p:ajax event="rowSelect" update=":growl MainInterfaceForm:deleteButton 
+                                            SizeSelectionFrom:bodyPartSelectionButtonsId XrayActionForm:xrayActionButtons ViewSelectionForm
+                                            @(.ui-slideout-handle) @(.viewSelectionListPanel)"  
+                                            listener="#{generalXrayController.setupGenerator}"/>
+                                    <p:ajax event="rowUnselect" />
+                                    <p:column>
+                                        <h:outputText value="#{item.bodyPartsId.description} #{item.bodyPartViewId.abbreviation}" style="font-size: 15px"/>
+                                        <h:outputText class="bodypartid-hidden" style="display: none;" value="#{item.bodyPartsId.id}" />
+                                    </p:column>
+                                </p:dataTable>                                    
+                            </h:panelGroup>
+                        </h:form>
+                    </div>
+                    
+                    <div class="ui-g-12 progress-bar">
+                        <p:progressBar id="xrayProgressBar" widgetVar="pbAjax" ajax="true" 
+                                       value="#{generalXrayController.progressBar}" labelTemplate="{value}%" interval="2000"
+                                       styleClass="animated" global="false" >
+                            <p:ajax event="complete" listener="#{generalXrayController.onComplete}" 
+                                    update=":growl @(.xrayActionButtonsStyle)" oncomplete="PF('pbAjax').start()"/>
+                        </p:progressBar>
+                    </div>  
+                    
+                    <div class="ui-g-12" id="main-interface">
+                        <h:form id="MainInterfaceForm">
+                            <div id="main-interface-container">
+                                <p:commandButton  action="#{generalXrayController.destroy}" value="Delete" id="deleteButton"
+                                                  disabled="#{empty generalXrayController.selected}"
+                                                  update="AnnotationsListForm"/>
+                                <p:commandButton  rendered="false" actionListener="#{generalXrayController.performCarerayPanelSecuriryChecks}" value="CR X-Ray" id="CRButton" />
+                                <p:commandButton  rendered="true" actionListener="#{generalXrayController.simulateRadiation}" value="Simulate X-Ray" id="CRSimulateButton"
+                                                  />
+
+                                <p:commandButton  action="#{generalXrayController.redirectToWorklist}" value="Work List" 
+                                                  update="@(.worklistStyle)"/>
+                                <p:commandButton  action="#{generalXrayController.redirectToStudyList}" value="Study List" 
+                                                  update="@(.worklistStyle)"/>
+                                <p:commandButton class="open-viewer" id="openViewer" value="Open Viewer" actionListener="#{generalXrayController.stopSensorAndOpenViewer}" 
+                                                 update=" @(.pollStyle)">
+                                </p:commandButton>                         
+                            </div>                        
+                        </h:form>                        
+                    </div>
+       
+                    <h:form id="XrayActionForm">
+                        <h:panelGroup id="xrayActionButtons" class="xrayActionButtonsStyle" rendered="#{studiesController.studyDate.equals(generalXrayController.todaysDate) }">
+
+                            <!--renders only when working with HDR Sensor-->
+                            <!--<p:commandButton value="HDR sensor start" actionListener="{generalXrayController.launchStopSensorProgrammTest}"--> 
+
+                            <p:commandButton class="btn xray_btn" id="onXray" value="Start" widgetVar="startSensor" title="Click to wake the sensor up"
+                                             rendered="#{!generalXrayController.isOnXray}"
+                                             disabled="#{!generalXrayController.isTechniqueAceptedByGenerator or empty generalXrayController.itemsToShow or empty generalXrayController.animalSize or empty generalXrayController.selected}"
+                                             onclick="startProgressBar(); startLoading(); this.disabled = true;"
+                                             style="width:100%;" >
+                                <p:ajax listener="#{generalXrayController.startWaitingForRadiation}" 
+                                        update=":growl, AnnotationsListForm,  xrayActionButtons @(.pollStyle)"/>
+                            </p:commandButton>   
+                            <p:commandButton class="btn xray_btn xray_stop_btn" id="offXray" value="Ready" title="Click to stop the sensor"
+                                             rendered="#{generalXrayController.isOnXray and generalXrayController.currentValue eq 1}"
+                                             disabled="#{!generalXrayController.isTechniqueAceptedByGenerator}"
+                                             onclick="PF('pbAjax').cancel(); this.disabled = true;"
+                                             style="width:100%">
+                                <p:ajax listener="#{generalXrayController.sensorKiller}"  update=":growl, AnnotationsListForm,  xrayActionButtons @(.pollStyle)"/>
+                            </p:commandButton>   
+                            <p:commandButton class="btn xray_btn xray_wait_btn" id="waitXray" value="Loading..." title="Waiting for the sensor to be ready"
+                                             rendered="#{generalXrayController.isOnXray and generalXrayController.currentValue gt 1 and generalXrayController.currentValue lt 8 }"
+                                             disabled="true"
+                                             style="width:100%;">
+                                <p:ajax listener="#{generalXrayController.sensorKiller}"  update=":growl, AnnotationsListForm,  xrayActionButtons @(.pollStyle)"/>
+                            </p:commandButton>
+                            <p:commandButton class="btn xray_btn xray_wait_btn" id="nextXray" value="Select Next View" title="Please select the next view"
+                                             rendered="#{generalXrayController.isOnXray and generalXrayController.currentValue eq 8 }"
+                                             disabled="true"
+                                             style="width:100%;">
+                                <p:ajax listener="#{generalXrayController.sensorKiller}"  update=":growl, AnnotationsListForm,  xrayActionButtons @(.pollStyle)"/>
+                            </p:commandButton>   
+                        </h:panelGroup>                                
+                    </h:form>                    
+                </div>
+            </div>
+
+            <div class="ui-g-5" id="right">
+                <div class="ui-g-12">
+                    <h:panelGroup id="annotationCreateFull" class="col-lg-10 annotation-border viewer-border annotation-viewer">
+                        <ui:include src="Create.xhtml"/>
+                    </h:panelGroup>                    
+                </div>
+                
+                <!--This is the light gallery that is at the bottom of the x-ray page-->
+                <div style="padding-left: 0; padding-top: 0;" class="ui-g-12">
+                    <h:panelGroup id="xrayBody" >
+                        <div a:class="thumbnailDicomContainer" >
+                            <div a:class="row xray-thumbnail-container" style='margin:0px !important;'>
+
+                                <div class='col-lg-12 myGallery' style='padding: 0px !important; overflow: auto;'>
+                                    <h:panelGroup id="thumbnailContainer" layout="block" class="row" >
+                                        <div class="demo-gallery ">
+                                            <ul id="lightgallery" class="list-unstyled row">
+                                            </ul>
+                                        </div>
+                                        <h:outputScript>
+                                            setScrollHandler($("#lightgallery"));
+                                        </h:outputScript>                                        
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+
+<!--                            <div class="col-lg-12 dicom-viewer">
+                                <ui:include src="/imageAnnotationState/DicomViewer.xhtml"/>
+                            </div>-->
+                        </div>
+
+                    </h:panelGroup>
+                </div>                
+            </div>
+
+        </div>
+        <h:form id="xrayBottomThumbnail2" class="view-thumbnail" style="display: none !important;">
+
+            <script>
+                var interval1 = undefined;
+                var interval2 = undefined;
+                var onPageLoad = true;
+                $(function () {
+                    interval2 = setInterval(prepViewer, 1500); // fast process: will load the images (gallery), once the page has redered the other components
+                    onPageLoad = true;
+                    onPageLoad = false;
+                    //prepViewer();
+                    console.log("Time until DOMready: ", Date.now() - timerStart);
+                    //                    
+                    $(document).on('click', '.thumbnail ', function () {
+//                      reset thumbnail classes
+                        const allThumbnails = $(".thumbnail");
+                        allThumbnails.removeClass('active');
+                        $(this).addClass('active');
+                        
+                        var imageInfo = $(this).attr('data-sub-html');
+                        $('.image-info').html('<span style="font-size: 15px !important;">' + imageInfo + '</span>');
+                        var imageSrc = $(this).find('.img-responsive').attr('src');
+                        $("#currentImage").attr('src', imageSrc);
+                        var imageID = $(this).find('.img-responsive').attr('id');
+                        $("#currentImage").attr('data-current-id', imageID);
+                        $("#AnnotationsCreateForm\\:currentImageId").attr('value', imageID);
+                    });
+                });
+                function rowClickedd(event) {
+                    console.log(event.cells[0].lastChild.innerText);
+                    setColorToSelectedArea(event.cells[0].lastChild.innerText);
+                }
+
+                function loadLightGallery(base64, imageId, toothName, divId) {
+                    $("#lightgallery").append('<li id="' + divId + '"  class="thumbnail"   data-src="data:image/jpg;base64,' + base64 + '" data-sub-html="' + toothName + '"><img id="' + imageId + '" class="img-responsive" src="data:image/jpg;base64,' + base64 + '" ></img></li>');
+                }
+
+                function prepViewer() {
+                    let isViewerOpen = #{generalXrayController.isOpenViewer};
+                    console.log("isViewerOpen", isViewerOpen);
+                    if (!isViewerOpen) {
+                        let imageList = #{viewerController.imagesAsJson};
+                        $("#lightgallery").html(''); // fixes the image repetition issue on page refresh in the thumbnail component
+                        $("#img-thumbnail").html(''); // fixes the image repetition issue on page refresh thumbnail component in the dicom viewer
+                                               
+                        let lastImage;
+                        $.each(imageList, function (key, val) {
+                            addImageToThumbnail(val);
+                            lastImage = val;
+                        });
+                        if (lastImage !== undefined) {
+                            $("#currentImage").attr('src', 'data:image/jpg;base64,' + lastImage.imageAsBase64);
+                            $("#currentImage").css('display', 'block');
+                        }
+                    }
+                    //                  
+                    console.log("Time Loading all images: ", Date.now() - timerStart);
+                    timerStart = 0;
+                    imageList = null;
+                    //console.log(imageList);
+                    console.log('sale..');
+                    if (!onPageLoad) {
+                        clearInterval(interval1);
+                    }
+
+                    clearInterval(interval2);
+                }
+
+                function addImageToThumbnail(imageModel) {
+                    let divId = imageModel.imageId + 1000;
+                    divId += 1000;
+                    loadLightGallery(imageModel.imageAsBase64, imageModel.imageId, imageModel.toothName, divId);
+                }
+
+                function startLoading() {
+                    const xrayButton = $(".xray_btn");
+                    xrayButton.text("Loading...");
+                }
+
+                //starts the image acquisition progress bar on xray button click
+                function startProgressBar() {
+                    PF('pbAjax').start();
+                }
+                
+                function asignSelectedImagesFromViewer() {
+                    console.log("calling the selected images function...")
+                    console.log(getSelectedImagesFromViewer());
+                }
+            </script>
+        </h:form>
+        <h:form id="xrayBottomThumbnail" class="view-thumbnail" style="display: none !important;" >
+            <script>
+                // only call prepViewer() on an explicit call, because on page load this function is called with a delay interval in order to load the page fastly
+                if (!onPageLoad) {
+                    console.log("explicit call to prepViewer...");
+                    interval1 = setInterval(prepViewer, 10); // fast process: will load the images (gallery), once the page has redered the other components
+
+                } else {
+                    console.log("NOT explicit call to prepViewer beacuse is rendering the whole page...");
+                }
+            </script>
+        </h:form>
+        <h:form id="xrayBottomThumbnail3" class="view-thumbnail" style="display: none !important;" >
+            <script>
+                if (!onPageLoad) {
+                    addImageToThumbnail();
+                }
+            </script>
+        </h:form>
+
+    </ui:composition>
+
+</html>

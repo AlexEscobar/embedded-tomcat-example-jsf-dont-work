@@ -1,0 +1,176 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    
+    <ui:define name="breadcrumb">
+        <li><p:link outcome="/studies/ListViewerCloud">Studylist</p:link></li>
+    </ui:define>
+
+    <ui:define name="content" >
+        <script>
+            /**
+             * Function called from the EJB controller.StudiesController.java
+             * @param {type} viewerServer
+             * @param {type} studyInstanceUID
+             * @returns {undefined}
+             */
+            function openViewer(viewerServer, studyInstanceUID) {
+                console.log(studyInstanceUID);
+                console.log("viewerServer", viewerServer);
+                let serverURL = 'http://' + viewerServer + ':3000/viewer/' + studyInstanceUID;
+                window.location.assign(serverURL);
+            }
+
+        </script>
+        <h:form id="StudiesListForm"  class="studyListStyle">
+
+            <div class="filter">
+                <div class="left-interface">
+                    <p:outputLabel for="iniDate" class="label-btn " value="From" />
+                    <p:datePicker id="iniDate" class="float-left" value="#{studiesController.initialDate}" showButtonBar="true"/>
+                    <p:outputLabel for="finalDate" class="label-btn " value="To" />
+                    <p:datePicker id="finalDate" value="#{studiesController.finalDate}" showButtonBar="true"/>
+                    <p:commandButton id="searchRange" class="searchRange btn " value="#{bundle.Search}" actionListener="#{studiesController.setItemsNull}" 
+                                     update=":growl,datalist"/>
+                </div>
+
+                <div class="right-interface">
+                    <p:commandButton class="btn-save" 
+                                     id="todayButton" 
+                                     value="#{bundle.Today}" 
+                                     actionListener="#{studiesController.getTodayStudies}" 
+                                     update="@(.studyListStyle) datalist"/>
+                    <p:commandButton class="btn-save" 
+                                     id="yesterdayButton" 
+                                     value="#{bundle.Yesterday}" 
+                                     actionListener="#{studiesController.getYesterdayStudies}" 
+                                     update="@(.studyListStyle) datalist"/>
+                    <p:commandButton class="btn-save" 
+                                     id="weekButton" 
+                                     value="#{bundle.LastWeek}" 
+                                     actionListener="#{studiesController.getWeekStudies}" 
+                                     update="@(.studyListStyle) datalist"/>
+                    <p:commandButton class="btn-save" 
+                                     id="monthButton" 
+                                     value="#{bundle.LastMonth}" 
+                                     actionListener="#{studiesController.getMonthStudies}" 
+                                     update="@(.studyListStyle) datalist"/>
+                    <p:commandButton class="btn-save" 
+                                     id="allButton" 
+                                     value="#{bundle.All}" 
+                                     actionListener="#{studiesController.getAllStudies}" 
+                                     update="@(.studyListStyle) datalist"/>
+                    <p:commandButton class="btn-save" 
+                                     id="resteButton" 
+                                     value="Reset" 
+                                     ajax="false"
+                                     update="@(.studyListStyle)"/>
+                </div>                
+            </div>
+
+
+            <p:dataTable id="datalist" value="#{studiesController.items}" var="item" widgetVar="studiesTable" 
+                         selectionMode="single" selection="#{studiesController.selected}"
+                         paginator="true"
+                         rowKey="#{item.id}"
+                         rows="#{configurationController.isViewer? 12:12}"
+                         >
+
+                <!--<p:ajax event="rowDblselect" update="@(.studyListStyle) datalist" listener="{sensorImageController.doubleClickRedirection}"/>-->
+                <p:ajax event="rowSelect" update="@(.studyListStyle) viewButton StudiesListForm" listener="#{studiesController.setSelectedPetPatient}" />
+                <p:ajax event="rowUnselect" update="@(.studyListStyle) datalist"/>
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <!--<h:outputText value="Search all fields: " />-->
+                        <p:inputText id="globalFilter" onkeyup="PF('studiesTable').filter()" style="width:150px" placeholder="Enter keyword" rendered="false"/>
+                    </p:outputPanel>
+                </f:facet>
+                <p:column filterBy="#{item.patientId.patientId}" filterMatchMode="contains" styleClass="table-header">
+                    <f:facet name="filter">                           
+                        <p:inputText id="idFilter" onkeyup="PF('studiesTable').filter()" placeholder="Search ID"/>
+                    </f:facet>
+
+                    <h:outputText value="#{item.patientId.patientId}"/>
+                </p:column>
+                <p:column filterBy="#{item.patientId.name}" filterMatchMode="contains" styleClass="table-header">
+                    <f:facet name="filter">                           
+                        <p:inputText id="nameFilter" onkeyup="PF('studiesTable').filter()" placeholder="Search Name"/>
+                    </f:facet>
+
+                    <!--rendered if clinic is type vet: shows only pet family name without given name-->
+                    <h:outputText rendered="#{loginController.clinicType? 'true':'false'}" 
+                                  value="#{item.patientId.name}"/>
+
+                    <!--rendered if clinic is type human-->
+                    <h:outputText rendered="#{loginController.clinicType? 'false':'true'}" value="#{item.patientId.name}"/>
+                </p:column>
+                <p:column rendered="false">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.StudyInstanceUID}"/>
+                    </f:facet>
+                    <h:outputText value="#{(empty item.externalId)? item.studyInstanceUID:item.externalId}"/>
+                </p:column>
+                <p:column headerText="#{bundle.StudyInstanceDate}">
+
+                    <h:outputText value="#{(empty item.externalDate)? item.creationDate : item.externalDate} #{item.externalTime}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.StudyInstanceDescription}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.description}"/>
+                </p:column>
+                <p:column filterBy="#{item.patientId.ownerName}" filterMatchMode="contains" styleClass="table-header" 
+                          rendered="#{loginController.clinicType? 'true':'false'}" >
+                    <f:facet name="filter" >
+                        <p:inputText id="ownerFilter" onkeyup="PF('studiesTable').filter()" 
+                                     placeholder="Search Owner" />
+                    </f:facet>
+                    <h:outputText value="#{(empty item.patientId.ownerName)?  item.patientId.ownerId.FName.concat(' ').concat(item.patientId.ownerId.LName) : item.patientId.ownerName}"  />
+                </p:column>
+                <p:column filterBy="#{item.userId.username}" filterMatchMode="contains" styleClass="table-header">
+                    <f:facet name="filter">                           
+                        <p:inputText id="userFilter" onkeyup="PF('studiesTable').filter()"  placeholder="Search User"/>
+                    </f:facet>   
+                    <h:outputText value="#{item.userId.username}"/>
+                </p:column>
+                <f:facet name="footer">
+<!--                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":StudiesViewForm" 
+                                     oncomplete="PF('StudiesViewDialog').show()" disabled="#{empty studiesController.selected}"/>-->
+                    <p:commandButton id="addNewStudy" value="Add Study" 
+                                     rendered="#{configurationController.isXrayServer 
+                                                 and !studiesController.studyDate.equals(studiesController.todaysDate) 
+                                                 and loginController.hasPermission(53)}" 
+                                     disabled="#{empty studiesController.selected}"
+                                     update="@(.petListStyle) @(.worklistStyle) @(.xrayButtonStyle),:growl"
+                                     oncomplete="PF('ChooseDentalGeneralStudyListDialog').show();" >
+                        <p:tooltip value="#{bundle.AddToWorkList}" />
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateStudy} - ( #{studiesController.selected.patientId.name} )" 
+                                   icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                    <p:commandButton id="openXrayButton" value="#{bundle.WatchUpdate}" async="true" 
+                                     rendered="#{configurationController.isXrayServer 
+                                                 and studiesController.studyDate.equals(studiesController.todaysDate) 
+                                                 and loginController.hasPermission(1026)}"
+                                     disabled="#{empty studiesController.selected}"
+                                     oncomplete="PF('ChooseDentalGeneralDialog').show();" 
+                                     >
+                    </p:commandButton>
+                    <p:commandButton id="viewButton" value="#{bundle.OpenImageViewer}" disabled="#{empty studiesController.selected}"
+                                     action="#{studiesController.openOHIFViewer()}"
+                                     rendered="#{configurationController.isViewer or loginController.hasPermission(24)}"/>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <ui:include src="/studies/ChooseDentalOrGeneralPopupOnAddFromStudyList.xhtml"/>
+        <ui:include src="/studies/ChooseDentalOrGeneralPopupOnStudyList.xhtml"/>
+        
+        <h:outputStylesheet name="css/studylist.css" />
+    </ui:define>
+</ui:composition>

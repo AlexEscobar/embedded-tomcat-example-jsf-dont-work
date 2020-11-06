@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsersEditDlg" widgetVar="UsersEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUsersTitle}">
+            <h:form id="UsersEditForm">
+               <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usersController.selected != null}">
+
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_username}" for="username" />
+                        <p:inputText id="username" value="#{usersController.selected.username}" 
+                                     title="#{bundle.CreateUsersTitle_username}" required="true" 
+                                     requiredMessage="#{bundle.CreateUsersRequiredMessage_username}">
+                            <!--<p:ajax event="blur" listener="{usersController.validateUser}" update=":growl" />-->
+                        </p:inputText>
+
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_password}" for="password" rendered="#{!usersController.isEdit}"/>
+                        <p:password id="password" value="#{usersController.selected.password}" match="pass2" rendered="#{!usersController.isEdit}"
+                                    title="#{bundle.CreateUsersTitle_password}" required="true" redisplay="true"
+                                    requiredMessage="#{bundle.CreateUsersRequiredMessage_password}"
+                                    validatorMessage="#{bundle.PassValidatorMessage}"
+                                    feedback="true" 
+                                    promptLabel="#{bundle.PassPromptLabel}" weakLabel="#{bundle.PassWeakLabel}"
+                                    goodLabel="#{bundle.PassMediumLabel}" strongLabel="#{bundle.PassStrongLabel}" >
+                            <!--<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%*=%¡!?+]).{6,20})" />-->
+                        </p:password>
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_passwordConfirm}" for="pass2" rendered="#{!usersController.isEdit}"/>
+                        <p:password id="pass2" value="#{usersController.selected.password}" required="true" redisplay="true" rendered="#{!usersController.isEdit}"
+                                    requiredMessage="#{bundle.CreateUserRequiredMessage_pass2}"/>
+
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_FName}" for="FName" />
+                        <p:inputText id="FName" value="#{usersController.selected.FName}" title="#{bundle.CreateUsersTitle_FName}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_FName}"/>
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_LName}" for="LName" />
+                        <p:inputText id="LName" value="#{usersController.selected.LName}" title="#{bundle.CreateUsersTitle_LName}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_LName}"/>
+                        
+                        <p:outputLabel value="Title" for="userRole" />
+                        <p:selectOneRadio id="userRole" value="#{usersController.userRole}"  >
+                            <f:selectItem itemLabel="Operator" itemValue="user" />
+                            <f:selectItem itemLabel="Veterinarian" itemValue="veterinarian" />
+                            <f:selectItem itemLabel="Admin" itemValue="admin" />
+                        </p:selectOneRadio>
+                        
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_phone}" for="phone" />
+                        <p:inputText id="phone" value="#{usersController.selected.phone}" title="#{bundle.CreateUsersTitle_phone}" />
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{usersController.selected.email}" title="#{bundle.CreateUsersTitle_email}" 
+                                     validatorMessage="#{bundle.EmailValidatorMessage}">
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        </p:inputText>                        
+
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_clinicId}" for="clinicId" 
+                                       rendered="#{(configurationController.isViewer or loginController.selected.id eq 1) and !usersController.isEdit}"/>
+                        <p:selectOneMenu id="clinicId" value="#{usersController.selected.clinicId}" 
+                                         rendered="#{(configurationController.isViewer or loginController.selected.id eq 1) and !usersController.isEdit}"
+                                         required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_clinicId}">                            
+                            
+                            <f:selectItems value="#{clinicsController.itemsAvailableByUser}"
+                                           var="clinicIdItem"
+                                           itemLabel="#{clinicIdItem.name}"
+                                           itemValue="#{clinicIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.LandingPage}" for="permissionId" rendered="false"/>
+                        <p:selectOneMenu id="permissionId" value="#{usersController.selected.lPageId}" converter="permissionConverter" required="true" requiredMessage="Landing page is a required field" rendered="false">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
+                            <f:selectItems value="#{permisionsController.itemsAvailableBySelectedUser}"
+                                           var="permissionIdItem"
+                                           itemLabel="#{permissionIdItem.accessName}"
+                                           itemValue="#{permissionIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                   <div class="form-button-interface">
+                        <p:commandButton actionListener="#{usersController.create}" value="#{bundle.Save}" update="display,:UsersListForm:datalist,:growl" 
+                                         oncomplete="PF('UsersEditDialog').hide()"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('UsersEditDialog').hide();"/>                       
+                   </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

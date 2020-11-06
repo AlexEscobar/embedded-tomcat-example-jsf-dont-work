@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="GeneratorSlideoutForm" class="generator-panel-style">
+            <p:panelGrid id="generatorInfoPoll" class="pollStyle">                
+                <p:poll id="generatorInfo_Poll"
+                        update=":growl @(.pollStyle) :GeneratorSlideoutForm @(.ui-slideout-handle) @(.generator-panel-style)" 
+                        autoStart="true" process="@this" listener="#{generatorController.setNewValuesOnSlideoutJS}"
+                        delay="10000" interval="600"
+                        async="true"/>
+            </p:panelGrid>
+            <p:panelGrid styleClass="ui-noborder">
+                <p:row>
+                    <p:column styleClass="ui-widget-header">
+                        <h:outputText value="Generator status" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="IMI HF 32KV Generator" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:commandButton action="#{generatorController.turnOnGenerator()}" value="Turn ON" id="generatorOpen" 
+                                         update="@(.ui-slideout-handle) @(.generator-panel-style)"
+                                         />
+
+                        <p:commandButton action="#{generatorController.turnOffGenerator()}" value="Turn OFF" id="generatorClose" 
+                                         update="@(.ui-slideout-handle) @(.generator-panel-style)"
+                                         />
+
+                        <p:commandButton action="#{generatorController.generatorSecurityChecks()}" value="Get State" id="generatorStatus" 
+                                         update="@(.ui-slideout-handle) @(.generator-panel-style)"
+                                         
+                                         />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputLabel for="pw2" value="Power: " />
+                        <p:selectBooleanButton id="pw2" value="#{generatorController.isGeneratorOn}" 
+                                               onLabel="On" offLabel="Off" onIcon="pi pi-check" offIcon="pi pi-times" style="width:60px">
+                            <p:ajax update="@(.ui-slideout-handle) @(.generator-panel-style)" listener="#{generatorController.turnOnAndOffGenerator}" />
+                        </p:selectBooleanButton>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputLabel for="kv" value="KV: (#{generatorController.kv})" />
+                        <p:spinner id="kv" value="#{generatorController.kvToSend}" min="40" max="125" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputLabel for="ma" value="MA: (#{generatorController.ma})" />
+                        <p:spinner id="ma" value="#{generatorController.maToSend}" min="1" max="10000" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputLabel for="ms" value="MS: (#{generatorController.ms})" />
+                        <p:spinner id="ms" value="#{generatorController.msToSend}" min="1" max="100000" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputLabel for="mx" value="MX: (#{generatorController.mx})" />
+                        <p:spinner id="mx" value="#{generatorController.mxToSend}" min="1" max="80000" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+
+            <p:commandButton action="#{generatorController.sendSmallAnimals}" value="Small" id="small" 
+                             update="@(.ui-slideout-handle) @(.generator-panel-style)"/>
+
+            <p:commandButton action="#{generatorController.sendMediumAnimals}" value="Medium" id="medium" 
+                             update="@(.ui-slideout-handle) @(.generator-panel-style)"/>
+
+            <p:commandButton action="#{generatorController.sendLargeAnimals}" value="Large" id="large" 
+                             update="@(.ui-slideout-handle) @(.generator-panel-style)"/>
+        </h:form>
+    </ui:composition>
+</html>

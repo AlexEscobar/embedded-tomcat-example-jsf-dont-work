@@ -1,0 +1,133 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li><p:link outcome="/workList/Serenity_Worklist">Worklist</p:link></li>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .ui-datatable-tablewrapper {
+                overflow-y: scroll;
+                max-height: 496px;
+            }
+        </style>
+
+        <div class="ui-g dashboard">
+            <div class="ui-g-12 ui-lg-6">
+                <div style='margin: 0; height: 620px' class="card">
+                    <ui:include src="/petPatients/Create_1.xhtml"/>
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-lg-6">
+                <div style="height: 620px" class="card">
+
+                    <h:form id="WorkListListForm" >
+                        <h3 style="margin-top:0; text-align: center;font-size: 17px;">Worklist</h3>
+                        <p:dataTable id="datalist"  value="#{workListController.items}" var="item"
+                                     selectionMode="single" selection="#{workListController.selected}"
+                                     rowKey="#{item.id}">
+
+                            <p:ajax event="rowDblselect" listener="#{workListController.doubleClickRedirection}"/>
+                            <p:ajax event="rowSelect"   update="openXrayButton openGeneralXrayButton viewButton @(.xrayButtonStyle) @(.pet-registrationForm)  @(.xray-left-side) @(.worklistStyle)" 
+                                    listener="#{workListController.setSelectedPetPatient}"/>
+                            <p:ajax event="rowUnselect" update="openXrayButton"/>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Patient ID"/>
+                                </f:facet>
+                                <h:outputText value="#{item.patientId.patientId}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Patient Name"/>
+                                </f:facet>
+                                <h:outputText value="#{item.patientId.name}"/>
+                            </p:column>
+                            <p:column  rendered="false">
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListWorkListTitle_comments}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.comments}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.StudyInstanceDate}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.creationDate}"/>
+                            </p:column>
+                            <p:column rendered="false">
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListWorkListTitle_onprocessDate}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.onprocessDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column rendered="false">
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListWorkListTitle_doneDate}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.doneDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column  rendered="false">
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListWorkListTitle_currentProcess}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.currentProcess}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListWorkListTitle_userId}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.userId.username}"/>
+                            </p:column>
+                            <f:facet name="footer">
+
+                                <p:commandButton id="openXrayButton" style="width:33%!important; margin-right: 0.3%;" 
+                                                 value="#{bundle.Xray}" 
+                                                 action="#{xrayController.redirectToDentalXrayView}" async="true"   rendered="#{loginController.hasPermission(1026)}"
+                                                 disabled="#{empty workListController.selected}">
+                                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmAddImages} - ( #{petPatientsController.selected.name} )" 
+                                               icon="pi pi-exclamation-triangle" />
+                                </p:commandButton>
+                                <p:commandButton id="viewButton" value="Refresh" update="@(.worklistStyle) datalist"
+                                                 style="width:33%!important; margin-right: 0.3%;" 
+                                                 actionListener="#{workListController.getTodayStudies}" />
+                                <p:commandButton id="openGeneralXrayButton" 
+                                                 style="width:33%!important; margin: 0;" 
+                                                 value="General x-ray" 
+                                                 action="#{xrayController.redirectToGeneralXrayView}" async="true"
+                                                 disabled="#{empty workListController.selected}">
+                                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmAddImages} - ( #{petPatientsController.selected.name} )" 
+                                               icon="pi pi-exclamation-triangle" />
+                                </p:commandButton>
+                            </f:facet>
+                        </p:dataTable>
+<!--                        <p:inputText type="hidden" value="{generatorController.isGeneratorOn}"/>
+                        <p:inputText type="hidden" value="{generalXrayController.isPanelReady}"/>-->
+                    </h:form>
+
+                </div>
+
+            </div>
+        </div>
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="View.xhtml"/>
+        <!--On page load action: create a new empty pet patient--> 
+        <f:metadata>
+            <f:viewAction action="#{petPatientsController.prepareCreateOnWorklistLoad}" />
+            <f:viewAction action="#{workListController.setItemsNull}" />
+            <f:viewAction action="#{workListController.initializeVariables}" />
+        </f:metadata>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li><p:link outcome="/users/List">Settings/User</p:link></li>
+    </ui:define>
+
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.ListUsersTitle}"></h:outputText>
+    </ui:define>
+
+    <ui:define name="content" >
+        <h:form id="UsersListForm">
+            <p:panel header="#{bundle.ListUsersTitle}">
+                <p:dataTable id="datalist" value="#{usersController.items}" var="item"
+                             selectionMode="single" selection="#{usersController.selected}"
+                             paginator="true"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
+
+                    <p:ajax event="rowSelect"   update="createButton editButton viewButton deleteButton passwordChange"/>
+                    <p:ajax event="rowUnselect" update="createButton editButton viewButton deleteButton passwordChange"/>
+
+                    <p:column rendered="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_id}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_username}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.username}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_FName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.FName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_LName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.LName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_signupDate}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.signupDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status? 'Active':'Inactive'}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_phone}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.phone}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_email}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.email}"/>
+                    </p:column>
+                    <p:column rendered="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsersTitle_clinicId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.clinicId.name}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Title"/>
+                        </f:facet>
+                        <h:outputText value="#{item.userProfileList}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" icon="ui-icon-plus" value="#{bundle.Create}" actionListener="#{usersController.prepareCreate}" 
+                                         update=":UsersCreateForm" oncomplete="PF('UsersCreateDialog').show()"/>
+                        <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" actionListener="#{usersController.edit}" 
+                                         update=":UsersEditForm" oncomplete="PF('UsersEditDialog').show()"  disabled="#{empty usersController.selected}"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UsersViewForm" oncomplete="PF('UsersViewDialog').show()" disabled="#{empty usersController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{usersController.selected.status? 'Deactivate':'Activate'}" actionListener="#{usersController.destroy}" update=":growl,datalist" disabled="#{empty usersController.selected}"/>
+                        <p:commandButton id="passwordChange" icon="ui-icon-pencil"  value="Change Password" actionListener="#{usersController.resetPassword}"
+                                         update=":growl UsersPasswordChangeDlg" oncomplete="PF('UsersPasswordChangeDialog').show()" disabled="#{empty usersController.selected}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+        <ui:include src="PasswordChange.xhtml"/>
+        <ui:include src="View.xhtml"/>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li><p:link outcome="/studies/ListViewerCloud">Settings/Clinic</p:link></li>
+    </ui:define>
+    <ui:define name="title">
+        <h:outputText value="#{bundle.ListClinicsTitle}"></h:outputText>
+    </ui:define>
+
+    <ui:define name="content" >
+
+        <h:form id="ClinicsListForm">
+            <p:panel header="#{bundle.ListClinicsTitle}">
+                <p:dataTable id="datalist" value="#{clinicsController.items}" var="item"
+                             selectionMode="single" selection="#{clinicsController.selected}"
+                             paginator="true"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
+
+                    <p:ajax event="rowSelect"   update="createButton viewButton deleteButton editButton"/>
+                    <p:ajax event="rowUnselect" update="createButton viewButton deleteButton editButton"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClinicsTitle_id}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClinicsTitle_name}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.name}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClinicsTitle_address}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.address}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Phone"/>
+                        </f:facet>
+                        <h:outputText value="#{item.phone}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Type"/>
+                        </f:facet>
+                        <h:outputText value="#{item.clinicType? 'Vet':'Human'}"/>
+                    </p:column>
+                    <p:column rendered="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClinicsTitle_entryDate}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClinicsTitle_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status? 'Active':'Inactive'}" />
+                    </p:column>
+                    <p:column rendered="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClinicsTitle_licence}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.licence}"/>
+                    </p:column>
+                    <p:column rendered="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClinicsTitle_licenceExpireDate}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.licenceExpireDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" 
+                                         rendered="#{loginController.selected.id eq 1}"
+                                         actionListener="#{clinicsController.prepareCreate}" update=":ClinicsCreateForm" oncomplete="PF('ClinicsCreateDialog').show()"/>
+                        <p:commandButton id="editButton" icon="ui-icon-plus"   value="#{bundle.Edit}" update=":ClinicsEditForm" oncomplete="PF('ClinicsEditDialog').show()"  disabled="#{empty clinicsController.selected}"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" 
+                                         rendered="#{loginController.selected.id eq 1}"
+                                         update=":ClinicsViewForm" oncomplete="PF('ClinicsViewDialog').show()" disabled="#{empty clinicsController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" 
+                                         rendered="#{loginController.selected.id eq 1}"
+                                         actionListener="#{clinicsController.destroy}" update=":growl,datalist" disabled="#{empty clinicsController.selected}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+        <ui:include src="View.xhtml"/>
+    </ui:define>
+</ui:composition>

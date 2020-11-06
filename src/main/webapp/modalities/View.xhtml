@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ModalitiesViewDlg" widgetVar="ModalitiesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewModalitiesTitle}">
+            <h:form id="ModalitiesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{modalitiesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewModalitiesLabel_id}"/>
+                        <h:outputText value="#{modalitiesController.selected.id}" title="#{bundle.ViewModalitiesTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewModalitiesLabel_name}"/>
+                        <h:outputText value="#{modalitiesController.selected.name}" title="#{bundle.ViewModalitiesTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewModalitiesLabel_entryDate}"/>
+                        <h:outputText value="#{modalitiesController.selected.entryDate}" title="#{bundle.ViewModalitiesTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewModalitiesLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{modalitiesController.selected.status}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewModalitiesLabel_categoryId}"/>
+                        <h:outputText value="#{modalitiesController.selected.categoryId}" title="#{bundle.ViewModalitiesTitle_categoryId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ModalitiesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

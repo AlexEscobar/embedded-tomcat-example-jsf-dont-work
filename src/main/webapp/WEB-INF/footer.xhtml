@@ -1,0 +1,58 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <style>        
+        .layout-wrapper .layout-main div.layout-footer, .layout-footer {
+            font-size: 14px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            padding: 6px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* if layout footer is not rendered from inside a template.xhtml then some default styling rules will not apply to it, we apply them here instead */
+        .layout-footer {
+            border: 1px solid #dbdbdb;
+            background-color: white;
+        }
+        
+        .layout-footer h4 {
+            font-size: 14px;
+            margin: 1.33em 0;
+            letter-spacing: 0.25px;
+        }
+        
+        .layout-footer .ui-icon-copyright {
+            vertical-align: middle;
+        }
+        
+        .layout-wrapper .layout-main div.layout-footer {
+            width: calc(100% - 60px);
+        }
+        
+        @media only screen and (max-width: 1667px) {
+            .layout-wrapper .layout-footer {
+                display: none;
+            }            
+        }
+    </style>
+    
+    <div class="layout-footer">
+        <a class="footer-logo" href="dashboard.xhtml">
+            <h4>Innotech Medical Industries Corp</h4>
+        </a>
+        
+        <span>SMART Imaging Solutions</span>
+        
+        <span class="footer-text-right">
+            <span class="ui-icon ui-icon-copyright"></span> 
+            <span>All Rights Reserved</span>
+        </span>
+    </div>
+</ui:composition>

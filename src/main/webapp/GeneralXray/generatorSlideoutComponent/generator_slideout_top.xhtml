@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>        
+
+        <h:form>
+            <o:socket channel="generatorMessageChannel" onmessage="generatorMessageSocketListener" />
+        </h:form>
+        <ui:include src="generator_slideout_panel_top.xhtml"/>
+
+        <script>
+            $(function () {
+                console.log('loading generator slideout top...')
+                addElement(0, 0, 0, 0, 0);
+            });
+            function showGeneratorUnconnectionError(message) {
+                console.log("SHowing this swal (Stop!, '" + message + "'!error)");
+//                swal("Stop!", message + " !", "error");
+                setGeneratorStatus(undefined, "");
+                swal({title: "Stop", text: message, type:
+                            "error"})
+                        .then(function () {
+                            // add here the remote command to call sensor killer function
+                            //{generalXrayController.sensorKiller}
+                            location.reload();
+                        }
+                        );
+            }
+
+            function setGeneratorStatus(pw, kv) {
+                let generatorStatusButton = $("#GeneratorSlideoutForm\\:generatorStatusButton");
+                console.log(pw);
+                if (pw !== undefined) {
+                    if (pw) {
+                        generatorStatusButton.removeClass("red");
+                        generatorStatusButton.removeClass("yellow");
+                        generatorStatusButton.addClass("green");
+                    } else {
+                        if (kv === -1) {
+                            generatorStatusButton.removeClass("red");
+                            generatorStatusButton.removeClass("green");
+                            generatorStatusButton.addClass("yellow");
+                        } else {
+                            generatorStatusButton.removeClass("green");
+                            generatorStatusButton.removeClass("yellow");
+                            generatorStatusButton.addClass("red");
+                        }
+                    }
+                } else {
+                    generatorStatusButton.removeClass("green");
+                    generatorStatusButton.removeClass("yellow");
+                    generatorStatusButton.addClass("red");
+                }
+
+            }
+
+            function updateGeneratorConfigurationParameters(kv, ma, ms, mx, errorMessage) {
+                console.log("updateGeneratorConfigurationParameters(): Kv: " + kv + " - ma: " + ma + " - ms: " + ms + " - mx: " + mx);
+                $('#GeneratorSlideoutForm\\:kvLabel').text(kv);
+                $('#GeneratorSlideoutForm\\:maLabel').text(ma);
+                $('#GeneratorSlideoutForm\\:msLabel').text(ms);
+                $('#GeneratorSlideoutForm\\:mxLabel').text(mx);
+                $('#GeneratorSlideoutForm\\:errorMessageLabel').text(errorMessage);
+            }
+
+
+            function generatorMessageSocketListener(message, channel, event) {
+                console.log('Calling Generator socketListener client side');
+                console.log(message);
+                let unconnection = message.he;
+                let kv = message.kv;
+                let pw = message.pw;
+                let ma = message.ma;
+                let ms = message.ms;
+                let mx = message.mx;
+                let errorER = message.errorER;
+                let errorEL = message.errorEL;
+                let errorEI = message.errorEI;
+                let errorStatus = message.st;
+
+                if (errorStatus !== undefined) {
+                    if (errorStatus === 'ST007') {
+                        showGeneratorUnconnectionError("Generator Error state");
+                        setGeneratorStatus(false, 1);
+                        return;
+                    }
+                    if (unconnection !== undefined) {
+                        if (unconnection.includes("Error")) {
+                            showGeneratorUnconnectionError(unconnection);
+                            setGeneratorStatus(false, 1);
+                            return;
+                        }
+                    }
+                } else if (unconnection !== undefined) {
+                    if (unconnection.includes("Error")) {
+                        showGeneratorUnconnectionError(unconnection);
+                        setGeneratorStatus(false, 1);
+                        return;
+                    }
+                }
+                if (kv === undefined) {
+                    if (unconnection !== undefined) {
+                        console.log("unconnection mesage:" + unconnection);
+                        if (unconnection === undefined)
+                            showGeneratorUnconnectionError("Generator disconnected");
+                        if (unconnection.includes("unconnected"))
+                            showGeneratorUnconnectionError(unconnection);
+
+                    }
+                    setGeneratorStatus(false, 1);
+                } else {
+                    if (pw === undefined)
+                        pw = "";
+                    if (kv === undefined)
+                        kv = "";
+                    if (ma === undefined)
+                        ma = "";
+                    if (ms === undefined)
+                        ms = "";
+                    if (mx === undefined)
+                        mx = "";
+                    if (errorER === undefined) {
+                        errorER = "";
+                    } else {
+                        errorER = "Error message received from the Generator: " + errorER;
+                    }
+                    if (errorEL === undefined) {
+                        errorEL = "";
+                    } else {
+                        errorEL = "Error message received from the Generator: " + errorEL;
+                    }
+                    if (errorEI === undefined) {
+                        errorEI = "";
+                    } else {
+                        errorEI = "Error message received from the Generator: " + errorEI;
+                    }
+                    if (kv > 30){
+                        updateGeneratorConfigurationParameters(message.kv, message.ma, message.ms, message.mx, message.errorER);                        
+                    }
+                }
+                    setGeneratorStatus(pw, kv);
+                //addElement(message.pw, message.kv, message.ma, message.ms, message.mx);
+
+                console.log('End Calling Generator socketListener client side');
+            }
+
+            /**
+             * Adds the divs that contains generator current state information to the Generator slideout 
+             * @param {string} pw
+             * @param {number} kv
+             * @param {number} ma
+             * @param {number} ms
+             * @param {number} mx
+             * @returns {undefined}             
+             */
+            function addElement(pw, kv, ma, ms, mx) {
+                let generatorInfoPanel = $("#generatorInfoSlide_handle");
+                generatorInfoPanel.html("");
+                let pwValue = 'OFF';
+                let powerClass = "generator-powerOff-state";
+                console.log(pw);
+                if (pw !== undefined) {
+                    if (pw) {
+                        pwValue = 'ON';
+                        powerClass = "generator-powerOn-state";
+                    }
+                }
+
+                let pwDiv = '<div id="pwDiv" class="' + powerClass + '"><p id="pwText">PW ' + pwValue + '</p></div>';
+                let kvDiv = '<div id="kvDiv" class="generator-kv-state"><p id="kvText">KV <br/> ' + kv + '</p></div>';
+                let msDiv = '<div id="maDiv" class="generator-ms-state"><p id="maText">MA <br/> ' + ma + '</p></div>';
+                let maDiv = '<div id="msDiv" class="generator-ma-state"><p id="msText">MS <br/> ' + ms + '</p></div>';
+                let mxDiv = '<div id="mxDiv" class="generator-mx-state"><p id="mxText">MX <br/> ' + mx + '</p></div>';
+                generatorInfoPanel.append(pwDiv);
+                generatorInfoPanel.append(kvDiv);
+                generatorInfoPanel.append(msDiv);
+                generatorInfoPanel.append(maDiv);
+                generatorInfoPanel.append(mxDiv);
+            }
+
+        </script>
+    </ui:composition>
+</html>

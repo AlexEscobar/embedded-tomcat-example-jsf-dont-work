@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <h:form id="AnnotationsCreateForm" class="annotationFormStyle">
+            <style type="text/css">
+                .ui-toggleswitch {
+                    vertical-align: bottom;
+                    background-color: yellow;
+                }
+                .responsive{
+                    max-width: 1000px;
+                }
+
+                .responsiveCurrent{
+                    width: 100%;
+                }
+
+                .scale-down {object-fit: scale-down;}
+            </style>
+            <p:panelGrid id="pollGrid" class="pollStyle">                
+                <p:poll id="relauchSensorApp_Poll"
+                        update="AnnotationsCreateForm:relauchSensorApp_Poll,:growl @(.pollStyle) :AnnotationsListForm:datalist XrayActionForm:xrayActionButtons" autoStart="true"  
+                        delay="10000" interval="#{generalXrayController.interval}" 
+                        onstart="PF('AnnotationsRelaunchDialog').show()" listener="#{generalXrayController.sensorKiller}" async="true"/>
+            </p:panelGrid>
+
+            <div id="image-preview" class="ui-g-12 card" style="padding-right: 0; padding-left: 0;">
+                <h:panelGroup layout="block" id="xrayCurrentContainer" class="xrayCurrent" >
+                    <div class="image-info">
+                            #{viewerController.currentImage.annotationsId.bodyPartsId.description} #{viewerController.currentImage.annotationsId.bodyPartViewId.abbreviation}
+                    </div>
+
+                    <div class="display">
+                        <img id="currentImage"  border="0" src="data:image/jpg;base64,#{viewerController.currentXrayImage}" 
+
+                             data-image-id="#{viewerController.currentImage.id}"
+                             class="currentImage sensor-image responsiveCurrent " />
+
+                        <!--this value is assigned on the js part by calling setCurrentImageId() function or by clicking an image on the thumbnail on the List.xhtml file -->
+                        <h:inputHidden id="currentImageId" value="#{generalXrayController.currentImageId}"/>
+                    </div>
+                    
+                    <p:commandButton id="rejectImageButton" title="Reject this image" async="yes" update="AnnotationsRejectForm"
+                         actionListener="#{generalXrayController.initRejectionReasonList}"
+                         onclick="PF('AnnotationsRejectDialog').show()" class="ui-button">
+                    </p:commandButton>
+                </h:panelGroup>
+            </div>
+        </h:form>
+
+        <ui:include src="RelaunchSensor.xhtml"/>
+        <ui:include src="RejectImage.xhtml"/>
+
+        <h:form class="annotationFormScriptsStyle" style="display: none !important;" >
+            <!-- js-->
+            <h:outputScript library="js" name="jquery.maphilight.js"/>
+            <h:outputScript library="js" name="jquery.rwdImageMaps.min.js"/>
+            <script>
+                var interval = undefined;
+                $(function () {
+                    startXrayPage();
+                    setBodyMapSize();
+                    setCurrentImageStyle();
+                    setCurrentImageId();
+                    
+                    getBodyMapAndSizeInterfaceHeight()
+                        .then(height => {
+                            setBodyPartListHeight(height - 10);
+                            setImageDisplayHeight(height - 32); 
+                    });
+                    //prepViewer();
+                    console.log("Time until DOMready: ", Date.now() - timerStart);
+
+                });
+                
+                window.addEventListener("unload", function (event) {
+                //{generalXrayController.preDestroy()};
+                });
+
+                function getBodyMapAndSizeInterfaceHeight() {
+                    return new Promise((resolve, reject) => {
+                        const bodyMapHeight = $("#body-map").outerHeight();
+                        const sizeInterfaceHeight = $("#size-interface").outerHeight();
+                        const totalHeight = bodyMapHeight + sizeInterfaceHeight;
+//                      JSF for some reason doesn't parse it if I write bodyMapHeight (lessthan) 100  
+                        if(Math.max(bodyMapHeight, 100) === 100) {
+                            console.log("getBodyMapAndSizeInterfaceHeight: too small");
+                            const interval = setInterval(() => {
+                                console.log("getBodyMapAndSizeInterfaceHeight: running an interval");
+                                const bodyMapHeight = $("#body-map").outerHeight();
+                                if(bodyMapHeight > 100) {
+                                    resolve(bodyMapHeight + sizeInterfaceHeight);
+                                    clearInterval(interval);
+                                }
+                            }, 200);
+                        } else resolve(totalHeight);                
+                    });
+                }
+                 // Add responsivity to the map areas
+                function setBodyMapSize() {
+                    const map = $('img[usemap]');
+                    map.rwdImageMaps();
+                    
+                    const resizedHeight = map.height();
+//                  if map is too big, reduce its size by a factor of 0.8
+                    if(resizedHeight > 450) {
+                        const responsiveMap = $(".responsive.map");
+                        const newHeight = responsiveMap.height() * 0.8;
+                        const newWidth = responsiveMap.width() * 0.8;
+                        
+                        responsiveMap.css("width", newWidth);
+                        responsiveMap.css("height", newHeight);
+                        map.rwdImageMaps();
+                    }
+                }
+
+                function startXrayPage() {
+                    console.log('Calling the image startXrayPage():::::::');
+                    $('.map').maphilight(); // Add Light to the map area on mouseover
+
+                    // executes setColorToAnnotatedAreas 1 ms after page rendering
+
+                    if (counter > 0) {
+                        initImages();
+//                        interval = setInterval(setColorToAnnotatedAreas, 50);
+                    } else {
+//                        interval = setInterval(setColorToAnnotatedAreas, 5);
+                        initImages();
+//                        setColorToAnnotatedAreas();
+                    }
+
+                }
+
+                function initImages() {
+                    // add on click functionality to the selected area
+                    $('.colorArea').click(setUnsetAreaColor);
+                    $('.currentImage').click(function (e) {
+                        const clicked = e.target.path;
+                    });
+                }
+
+
+                /**
+                 * Adds color to the area(body-part) that is selected from the annotations list.
+                 * @param {int} selectedId The id of the selected body-part
+                 * @returns {undefined}
+                 */
+
+                function setColorToSelectedArea(selectedId) {
+
+                    $('.colorArea').each(function () {
+                        var data = $(this).data('maphilight') || {};
+                        if (selectedId == this.id) {
+                            data.alwaysOn = true;
+                        } else
+                            data.alwaysOn = false;
+                        //                                console.log(items[i].id);
+                        $(this).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    });
+
+                }
+                /**
+                 * Add color to the map areas that are already annotated depending on the EJB state 
+                 *  
+                 */
+
+                function setColorToAnnotatedAreas() {
+                    let items = #{generalXrayController.annotationsAsJson};
+                    $('.colorArea').each(function () {
+                        var data = $(this).data('maphilight') || {};
+                        //                        console.log(data)
+                        for (i in items) {
+                            if (items[i].id === this.id) {
+                                //                                console.log(this.id);
+                                data.alwaysOn = true;
+                                //                                console.log(items[i].id);
+                                break;
+                            }
+                        }
+                        $(this).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    });
+                    clearInterval(interval);
+                    counter++;
+                }
+
+                /**
+                 * Iterates throught all the map areas to unselect them, unless the one with id equals to areaId parameter
+                 * @param {int} areaId
+                 * @returns {undefined}
+                 */
+                function unselectSelectedAreas(areaId) {
+                    $('.colorArea').each(function () {
+                        let data = $(this).data('maphilight') || {};
+                        if (areaId !== this.id) {
+                            data.alwaysOn = false;
+                        }
+                    });
+                }
+
+                /**
+                 * Adds style = display: none to avoid showing the image crash icon, if the component current image does not contain an image.
+                 * Otherwise Adds style = display: block. 
+                 * @returns {undefined}
+                 */
+                function setCurrentImageStyle() {
+                    let imageSrc = $('#currentImage');
+                    let rejectButton = $('#AnnotationsCreateForm\\:rejectImageButton');
+                    if (imageSrc.attr('src').length > 50) {
+//                        $("#AnnotationsCreateForm\\:xrayProgressBar").css('display', 'block');
+                        imageSrc.css('display', 'block');
+                        rejectButton.css('display', 'block');
+                    } else {
+//                        $("#AnnotationsCreateForm\\:xrayProgressBar").css('display', 'none');
+                        imageSrc.css('display', 'none');
+                        rejectButton.css('display', 'none');
+                    }
+                }
+
+                function setCurrentImageId() {
+
+                    let imageSrc = $('#currentImage');
+
+                    if (imageSrc.attr('src').length > 50) {
+                        document.getElementById("AnnotationsCreateForm:currentImageId").value = imageSrc.data('image-id');
+                    }
+                }
+            </script>
+        </h:form>
+    </ui:composition>
+</html>

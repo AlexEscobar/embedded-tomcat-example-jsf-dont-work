@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ModalityCategoriesEditDlg" widgetVar="ModalityCategoriesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditModalityCategoriesTitle}">
+            <h:form id="ModalityCategoriesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{modalityCategoriesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditModalityCategoriesLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{modalityCategoriesController.selected.id}" title="#{bundle.EditModalityCategoriesTitle_id}" required="true" requiredMessage="#{bundle.EditModalityCategoriesRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditModalityCategoriesLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{modalityCategoriesController.selected.name}" title="#{bundle.EditModalityCategoriesTitle_name}" required="true" requiredMessage="#{bundle.EditModalityCategoriesRequiredMessage_name}"/>
+                        <p:outputLabel value="#{bundle.EditModalityCategoriesLabel_entryDate}" for="entryDate" />
+                        <p:calendar id="entryDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{modalityCategoriesController.selected.entryDate}" title="#{bundle.EditModalityCategoriesTitle_entryDate}" required="true" requiredMessage="#{bundle.EditModalityCategoriesRequiredMessage_entryDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditModalityCategoriesLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{modalityCategoriesController.selected.status}" required="true" requiredMessage="#{bundle.EditModalityCategoriesRequiredMessage_status}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{modalityCategoriesController.update}" value="#{bundle.Save}" update="display,:ModalityCategoriesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ModalityCategoriesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ModalityCategoriesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

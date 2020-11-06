@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DevicesEditDlg" widgetVar="DevicesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditDevicesTitle}">
+            <h:form id="DevicesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{devicesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{devicesController.selected.name}" title="#{bundle.EditDevicesTitle_name}" required="true" requiredMessage="#{bundle.EditDevicesRequiredMessage_name}"/>
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_brand}" for="brand" />
+                        <p:inputText id="brand" value="#{devicesController.selected.brand}" title="#{bundle.EditDevicesTitle_brand}" />
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_serialNumber}" for="serialNumber" />
+                        <p:inputText id="serialNumber" value="#{devicesController.selected.serialNumber}" title="#{bundle.EditDevicesTitle_serialNumber}" />
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_type}" for="type" />
+                        <p:inputText id="type" value="#{devicesController.selected.type}" title="#{bundle.EditDevicesTitle_type}" required="true" requiredMessage="#{bundle.EditDevicesRequiredMessage_type}"/>
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_columnCellSpacing}" for="columnCellSpacing" />
+                        <p:inputText id="columnCellSpacing" value="#{devicesController.selected.columnCellSpacing}" title="#{bundle.EditDevicesTitle_columnCellSpacing}" />
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_rowCellSpacing}" for="rowCellSpacing" />
+                        <p:inputText id="rowCellSpacing" value="#{devicesController.selected.rowCellSpacing}" title="#{bundle.EditDevicesTitle_rowCellSpacing}" />
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_height}" for="height" />
+                        <p:inputText id="height" value="#{devicesController.selected.height}" title="#{bundle.EditDevicesTitle_height}" />
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_width}" for="width" />
+                        <p:inputText id="width" value="#{devicesController.selected.width}" title="#{bundle.EditDevicesTitle_width}" />
+                        <p:outputLabel value="#{bundle.EditDevicesLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{devicesController.selected.status}" required="true" requiredMessage="#{bundle.EditDevicesRequiredMessage_status}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{devicesController.update}" value="#{bundle.Save}" update="display,:DevicesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DevicesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('DevicesEditDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

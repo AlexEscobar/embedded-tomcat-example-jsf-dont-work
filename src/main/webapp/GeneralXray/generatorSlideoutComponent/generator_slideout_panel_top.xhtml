@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="GeneratorSlideoutForm" class="generator-panel-style">
+            <p:panelGrid id="generatorInfoPoll" class="pollStyle">                
+                <p:poll id="generatorInfo_Poll"
+                        update=":growl @(.pollStyle) @(.ui-slideout-handle)" 
+                        autoStart="true" process="@this" listener="#{generatorController.setNewValuesOnSlideoutJS}"
+                        delay="10000" interval="5000"
+                        async="true"/>
+            </p:panelGrid>
+
+            <div id="topbar-left">
+                <div class="status-panel-style">
+                    <h:graphicImage id="panelStatusButton" name="images/interface-status/panel.jpg" class="status-image red" /> 
+                    <!--<h:graphicImage id="collimatorStatusButton" name="images/interface-status/smart-collimator.jpg" class="status-image red" />--> 
+                    <h:graphicImage id="generatorStatusButton" name="images/interface-status/smart-generator.jpg" class="status-image red" >
+                        <p:ajax id="turnOnGenerator" event="click"
+                                listener="#{generatorController.turnOnGenerator()}" />
+                    </h:graphicImage>
+    <!--                <h:graphicImage id="generatorStatusButtonEJB" name="images/interface-status/smart-generator.jpg" class="status-image #{generatorController.pw? 'green' : 'red'}" >
+                        <p:ajax id="turnOnGenerator" event="click"
+                                listener="{generatorController.turnOffGenerator()}" />
+
+                    </h:graphicImage>-->
+                    <h:outputLabel class="panel-error" id="panelError" value=""/>
+                </div>
+
+                <div class="viewer-labels">
+
+                    <p:outputLabel  value="#{petPatientsController.selected.name}" style="font-size: 15px !important;text-align: center; color: grey;" />  
+                    <p:outputLabel value="#{studiesController.selected.creationDate}" 
+                                   style="font-size: 15px  !important;text-align: center; color: grey;"/>
+                </div>                  
+            </div>
+            
+            <div id="configurationPanel" class="configuration-panel-style" styleClass="ui-noborder" columns="1">
+                <h:outputLabel id="errorMessageLabel" value="" class="generator-error-current"/>
+
+
+                <div class="config-display">
+                    <p>kV</p>
+                    <div class="config-interface">
+                        <p:commandButton id="kvMinus" value="-" actionListener="#{generatorController.sendKvMinusCommand()}"/>
+                        <h:outputLabel id="kvLabel" for="kvPlus" value="" class="generator-parameter-current"/>
+                        <p:commandButton id="kvPlus" value="+" actionListener="#{generatorController.sendKvPlusCommand()}"/>
+                    </div>                    
+                </div>
+
+                <div class="config-display">
+                    <p>mA</p>
+                    <div class="config-interface">
+                        <p:commandButton id="maMinus" value="-" actionListener="#{generatorController.sendMAMinusCommand()}" 
+                                         disabled="#{generatorController.et eq 1 or generatorController.et eq 3}"/>
+                        <h:outputLabel id="maLabel" for="maPlus" value="" 
+                                       class="#{(generatorController.et eq 1 or generatorController.et eq 3)? 'generator-parameter-current-locked':'generator-parameter-current'}" />
+                        <p:commandButton id="maPlus" value="+" actionListener="#{generatorController.sendMAPlusCommand()}" 
+                                         disabled="#{generatorController.et eq 1 or generatorController.et eq 3}"/>
+                    </div>                    
+                </div>
+
+                <div class="config-display">
+                    <p>mS</p>
+                    <div class="config-interface">    
+                        <p:commandButton id="msMinus" value="-" actionListener="#{generatorController.sendMSMinusCommand()}" 
+                                         disabled="#{generatorController.et eq 1}"/>
+                        <h:outputLabel id="msLabel" for="msPlus" value="" 
+                                       class="#{generatorController.et eq 1? 'generator-parameter-current-locked':'generator-parameter-current'}" />
+                        <p:commandButton id="msPlus" value="+" actionListener="#{generatorController.sendMSPlusCommand()}" 
+                                         disabled="#{generatorController.et eq 1}"/>
+                    </div>                    
+                </div>
+
+                <div class="config-display">
+                    <p>mAS</p>
+                    <div class="config-interface">    
+                        <p:commandButton id="mxMinus" value="-" actionListener="#{generatorController.sendMXMinusCommand()}" 
+                                         disabled="#{generatorController.et eq 0}"/>
+                        <h:outputLabel id="mxLabel" for="mxPlus" value="" 
+                                       class="#{generatorController.et eq 0? 'generator-parameter-current-locked':'generator-parameter-current'}" />
+                        <p:commandButton id="mxPlus" value="+" actionListener="#{generatorController.sendMXPlusCommand()}" 
+                                         disabled="#{generatorController.et eq 0}"/>
+                    </div>                    
+                </div>
+
+                <div class="config-display">
+                    <div class="config-interface">
+                        <p:commandButton action="#{generatorController.generatorSecurityChecks()}" value="Get State" id="generatorStatus" 
+                                         update="@(.ui-slideout-handle) @(.generator-panel-style)" rendered="false"
+                                         />
+
+                        <p:commandButton action="#{generalXrayController.saveNewGeneratorParametersForCurrentAnnotation()}" value="Save Values" id="updateGeneratorParameters" 
+                                         update="@(.ui-slideout-handle) @(.generator-panel-style) :growl"
+                                         />
+                    </div>                    
+                </div>
+            </div>  
+
+        </h:form>
+        
+        <h:outputStylesheet name="css/generator-slideout.css"/>
+    </ui:composition>
+</html>

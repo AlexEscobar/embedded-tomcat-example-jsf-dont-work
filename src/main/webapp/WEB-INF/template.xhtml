@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en">
+    
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title><ui:insert name="title">Worklist</ui:insert></title>
+        <h:outputScript name="js/nanoscroller.js" library="serenity-layout" />
+        <h:outputScript name="js/layout.js" library="serenity-layout" />
+        <h:outputScript name="js/ripple.js" library="serenity-layout" />
+        <h:outputScript name="js/sweetalert.min.js"/>
+        <ui:insert name="head"/>
+        
+        <style>
+            body .ui-button {
+                height: 35px;
+            }
+            
+            .separator {
+                padding-top: 64px;
+            }
+            
+            .form-button-interface {
+                display: flex;
+                justify-content: center;
+                margin-top: 15px;
+            }
+            
+            .ui-dialog {
+                transform: translate(-50%, -50%);
+                /*z-index: 999998 !important;*/
+            }
+        </style>   
+        
+        <script>
+            $(function(){
+                setupListener();
+            });
+            function setupListener() {
+                const server = #{configurationController.serverIp};
+                const portIndex = server.indexOf(':');
+                const serverName = server.substring(0, portIndex).toLowerCase();
+                const origin = "http://" + serverName + ":3000";
+//                const origin = "http://localhost:3000";
+                window.addEventListener("message", event => {
+                    if(event.origin !== origin) {
+                        console.error(`Recieved message from incorrect origin: ${event.origin}`)
+                        console.log(event);
+                        return;
+                    }
+                    const viewer = event.source; 
+                    viewer.postMessage('#{loginController.selected.token}', origin);
+                });
+            }
+        </script>
+    </h:head>
+
+    <h:body>
+        <ui:include src="/timeout_manager.xhtml"/>
+        <!--<p:growl id="growl" life="15000" class="growl" />-->
+        <p:outputPanel id="growl" >
+            <h:form>
+                <p:dialog id="msgDialog" widgetVar="messageDialog" modal="true" 
+                          visible="#{not empty facesContext.messageList}">
+                    <p:messages id="messagesInDialog" />
+                    <p:commandButton id="closeCreatePerson" class='closeCreatePerson btn-save' value="OK" onclick="PF('messageDialog').hide();"/>
+                </p:dialog>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="searchConfirmDialog">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                </p:confirmDialog>
+            </h:form>
+        </p:outputPanel>
+        <div class="layout-wrapper #{guestPreferences.orientationRTL ? 'layout-rtl' : null} #{guestPreferences.horizontal ? 'layout-menu-horizontal' : null}">
+            <ui:include src="./sidebar.xhtml" />
+
+            <div class="layout-main">
+                <ui:include src="./topbar.xhtml" />
+
+                <div class="separator">
+                </div>
+
+                <div class="layout-content">
+                    <ui:insert name="content"/>
+                </div>
+
+                <ui:include src="./config.xhtml" />
+
+                <ui:include src="./footer.xhtml" />
+
+                <div class="layout-main-mask"></div>
+            </div>
+        </div>
+
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+            <f:facet name="start">
+                <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+
+        <h:outputStylesheet name="css/nanoscroller.css" library="serenity-layout" />
+        <h:outputStylesheet name="css/ripple.css" library="serenity-layout" />
+        <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="serenity-layout" />
+        
+        <h:outputStylesheet name="css/template-topbar.css" />
+    </h:body>
+
+</html>

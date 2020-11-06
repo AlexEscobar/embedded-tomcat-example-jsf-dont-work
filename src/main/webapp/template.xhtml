@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"  
+      xmlns:pe="http://primefaces.org/ui/extensions" >
+
+    <h:head>
+        <f:facet name="first">
+            <meta name="keywords" content="IMI General x-ray manager app" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta http-equiv="cache-control" content="no-cache" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+
+        <title><ui:insert name="title">Template</ui:insert></title>
+        <!-- Bootstrap Core CSS -->
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <!-- Custom CSS -->
+        <h:outputStylesheet library="css" name="style.css"/>
+        <!-- Custom CSS -->
+        <h:outputStylesheet name="loader/loader.css"/>
+        <!-- font-awesome icons CSS -->
+        <h:outputStylesheet library="css" name="font-awesome.css"/>
+        <!-- side nav css file -->
+        <h:outputStylesheet library="css" name="SidebarNav.min.css"/>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+
+        <!-- js-->
+        <h:outputScript library="js" name="modernizr.custom.js"/>
+        <!--<h:outputScript library="js" name="index.js"/>-->
+        <h:outputScript library="js" name="metisMenu.min.js"/>
+        <h:outputScript library="js" name="custom.js"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
+        <h:outputScript library="js" name="index.js"/>
+
+        <script type="application/x-javascript">
+
+            $(function () {
+            // To disable f5
+            // jQuery lt 1.7 
+            $(document).bind("keydown", disableF5);
+            // OR jQuery gt or = 1.7
+            $(document).on("keydown", disableF5);
+            });
+
+            // slight update to account for browsers not supporting e.which
+            function disableF5(e) {
+            //    116 = f5, 122 = f11
+            if ((e.which || e.keyCode) === 116 || (e.which || e.keyCode) === 122)
+            e.preventDefault();
+            }
+
+            addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+            function hideURLbar(){ window.scrollTo(0,1); }
+
+
+            var myVar;
+            function myFunction() {
+            myVar = setTimeout(showPage, 3000);
+            }
+
+            function showPage() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("myDiv").style.display = "block";
+            }
+     
+        </script>
+
+        <h:outputStylesheet library="css" name="custom.css"/>
+        <!--//Metis Menu -->
+    </h:head>
+
+    <h:body  class="cbp-spmenu-push">
+
+
+        <ui:include src="timeout_manager.xhtml"/>
+        <!--<p:growl id="growl" life="15000" class="growl" />-->
+        <p:outputPanel id="growl" >
+            <h:form>
+                <p:dialog id="msgDialog" widgetVar="messageDialog" modal="true" 
+                          visible="#{not empty facesContext.messageList}">
+                    <p:messages id="messagesInDialog" />
+                    <p:commandButton id="closeCreatePerson" class='closeCreatePerson btn-save' value="OK" oncomplete="PF('messageDialog').hide();"/>
+                </p:dialog>
+            </h:form>
+        </p:outputPanel>
+        <!--        <p:messages closable="true" showDetail="true" > 
+                    <p:autoUpdate />
+                </p:messages>-->
+        <!--<input type="hidden" id="custId" name="custId" value="{backgroundJobManager.manager}"/>-->
+        <div class="main-content">
+
+            <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+                <!--left-fixed -navigation-->
+                <aside class="sidebar-left">
+                    <nav class="navbar navbar-inverse">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".collapse" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <h1>
+                                <h:link outcome="/index" class="navbar-brand" rendered="#{loginController.hasPermission(23)}">
+                                    <!--<a class="navbar-brand" href="index.html">Dashboard-->
+                                    <span class="dashboard_text"> </span>
+                                    <!--</a>-->
+                                </h:link>
+                            </h1>
+                        </div>
+
+                        <ui:include src="/GeneralXray/generatorSlideoutComponent/generator_slideout.xhtml"/>
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="sidebar-menu">
+                                <ui:include src="navbar.xhtml"/>
+                            </ul>
+
+                        </div>
+                        <!-- /.navbar-collapse -->
+
+                    </nav>
+                    <!--                    <div class="bottom_nav">
+                                            <p style="color: white;">Emergency <h:graphicImage style="width:30px;" name="images/Radiation_sign.png" alt="Dental" /></p>
+                                        </div>-->
+                </aside>
+
+            </div>
+
+            <!-- header-starts -->
+            <div class="sticky-header header-section ">
+                <div class="header-left overwrite_left">
+                    <!--toggle button start-->
+                    <div class="col-md-4">
+                        <button id="showLeftPush" class="float-right"><i class="fa fa-bars"></i></button>
+                    </div>
+
+                    <!--toggle button end-->
+
+                    <!--notification menu end -->
+
+                    <!--general search field-->
+                    <div class="col-md-8">
+
+
+                        <h:form id="powerButtonForm" class="generator-panel-style">
+                            <p:tooltip for="generatorPowerButton" value="High Frecuency Generator - Power Indicator" />
+                            <pe:fab id="generatorPowerButton" icon="fa fa-power-off" iconActive="fa fa-power-off" 
+                                    style="background: #{generatorController.pw? 'yellowgreen':'orange' } ;">
+                                <pe:javascript event="open" execute="getGeneratorState()"/> 
+                                <pe:javascript event="close" execute="getGeneratorState()"/> 
+                            </pe:fab>
+                            <p:remoteCommand update="@(.generator-panel-style) @(.ui-slideout-handle),:growl" name="getGeneratorState" 
+                                             actionListener="#{generatorController.turnOffGenerator}" />
+                        </h:form>
+                        
+                        <h:form class="max_width float_left" style="width: 100%" >
+
+                            <p:autoComplete style=" width: 100%; height: 40px;" id="dd" dropdown="true" value="#{petPatientsController.selected}"
+
+                                            inputStyle="width: 800px; height: 40px;"
+                                            completeMethod="#{petPatientsController.completeText}" converter="petPatientsConverter"
+                                            dynamic="true"
+                                            minQueryLength="3" queryDelay="600"
+                                            var="pet"
+                                            placeholder="Search patient"
+                                            itemLabel="#{pet.name}  #{pet.patientId} #{pet.accessionCode} "
+                                            itemValue="#{pet}" >
+
+                                <p:ajax event="itemSelect" update="@(.studyListStyle) @(.pet-registrationForm) @(.annotationFormStyle) 
+                                        @(.xrayButtonStyle) @(.xrayPageStyle) :growl"
+                                        listener="#{studiesController.getItemsByPet}"/>
+
+                            </p:autoComplete>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="searchConfirmDialog">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                            </p:confirmDialog>
+
+                        </h:form>
+                    </div>
+
+
+                    <!--general search field end-->
+
+                </div>
+                <div class="header-right" >  
+
+                    <h:form id="menuForm" >
+
+                        <p:commandButton action="#{loginController.logout()}" value="#{bundle.Logout}" class="btn logout_btn" id="logout" 
+                                         style="color: black;font-weight: bold;font-size: 12px;" />
+                    </h:form>
+
+                    <div class="profile_details">
+
+                    </div>
+
+                    <div class="clearfix">
+
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <!-- //header-ends -->
+
+            <!-- main content start--><!-- main content start-->
+            <div id="page-wrapper">
+                <div class="main-page">
+                    <div class="col-md-12" style="padding-left: 0px !important;padding-right: 0px !important;" >
+
+                        <!--body content starts-->
+                        <ui:insert name="body"/>
+                        <!--body content ends-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Classie --><!-- for toggle left push menu script -->
+        <h:outputScript library="js" name="classie.js"/>
+        <script>
+            var menuLeft = document.getElementById('cbp-spmenu-s1'),
+                    showLeftPush = document.getElementById('showLeftPush'),
+                    body = document.body;
+
+            showLeftPush.onclick = function () {
+                classie.toggle(this, 'active');
+                classie.toggle(body, 'cbp-spmenu-push-toright');
+                classie.toggle(menuLeft, 'cbp-spmenu-open');
+                disableOther('showLeftPush');
+            };
+
+            function disableOther(button) {
+                if (button !== 'showLeftPush') {
+                    classie.toggle(showLeftPush, 'disabled');
+                }
+            }
+
+
+            $(document).ready(function () {
+                $('.your-class').slick({
+                    slidesToShow: 4,
+                    slidesToScroll: 4
+                });
+            });
+        </script>
+
+
+
+        <!-- //Classie --><!-- //for toggle left push menu script -->
+        <!--scrolling js-->
+
+        <h:outputScript library="js" name="jquery.nicescroll.js"/>
+        <h:outputScript library="js" name="scripts.js"/>
+        <!--//scrolling js-->
+
+        <!-- Bootstrap Core JavaScript -->
+        <h:outputScript library="js" name="bootstrap.js"/>
+        <h:outputScript library="js" name="slick.js"/>
+
+    </h:body>
+
+</html>

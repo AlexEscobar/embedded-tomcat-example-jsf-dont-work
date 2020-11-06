@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BreedsEditDlg" widgetVar="BreedsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Edit Breeds">
+            <h:form id="BreedsEditForm">
+                <h:panelGroup id="display">
+                     <p:panelGrid columns="2" rendered="#{breedsController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateBreedsLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{breedsController.selected.name}" title="#{bundle.CreateBreedsTitle_name}" required="true" requiredMessage="#{bundle.CreateBreedsRequiredMessage_name}"/>
+                        <p:outputLabel value="#{bundle.CreateBreedsLabel_specieId}" for="specieId" />
+                        <p:selectOneMenu id="specieId" value="#{breedsController.selected.specieId}" required="true" requiredMessage="#{bundle.EditBreedsRequiredMessage_specieId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
+                            <f:selectItems value="#{speciesController.itemsAvailableSelectOne}"
+                                           var="specieIdItem"
+                                           itemValue="#{specieIdItem}"
+                                           itemLabel="#{specieIdItem.name}"/>
+                        </p:selectOneMenu>                        
+                        <p:outputLabel value="Status" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{breedsController.selected.status}" required="true" requiredMessage="#{bundle.EditBreedsRequiredMessage_status}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{breedsController.update}" value="#{bundle.Save}" update="display,:BreedsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BreedsEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('BreedsEditDialog').hide();"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

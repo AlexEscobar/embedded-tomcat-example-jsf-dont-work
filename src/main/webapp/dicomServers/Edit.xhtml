@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DicomServersEditDlg" widgetVar="DicomServersEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditDicomServersTitle}">
+            <h:form id="DicomServersEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{dicomServersController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditDicomServersLabel_serverName}" for="serverName" />
+                        <p:inputText id="serverName" value="#{dicomServersController.selected.serverName}" title="#{bundle.EditDicomServersTitle_serverName}" />
+                        <p:outputLabel value="#{bundle.CreateDicomServersLabel_aeTitle}" for="serverAETitle" />
+                        <p:inputText id="serverAETitle" value="#{dicomServersController.selected.aeTitle}" title="AETitle" required="true" requiredMessage="AETitle is a required field"/>
+                        <p:outputLabel value="#{bundle.EditDicomServersLabel_host}" for="host" />
+                        <p:inputText id="host" value="#{dicomServersController.selected.host}" title="#{bundle.EditDicomServersTitle_host}" required="true" requiredMessage="#{bundle.EditDicomServersRequiredMessage_host}"/>
+                        <p:outputLabel value="#{bundle.EditDicomServersLabel_port}" for="port" />
+                        <p:inputText id="port" value="#{dicomServersController.selected.port}" title="#{bundle.EditDicomServersTitle_port}" required="true" requiredMessage="#{bundle.EditDicomServersRequiredMessage_port}"/>
+                        <p:outputLabel value="#{bundle.EditDicomServersLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{dicomServersController.selected.description}" title="#{bundle.EditDicomServersTitle_description}" />
+                        <p:outputLabel value="#{bundle.EditDicomServersLabel_status}" for="status" />
+                        <p:selectOneRadio id="status" value="#{dicomServersController.selected.status}" 
+                                                 required="true" requiredMessage="#{bundle.EditDicomServersRequiredMessage_status}">
+                            <f:selectItem itemLabel="Active" itemValue="true" />
+                            <f:selectItem itemLabel="Inactive" itemValue="false" />
+                        </p:selectOneRadio>
+                            
+                    </p:panelGrid>
+                    <div class="form-button-interface">
+                        <p:commandButton actionListener="#{dicomServersController.update}" value="#{bundle.Save}" update="display,:DicomServersListForm:datalist,:growl" oncomplete="PF('DicomServersEditDialog').hide()"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('DicomServersEditDialog').hide()"/>                        
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

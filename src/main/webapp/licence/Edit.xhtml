@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicenceEditDlg" widgetVar="LicenceEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleL.EditLicenceTitle}">
+            <h:form id="LicenceEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{licenceController.selected != null}">
+                        <p:outputLabel value="#{bundleL.EditLicenceLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{licenceController.selected.id}" title="#{bundleL.EditLicenceTitle_id}" required="true" requiredMessage="#{bundleL.EditLicenceRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundleL.EditLicenceLabel_seed}" for="seed" />
+                        <p:inputText id="seed" value="#{licenceController.selected.seed}" title="#{bundleL.EditLicenceTitle_seed}" required="true" requiredMessage="#{bundleL.EditLicenceRequiredMessage_seed}"/>
+                        <p:outputLabel value="#{bundleL.EditLicenceLabel_licenceNumber}" for="licenceNumber" />
+                        <p:inputText id="licenceNumber" value="#{licenceController.selected.licenceNumber}" title="#{bundleL.EditLicenceTitle_licenceNumber}" />
+                        <p:outputLabel value="#{bundleL.EditLicenceLabel_creationDate}" for="creationDate" />
+                        <p:calendar id="creationDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{licenceController.selected.creationDate}" title="#{bundleL.EditLicenceTitle_creationDate}" required="true" requiredMessage="#{bundleL.EditLicenceRequiredMessage_creationDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundleL.EditLicenceLabel_expirationDate}" for="expirationDate" />
+                        <p:calendar id="expirationDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{licenceController.selected.expirationDate}" title="#{bundleL.EditLicenceTitle_expirationDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundleL.EditLicenceLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{licenceController.selected.status}" required="true" requiredMessage="#{bundleL.EditLicenceRequiredMessage_status}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{licenceController.update}" value="#{bundleL.Save}" update="display,:LicenceListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LicenceEditDialog');"/>
+                    <p:commandButton value="#{bundleL.Cancel}" onclick="LicenceEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

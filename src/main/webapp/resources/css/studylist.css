@@ -1,0 +1,60 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 26, 2020, 12:00:13 PM
+    Author     : PC
+*/
+
+.ui-datatable .ui-datatable-footer {
+    background-color: transparent;
+    border: none;
+}
+
+.ui-datatable .ui-datatable-header {
+    text-align: right !important;
+}
+.studiesButtons{
+    display: block;
+    text-align: right !important;
+    border-color: white;
+    padding: 10px;
+    /*background-color: #333;*/
+}
+
+span.ui-column-title {
+    padding-left: 2px;
+}
+
+.filter {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.filter .right-interface, .filter .left-interface {
+    margin-bottom: 10px;
+}
+
+.filter .right-interface .btn-save:last-of-type {
+    margin: 0;
+}
+
+.filter .left-interface {
+    display: flex;
+    align-items: center;
+}
+
+.filter .left-interface .searchRange {
+    margin-left: 10px;
+}
+
+.filter .left-interface .label-btn {
+    margin-right: 5px;
+}
+
+.table-header .ui-column-title {
+    display: none;
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DicomServersViewDlg" widgetVar="DicomServersViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewDicomServersTitle}">
+            <h:form id="DicomServersViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{dicomServersController.selected != null}">
+                        <h:outputText value="#{bundle.ViewDicomServersLabel_serverId}"/>
+                        <h:outputText value="#{dicomServersController.selected.serverId}" title="#{bundle.ViewDicomServersTitle_serverId}"/>
+                        <h:outputText value="#{bundle.ViewDicomServersLabel_serverName}"/>
+                        <h:outputText value="#{dicomServersController.selected.serverName}" title="#{bundle.ViewDicomServersTitle_serverName}"/>
+                        <h:outputText value="#{bundle.ViewDicomServersLabel_host}"/>
+                        <h:outputText value="#{dicomServersController.selected.host}" title="#{bundle.ViewDicomServersTitle_host}"/>
+                        <h:outputText value="#{bundle.ViewDicomServersLabel_port}"/>
+                        <h:outputText value="#{dicomServersController.selected.port}" title="#{bundle.ViewDicomServersTitle_port}"/>
+                        <h:outputText value="#{bundle.ViewDicomServersLabel_description}"/>
+                        <h:outputText value="#{dicomServersController.selected.description}" title="#{bundle.ViewDicomServersTitle_description}"/>
+                        <h:outputText value="#{bundle.ViewDicomServersLabel_creationDate}"/>
+                        <h:outputText value="#{dicomServersController.selected.creationDate}" title="#{bundle.ViewDicomServersTitle_creationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewDicomServersLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{dicomServersController.selected.status}" disabled="true"/>
+                    </p:panelGrid>
+                    <div class="form-button-interface">
+                        <p:commandButton value="#{bundle.Close}" onclick="PF('DicomServersViewDialog').hide()"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

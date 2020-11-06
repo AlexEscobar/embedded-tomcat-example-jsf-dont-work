@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmailConfigEditDlg" widgetVar="EmailConfigEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditEmailConfigTitle}">
+            <h:form id="EmailConfigEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{emailConfigController.selected != null}">
+                        <p:outputLabel for="host" value="#{bundle.HostName}"/>
+                        <p:inputText id="host" value="#{emailConfigController.selected.hostName}" title="#{bundle.HostName}" required="true" requiredMessage="#{bundle.EmailHostNameFromRequiredMessage}"/>
+                        <p:outputLabel value="#{bundle.SmtpPort}" for="smtpPort" />
+                        <p:inputText id="smtpPort" value="#{emailConfigController.selected.smtpPort}" title="#{bundle.CreateEmailConfigTitle_smtpPort}" required="true" requiredMessage="#{bundle.CreateEmailConfigRequiredMessage_smtpPort}"/>
+                        <p:outputLabel value="#{bundle.EmailUser}" for="emailUser" />
+                        <p:inputText id="emailUser" value="#{emailConfigController.selected.emailUser}" title="#{bundle.CreateEmailConfigTitle_emailUser}" />
+                        <p:outputLabel value="#{bundle.EmailPassword}" for="emailPassword" />
+                        <p:password id="emailPassword" value="#{emailConfigController.selected.emailPassword}" title="#{bundle.CreateEmailConfigTitle_emailPassword}" required="true" requiredMessage="Must insert a valid password"/>
+                        <p:outputLabel value="#{bundle.EmailSubject}" for="emailSubject" />
+                        <p:inputText id="emailSubject" value="#{emailConfigController.selected.emailSubject}" title="#{bundle.CreateEmailConfigTitle_emailSubject}" />
+                        <p:outputLabel value="#{bundle.EmailMessage}" for="emailMessage" />
+                        
+                        <p:textEditor id="emailMessage" widgetVar="emailMessageEditor" value="#{emailConfigController.selected.emailMessage}" secure="false"
+                                      height="200" style="margin-bottom:10px;background-color: white !important; color: black !important;" 
+                                      placeholder="#{bundle.EmailMessage}" allowLinks="true" allowFormatting="true" >
+                            <f:facet name="toolbar">
+                                <span class="ql-formats">
+                                    <button class="ql-bold"></button>
+                                    <button class="ql-italic"></button>
+                                    <button class="ql-underline"></button>
+                                    <button class="ql-strike"></button>
+                                </span>
+                                <span class="ql-formats">
+                                    <select class="ql-font"></select>
+                                    <select class="ql-size"></select>
+                                </span>
+                            </f:facet>
+                        </p:textEditor>
+
+                        <p:outputLabel value="#{bundle.EditEmailConfigLabel_status}" for="status" />
+                        <p:selectOneRadio id="status" value="#{emailConfigController.selected.status}" 
+                                          required="true" requiredMessage="#{bundle.EditEmailConfigRequiredMessage_status}">
+                            <f:selectItem itemLabel="Active" itemValue="true" />
+                            <f:selectItem itemLabel="Inactive" itemValue="false" />
+                        </p:selectOneRadio>
+
+                        <p:outputLabel value="#{bundle.CreateUsersLabel_clinicId}" for="clinicId" />
+                        <p:selectOneMenu id="clinicId" value="#{emailConfigController.selected.clinicId}" style="width: 100%">
+                            <f:selectItems value="#{clinicsController.itemsAvailableByUser}"
+                                           var="clinicIdItem"
+                                           itemLabel="#{clinicIdItem.name}"
+                                           itemValue="#{clinicIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <div class="form-button-interface">
+                        <p:commandButton actionListener="#{emailConfigController.update}" value="#{bundle.Save}" update="display,:EmailConfigListForm:datalist,:growl" oncomplete="PF('EmailConfigEditDialog').hide()"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('EmailConfigEditDialog').hide()"/>                    
+                        <p:commandButton actionListener="#{emailConfigController.checkEmailConfiguration}" value="Check email connection" update=":growl"/>                        
+                    </div>
+                    <p:outputLabel value="* Mandatory fields"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

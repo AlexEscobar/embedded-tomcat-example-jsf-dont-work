@@ -3,9 +3,124 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
-  <application>
+    <application>
+        <resource-bundle>
+            <base-name>/Bundle</base-name>
+            <var>bundle</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleP</base-name>
+            <var>bundleP</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleL</base-name>
+            <var>bundleL</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleBodyParts</base-name>
+            <var>bundleBodyParts</var>
+        </resource-bundle>
+    </application>
+    <!--enable the dialog framework-->
+    <application>
+        <action-listener>
+            org.primefaces.application.DialogActionListener
+        </action-listener>
+        <navigation-handler>
+            org.primefaces.application.DialogNavigationHandler
+        </navigation-handler>
+        <view-handler>
+            org.primefaces.application.DialogViewHandler
+        </view-handler>
+    </application>
+    <component>
+        <component-type>org.primefaces.component.SerenityMenu</component-type>
+        <component-class>org.primefaces.serenity.component.SerenityMenu</component-class>
+    </component>
+    
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.SerenityMenuRenderer</renderer-type>
+            <renderer-class>org.primefaces.serenity.component.SerenityMenuRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+    <!--    <managed-bean>
+        <managed-bean-name>loginController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.LoginController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>-->
+    <managed-bean>
+        <managed-bean-name>usersController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.UsersController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>petPatientsController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.PetPatientsController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>personsController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.PersonsController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>workListController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.WorkListController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>studiesController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.StudiesController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>emailConfigController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.EmailConfigController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>backgroundJobManager</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.util.BackgroundJobManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>annotationsDentalXrayController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.AnnotationsXrayDentalController</managed-bean-class>
+        
+        <managed-bean-scope>view</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>generalXrayController</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.GeneralXrayController</managed-bean-class>
+        
+        <managed-bean-scope>view</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>backgroundJobManager</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.controller.util.BackgroundJobManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <lifecycle>
+        <phase-listener>com.ocpsoft.pretty.faces.event.MultiPageMessagesSupport</phase-listener>
+    </lifecycle>
     <lifecycle>
       <phase-listener>launch.LogPhaseListener</phase-listener>
-    </lifecycle>  
-  </application>
+    </lifecycle>
+<!--    <factory>
+        <exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
+    </factory>-->
+    
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>rejectionReasonsJpa</managed-bean-name>
+        <managed-bean-class>com.innotech.xraymanagerapp.dto.RejectionReasonsFacade</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
 </faces-config>

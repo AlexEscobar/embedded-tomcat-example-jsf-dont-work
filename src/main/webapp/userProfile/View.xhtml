@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UserProfileViewDlg" widgetVar="UserProfileViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewUserProfileTitle}">
+            <h:form id="UserProfileViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{userProfileController.selected != null}">
+                        <h:outputText value="#{bundle.ViewUserProfileLabel_entryDate}"/>
+                        <h:outputText value="#{userProfileController.selected.entryDate}" title="#{bundle.ViewUserProfileTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewUserProfileLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{userProfileController.selected.status}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUserProfileLabel_profiles}"/>
+                        <h:outputText value="#{userProfileController.selected.profiles}" title="#{bundle.ViewUserProfileTitle_profiles}"/>
+                        <h:outputText value="#{bundle.ViewUserProfileLabel_users}"/>
+                        <h:outputText value="#{userProfileController.selected.users}" title="#{bundle.ViewUserProfileTitle_users}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="UserProfileViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

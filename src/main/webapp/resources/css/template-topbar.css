@@ -1,0 +1,66 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 26, 2020, 10:40:28 AM
+    Author     : PC
+*/
+
+.topbar-item-name {
+    padding-top: 8px;
+    margin-left: 0 !important;
+}
+
+.topbar-right {
+    color: #E8EAF6;
+}
+
+.topbar-right-container {
+    display: flex;
+}
+
+.topbar-right-container .material-icons {
+    position: relative;
+    top: 5px;
+}
+
+.topbar-right-container .logout-btn {
+    color: inherit;
+}
+
+.topbar-right-container .md-inputfield {
+    margin-right: 20px;
+    color: inherit;
+}
+
+body .md-inputfield label {
+    top: 12px;
+    left: 0;
+}
+
+body .md-inputfield label:not(.ui-selectonemenu-label) {
+    color: inherit;
+}
+
+.topbar-right-container .ui-inputfield {
+    color: inherit
+}
+
+.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li > a .topbar-item-name {
+    display: inline;
+}
+
+.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu::before {
+    display: none;
+}
+
+.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu::after {
+    display: none;
+}
+
+.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu {
+    display: flex; 
+    justify-content: space-between;
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DevicesViewDlg" widgetVar="DevicesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewDevicesTitle}">
+            <h:form id="DevicesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{devicesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewDevicesLabel_id}"/>
+                        <h:outputText value="#{devicesController.selected.id}" title="#{bundle.ViewDevicesTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_name}"/>
+                        <h:outputText value="#{devicesController.selected.name}" title="#{bundle.ViewDevicesTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_brand}"/>
+                        <h:outputText value="#{devicesController.selected.brand}" title="#{bundle.ViewDevicesTitle_brand}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_serialNumber}"/>
+                        <h:outputText value="#{devicesController.selected.serialNumber}" title="#{bundle.ViewDevicesTitle_serialNumber}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_type}"/>
+                        <h:outputText value="#{devicesController.selected.type}" title="#{bundle.ViewDevicesTitle_type}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_columnCellSpacing}"/>
+                        <h:outputText value="#{devicesController.selected.columnCellSpacing}" title="#{bundle.ViewDevicesTitle_columnCellSpacing}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_rowCellSpacing}"/>
+                        <h:outputText value="#{devicesController.selected.rowCellSpacing}" title="#{bundle.ViewDevicesTitle_rowCellSpacing}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_height}"/>
+                        <h:outputText value="#{devicesController.selected.height}" title="#{bundle.ViewDevicesTitle_height}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_width}"/>
+                        <h:outputText value="#{devicesController.selected.width}" title="#{bundle.ViewDevicesTitle_width}"/>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_entryDate}"/>
+                        <h:outputText value="#{devicesController.selected.entryDate}" title="#{bundle.ViewDevicesTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewDevicesLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{devicesController.selected.status}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="DevicesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

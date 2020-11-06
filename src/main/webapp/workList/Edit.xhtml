@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="WorkListEditDlg" widgetVar="WorkListEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditWorkListTitle}">
+            <h:form id="WorkListEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{workListController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{workListController.selected.id}" title="#{bundle.EditWorkListTitle_id}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_comments}" for="comments" />
+                        <p:inputText id="comments" value="#{workListController.selected.comments}" title="#{bundle.EditWorkListTitle_comments}" />
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_creationDate}" for="creationDate" />
+                        <p:calendar id="creationDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{workListController.selected.creationDate}" title="#{bundle.EditWorkListTitle_creationDate}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_creationDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_onprocessDate}" for="onprocessDate" />
+                        <p:calendar id="onprocessDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{workListController.selected.onprocessDate}" title="#{bundle.EditWorkListTitle_onprocessDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_doneDate}" for="doneDate" />
+                        <p:calendar id="doneDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{workListController.selected.doneDate}" title="#{bundle.EditWorkListTitle_doneDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_currentProcess}" for="currentProcess" />
+                        <p:inputText id="currentProcess" value="#{workListController.selected.currentProcess}" title="#{bundle.EditWorkListTitle_currentProcess}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_currentProcess}"/>
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{workListController.selected.status}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_studyId}" for="studyId" />
+                        <p:inputText id="studyId" value="#{workListController.selected.studyId}" title="#{bundle.EditWorkListTitle_studyId}" />
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_patientId}" for="patientId" />
+                        <p:selectOneMenu id="patientId" value="#{workListController.selected.patientId}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_patientId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{petPatientsController.itemsAvailableSelectOne}"
+                                           var="patientIdItem"
+                                           itemValue="#{patientIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditWorkListLabel_userId}" for="userId" />
+                        <p:selectOneMenu id="userId" value="#{workListController.selected.userId}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_userId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usersController.itemsAvailableSelectOne}"
+                                           var="userIdItem"
+                                           itemValue="#{userIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{workListController.update}" value="#{bundle.Save}" update="display,@(.worklistStyle),:growl" oncomplete="handleSubmit(args, 'WorkListEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="WorkListEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

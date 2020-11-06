@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GeneratorSpeciesBySizeConfigCreateDlg" widgetVar="GeneratorSpeciesBySizeConfigCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle}">
+            <h:form id="GeneratorSpeciesBySizeConfigCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{generatorSpeciesBySizeConfigController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_generatorId}" for="generatorId" />
+                        <p:selectOneMenu id="generatorId" value="#{generatorSpeciesBySizeConfigController.selected.generatorId}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesBySizeConfigRequiredMessage_generatorId}">
+                            <f:selectItems value="#{highVoltageGeneratorsController.itemsAvailableSelectOne}"
+                                           var="generatorIdItem"
+                                           itemLabel="#{generatorIdItem.model}"
+                                           itemValue="#{generatorIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_speciesId}" for="speciesId" />
+                        <p:selectOneMenu id="speciesId" value="#{generatorSpeciesBySizeConfigController.selected.speciesId}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesBySizeConfigRequiredMessage_speciesId}">
+                            <f:selectItems value="#{speciesController.itemsAvailableSelectOne}"
+                                           var="speciesIdItem"
+                                           itemLabel="#{speciesIdItem.name}"
+                                           itemValue="#{speciesIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_sizeId}" for="sizeId" />
+                        <p:selectOneMenu id="sizeId" value="#{generatorSpeciesBySizeConfigController.selected.sizeId}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesBySizeConfigRequiredMessage_sizeId}">
+                            <f:selectItems value="#{animalSizesController.itemsAvailableSelectOne}"
+                                           var="sizeIdItem"
+                                           itemValue="#{sizeIdItem}"
+                                           itemLabel="#{sizeIdItem.animalSize}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_bodyPartId}" for="bodyPartId" />
+                        <p:selectOneMenu id="bodyPartId" value="#{generatorSpeciesBySizeConfigController.selected.bodyPartId}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesBySizeConfigRequiredMessage_bodyPartId}">
+                            <f:selectItems value="#{bodyPartsController.itemsAvailableSelectOne}"
+                                           var="bodyPartIdItem"
+                                           itemValue="#{bodyPartIdItem}"
+                                           itemLabel="#{bodyPartIdItem.description}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_bodyPartViewId}" for="bodyPartViewId" />
+                        <p:selectOneMenu id="bodyPartViewId" value="#{generatorSpeciesBySizeConfigController.selected.bodyPartViewId}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesBySizeConfigRequiredMessage_bodyPartViewId}">
+                            <f:selectItems value="#{bodyPartViewsController.itemsAvailableSelectOne}"
+                                           var="bodyPartViewIdItem"
+                                           itemValue="#{bodyPartViewIdItem}"
+                                           itemLabel="#{bodyPartViewIdItem.abbreviation}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_et}" for="et" />
+                        <p:inputText id="et" value="#{generatorSpeciesBySizeConfigController.selected.et}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_et}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_et}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_kv}" for="kv" />
+                        <p:inputText id="kv" value="#{generatorSpeciesBySizeConfigController.selected.kv}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_kv}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_kv}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_mx}" for="mx" />
+                        <p:inputText id="mx" value="#{generatorSpeciesBySizeConfigController.selected.mx}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_mx}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_mx}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_ms}" for="ms" />
+                        <p:inputText id="ms" value="#{generatorSpeciesBySizeConfigController.selected.ms}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_ms}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_ms}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_ma}" for="ma" />
+                        <p:inputText id="ma" value="#{generatorSpeciesBySizeConfigController.selected.ma}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_ma}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_ma}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_fo}" for="fo" />
+                        <p:inputText id="fo" value="#{generatorSpeciesBySizeConfigController.selected.fo}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_fo}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_fo}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_fs}" for="fs" />
+                        <p:inputText id="fs" value="#{generatorSpeciesBySizeConfigController.selected.fs}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_fs}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_fs}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_fi}" for="fi" />
+                        <p:inputText id="fi" value="#{generatorSpeciesBySizeConfigController.selected.fi}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_fi}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_fi}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_fn}" for="fn" />
+                        <p:inputText id="fn" value="#{generatorSpeciesBySizeConfigController.selected.fn}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_fn}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_fn}"/>
+                        <p:outputLabel value="#{bundle.CreateGeneratorSpeciesBySizeConfigLabel_thickness}" for="thickness" />
+                        <p:inputText id="thickness" value="#{generatorSpeciesBySizeConfigController.selected.thickness}" title="#{bundle.CreateGeneratorSpeciesBySizeConfigTitle_thickness}" required="true" requiredMessage="#{bundle.CreateGeneratorSpeciesBySizeConfigRequiredMessage_thickness}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{generatorSpeciesBySizeConfigController.create}" value="#{bundle.Save}" update="display,:GeneratorSpeciesBySizeConfigListForm:datalist,:growl" oncomplete="handleSubmit(args,'GeneratorSpeciesBySizeConfigCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('GeneratorSpeciesBySizeConfigCreateDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

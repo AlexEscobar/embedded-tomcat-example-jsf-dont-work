@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TeethNumbersCreateDlg" widgetVar="TeethNumbersCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTeethNumbersTitle}">
+            <h:form id="TeethNumbersCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{teethNumbersController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTeethNumbersLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{teethNumbersController.selected.id}" 
+                                     title="#{bundle.EditTeethNumbersTitle_id}" required="true" requiredMessage="#{bundle.EditTeethNumbersRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateTeethNumbersLabel_number}" for="number" />
+                        <p:inputText id="number" value="#{teethNumbersController.selected.number}" 
+                                     title="#{bundle.CreateTeethNumbersTitle_number}" required="true" requiredMessage="#{bundle.CreateTeethNumbersRequiredMessage_number}"/>
+                        <p:outputLabel value="#{bundle.CreateTeethNumbersLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{teethNumbersController.selected.name}" title="#{bundle.CreateTeethNumbersTitle_name}" required="true" requiredMessage="#{bundle.CreateTeethNumbersRequiredMessage_name}"/>
+                        <p:outputLabel value="#{bundle.CreateTeethNumbersLabel_side}" for="side" />
+                        <p:inputText id="side" value="#{teethNumbersController.selected.side}" title="#{bundle.CreateTeethNumbersTitle_side}" required="true" requiredMessage="#{bundle.CreateTeethNumbersRequiredMessage_side}"/>
+                        <p:outputLabel value="#{bundle.CreateTeethNumbersLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{teethNumbersController.selected.status}" required="true" requiredMessage="#{bundle.EditTeethNumbersRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.CreateTeethNumbersLabel_specieId}" for="specieId" />
+                        <p:selectOneMenu id="specieId" value="#{teethNumbersController.selected.specieId}" required="true" requiredMessage="#{bundle.EditTeethNumbersRequiredMessage_specieId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
+                            <f:selectItems value="#{speciesController.itemsAvailableSelectOne}"
+                                           var="specieIdItem"
+                                           itemValue="#{specieIdItem}"
+                                           itemLabel="#{specieIdItem.name}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{teethNumbersController.create}" value="#{bundle.Save}" update="display,:TeethNumbersListForm:datalist,:growl" oncomplete="handleSubmit(args,'TeethNumbersCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TeethNumbersCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

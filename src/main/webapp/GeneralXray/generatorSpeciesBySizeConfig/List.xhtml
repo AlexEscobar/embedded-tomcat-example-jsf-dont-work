@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li><p:link outcome="/GeneralXray/generatorSpeciesBySizeConfig/List">Settings/Generator technique by size</p:link></li>
+    </ui:define>
+
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle}"></h:outputText>
+    </ui:define>
+
+    <ui:define name="content" >
+        <h:form id="GeneratorSpeciesBySizeConfigListForm">
+            <p:panel header="#{bundle.ListGeneratorSpeciesBySizeConfigTitle}">
+                <p:dataTable id="datalist" value="#{generatorSpeciesBySizeConfigController.items}" var="item"
+                             selectionMode="single" selection="#{generatorSpeciesBySizeConfigController.selected}"
+                             paginator="true"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
+
+                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_id}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_et}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.et}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_kv}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.kv}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_mx}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mx}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_ms}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.ms}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_ma}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.ma}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_fo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fo}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_fs}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fs}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_fi}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fi}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_fn}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fn}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_thickness}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.thickness}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_sizeId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sizeId.animalSize}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_bodyPartId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bodyPartId.description}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_bodyPartViewId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bodyPartViewId.abbreviation}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_generatorId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.generatorId.model}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGeneratorSpeciesBySizeConfigTitle_speciesId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.speciesId.name}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{generatorSpeciesBySizeConfigController.prepareCreate}" update=":GeneratorSpeciesBySizeConfigCreateForm" oncomplete="PF('GeneratorSpeciesBySizeConfigCreateDialog').show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":GeneratorSpeciesBySizeConfigViewForm" oncomplete="PF('GeneratorSpeciesBySizeConfigViewDialog').show()" disabled="#{empty generatorSpeciesBySizeConfigController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GeneratorSpeciesBySizeConfigEditForm" oncomplete="PF('GeneratorSpeciesBySizeConfigEditDialog').show()" disabled="#{empty generatorSpeciesBySizeConfigController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{generatorSpeciesBySizeConfigController.destroy}" update=":growl,datalist" disabled="#{empty generatorSpeciesBySizeConfigController.selected}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+        <ui:include src="View.xhtml"/>
+    </ui:define>
+</ui:composition>

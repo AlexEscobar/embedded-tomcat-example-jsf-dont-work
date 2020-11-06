@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PetPatientsEditDlg" widgetVar="PetPatientsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPetPatientsTitle}">
+            <h:form id="PetPatientsEditForm">
+                <h:panelGroup id="display" class="black_bg">
+                    <p:panelGrid columns="2" class="black_bg" rendered="#{petPatientsController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{petPatientsController.selected.id}" title="#{bundle.EditPetPatientsTitle_id}" required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{petPatientsController.selected.name}" title="#{bundle.EditPetPatientsTitle_name}" required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_name}"/>
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_sex}" for="sex" />
+                        <p:selectBooleanCheckbox id="sex" value="#{petPatientsController.selected.sex}" required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_sex}"/>
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_birthDate}" for="birthDate" />
+                        <p:calendar id="birthDate" pattern="MM/dd/yyyy" value="#{petPatientsController.selected.birthDate}" title="#{bundle.EditPetPatientsTitle_birthDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_entryDate}" for="entryDate" />
+                        <p:calendar id="entryDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{petPatientsController.selected.entryDate}" title="#{bundle.EditPetPatientsTitle_entryDate}" required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_entryDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{petPatientsController.selected.status}" required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_breedId}" for="breedId" />
+                        <p:selectOneMenu id="breedId" value="#{petPatientsController.selected.breedId}" required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_breedId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{breedsController.itemsAvailableSelectOne}"
+                                           var="breedIdItem"
+                                           itemValue="#{breedIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_ownerId}" for="ownerId" />
+                        <p:selectOneMenu id="ownerId" value="#{petPatientsController.selected.ownerId}" required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_ownerId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personsController.itemsAvailableSelectOne}"
+                                           var="ownerIdItem"
+                                           itemValue="#{ownerIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditPetPatientsLabel_userId}" for="userId" />
+                        <p:selectOneMenu id="userId" value="#{petPatientsController.selected.userId}" required="true" requiredMessage="#{bundle.EditPetPatientsRequiredMessage_userId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usersController.itemsAvailableSelectOne}"
+                                           var="userIdItem"
+                                           itemValue="#{userIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{petPatientsController.update}" value="#{bundle.Save}" update="display,:PetPatientsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PetPatientsEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PetPatientsEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

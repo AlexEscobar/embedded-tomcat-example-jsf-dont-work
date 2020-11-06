@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DicomSentCreateDlg" widgetVar="DicomSentCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDicomSentTitle}">
+            <h:form id="DicomSentCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{dicomSentController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateDicomSentLabel_dicomTags}" for="dicomTags" />
+                        <p:inputText id="dicomTags" value="#{dicomSentController.selected.dicomTags}" title="#{bundle.CreateDicomSentTitle_dicomTags}" />
+                        <p:outputLabel value="#{bundle.CreateDicomSentLabel_startingDate}" for="startingDate" />
+                        <p:calendar id="startingDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{dicomSentController.selected.startingDate}" title="#{bundle.EditDicomSentTitle_startingDate}" required="true" requiredMessage="#{bundle.EditDicomSentRequiredMessage_startingDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateDicomSentLabel_successDate}" for="successDate" />
+                        <p:calendar id="successDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{dicomSentController.selected.successDate}" title="#{bundle.EditDicomSentTitle_successDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateDicomSentLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{dicomSentController.selected.state}" title="#{bundle.CreateDicomSentTitle_state}" required="true" requiredMessage="#{bundle.CreateDicomSentRequiredMessage_state}"/>
+                        <p:outputLabel value="#{bundle.CreateDicomSentLabel_stateDescription}" for="stateDescription" />
+                        <p:inputText id="stateDescription" value="#{dicomSentController.selected.stateDescription}" title="#{bundle.CreateDicomSentTitle_stateDescription}" />
+                        <p:outputLabel value="#{bundle.CreateDicomSentLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{dicomSentController.selected.status}" required="true" requiredMessage="#{bundle.EditDicomSentRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.CreateDicomSentLabel_dicomServerId}" for="dicomServerId" />
+                        <p:selectOneMenu id="dicomServerId" value="#{dicomSentController.selected.dicomServerId}" required="true" requiredMessage="#{bundle.EditDicomSentRequiredMessage_dicomServerId}">
+                            <f:selectItems value="#{dicomServersController.itemsAvailableSelectOne}"
+                                           var="dicomServerIdItem"
+                                           itemValue="#{dicomServerIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateDicomSentLabel_imageId}" for="imageId" />
+                        <p:selectOneMenu id="imageId" value="#{dicomSentController.selected.imageId}" required="true" requiredMessage="#{bundle.EditDicomSentRequiredMessage_imageId}">
+                            <f:selectItems value="#{imagesController.itemsAvailableSelectOne}"
+                                           var="imageIdItem"
+                                           itemValue="#{imageIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{dicomSentController.create}" value="#{bundle.Save}" update="display,:DicomSentListForm:datalist,:growl" oncomplete="handleSubmit(args,'DicomSentCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="DicomSentCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

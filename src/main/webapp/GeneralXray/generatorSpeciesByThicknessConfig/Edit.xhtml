@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GeneratorSpeciesByThicknessConfigEditDlg" widgetVar="GeneratorSpeciesByThicknessConfigEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle}">
+            <h:form id="GeneratorSpeciesByThicknessConfigEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{generatorSpeciesByThicknessConfigController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_generatorId}" for="generatorId" />
+                        <p:selectOneMenu id="generatorId" value="#{generatorSpeciesByThicknessConfigController.selected.generatorId}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_generatorId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{highVoltageGeneratorsController.itemsAvailableSelectOne}"
+                                           var="generatorIdItem"
+                                           itemLabel="#{generatorIdItem.model}"
+                                           itemValue="#{generatorIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_bodyPartId}" for="bodyPartId" />
+                        <p:selectOneMenu id="bodyPartId" value="#{generatorSpeciesByThicknessConfigController.selected.bodyPartId}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_bodyPartId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{bodyPartsController.itemsAvailableSelectOne}"
+                                           var="bodyPartIdItem"
+                                           itemLabel="#{bodyPartIdItem.description}"
+                                           itemValue="#{bodyPartIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_bodyPartViewId}" for="bodyPartViewId" />
+                        <p:selectOneMenu id="bodyPartViewId" value="#{generatorSpeciesByThicknessConfigController.selected.bodyPartViewId}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_bodyPartViewId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{bodyPartViewsController.itemsAvailableSelectOne}"
+                                           var="bodyPartViewIdItem"
+                                           itemLabel="#{bodyPartViewIdItem.abbreviation}"
+                                           itemValue="#{bodyPartViewIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_et}" for="et" />
+                        <p:inputText id="et" value="#{generatorSpeciesByThicknessConfigController.selected.et}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_et}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_et}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_thickness}" for="thickness" />
+                        <p:inputText id="thickness" value="#{generatorSpeciesByThicknessConfigController.selected.thickness}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_thickness}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_thickness}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_kv}" for="kv" />
+                        <p:inputText id="kv" value="#{generatorSpeciesByThicknessConfigController.selected.kv}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_kv}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_kv}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_mx}" for="mx" />
+                        <p:inputText id="mx" value="#{generatorSpeciesByThicknessConfigController.selected.mx}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_mx}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_mx}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_ms}" for="ms" />
+                        <p:inputText id="ms" value="#{generatorSpeciesByThicknessConfigController.selected.ms}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_ms}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_ms}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_ma}" for="ma" />
+                        <p:inputText id="ma" value="#{generatorSpeciesByThicknessConfigController.selected.ma}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_ma}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_ma}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_fo}" for="fo" />
+                        <p:inputText id="fo" value="#{generatorSpeciesByThicknessConfigController.selected.fo}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_fo}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_fo}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_fs}" for="fs" />
+                        <p:inputText id="fs" value="#{generatorSpeciesByThicknessConfigController.selected.fs}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_fs}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_fs}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_fi}" for="fi" />
+                        <p:inputText id="fi" value="#{generatorSpeciesByThicknessConfigController.selected.fi}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_fi}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_fi}"/>
+                        <p:outputLabel value="#{bundle.EditGeneratorSpeciesByThicknessConfigLabel_fn}" for="fn" />
+                        <p:inputText id="fn" value="#{generatorSpeciesByThicknessConfigController.selected.fn}" title="#{bundle.EditGeneratorSpeciesByThicknessConfigTitle_fn}" required="true" requiredMessage="#{bundle.EditGeneratorSpeciesByThicknessConfigRequiredMessage_fn}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{generatorSpeciesByThicknessConfigController.update}" value="#{bundle.Save}" update="display,:GeneratorSpeciesByThicknessConfigListForm:datalist,:growl" oncomplete="handleSubmit(args, 'GeneratorSpeciesByThicknessConfigEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('GeneratorSpeciesByThicknessConfigEditDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

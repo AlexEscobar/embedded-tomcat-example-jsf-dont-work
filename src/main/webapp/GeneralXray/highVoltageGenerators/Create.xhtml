@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HighVoltageGeneratorsCreateDlg" widgetVar="HighVoltageGeneratorsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHighVoltageGeneratorsTitle}">
+            <h:form id="HighVoltageGeneratorsCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{highVoltageGeneratorsController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_model}" for="model" />
+                        <p:inputText id="model" value="#{highVoltageGeneratorsController.selected.model}" title="#{bundle.CreateHighVoltageGeneratorsTitle_model}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_model}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_description}" for="description" />
+                        <p:inputTextarea id="description" value="#{highVoltageGeneratorsController.selected.description}" title="#{bundle.CreateHighVoltageGeneratorsTitle_description}" />
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_maxPower}" for="maxPower" />
+                        <p:inputText id="maxPower" value="#{highVoltageGeneratorsController.selected.maxPower}" title="#{bundle.CreateHighVoltageGeneratorsTitle_maxPower}" />
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_minKV}" for="minKV" />
+                        <p:inputText id="minKV" value="#{highVoltageGeneratorsController.selected.minKV}" title="#{bundle.CreateHighVoltageGeneratorsTitle_minKV}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_minKV}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_maxKV}" for="maxKV" />
+                        <p:inputText id="maxKV" value="#{highVoltageGeneratorsController.selected.maxKV}" title="#{bundle.CreateHighVoltageGeneratorsTitle_maxKV}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_maxKV}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_minMA}" for="minMA" />
+                        <p:inputText id="minMA" value="#{highVoltageGeneratorsController.selected.minMA}" title="#{bundle.CreateHighVoltageGeneratorsTitle_minMA}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_minMA}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_maxMA}" for="maxMA" />
+                        <p:inputText id="maxMA" value="#{highVoltageGeneratorsController.selected.maxMA}" title="#{bundle.CreateHighVoltageGeneratorsTitle_maxMA}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_maxMA}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_minMS}" for="minMS" />
+                        <p:inputText id="minMS" value="#{highVoltageGeneratorsController.selected.minMS}" title="#{bundle.CreateHighVoltageGeneratorsTitle_minMS}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_minMS}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_maxMS}" for="maxMS" />
+                        <p:inputText id="maxMS" value="#{highVoltageGeneratorsController.selected.maxMS}" title="#{bundle.CreateHighVoltageGeneratorsTitle_maxMS}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_maxMS}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_minMAS}" for="minMAS" />
+                        <p:inputText id="minMAS" value="#{highVoltageGeneratorsController.selected.minMAS}" title="#{bundle.CreateHighVoltageGeneratorsTitle_minMAS}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_minMAS}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_maxMAS}" for="maxMAS" />
+                        <p:inputText id="maxMAS" value="#{highVoltageGeneratorsController.selected.maxMAS}" title="#{bundle.CreateHighVoltageGeneratorsTitle_maxMAS}" required="true" requiredMessage="#{bundle.CreateHighVoltageGeneratorsRequiredMessage_maxMAS}"/>
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_timeout}" for="timeout" />
+                        <p:inputText id="timeout" value="#{highVoltageGeneratorsController.selected.timeout}" title="#{bundle.CreateHighVoltageGeneratorsTitle_timeout}" />
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_standardLoadingTime}" for="standardLoadingTime" />
+                        <p:inputText id="standardLoadingTime" value="#{highVoltageGeneratorsController.selected.standardLoadingTime}" title="#{bundle.CreateHighVoltageGeneratorsTitle_standardLoadingTime}" />
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_enableBucky}" for="enableBucky" />
+                        <p:selectBooleanCheckbox id="enableBucky" value="#{highVoltageGeneratorsController.selected.enableBucky}" />
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_flatPanelDectTimeout}" for="flatPanelDectTimeout" />
+                        <p:inputText id="flatPanelDectTimeout" value="#{highVoltageGeneratorsController.selected.flatPanelDectTimeout}" title="#{bundle.CreateHighVoltageGeneratorsTitle_flatPanelDectTimeout}" />
+                        <p:outputLabel value="#{bundle.CreateHighVoltageGeneratorsLabel_comPort}" for="comPort" />
+                        <p:inputText id="comPort" value="#{highVoltageGeneratorsController.selected.comPort}" title="#{bundle.CreateHighVoltageGeneratorsTitle_comPort}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{highVoltageGeneratorsController.create}" value="#{bundle.Save}" update="display,:HighVoltageGeneratorsListForm:datalist,:growl" oncomplete="handleSubmit(args,'HighVoltageGeneratorsCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="HighVoltageGeneratorsCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

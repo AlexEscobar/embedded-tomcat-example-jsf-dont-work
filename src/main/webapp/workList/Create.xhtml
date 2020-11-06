@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="WorkListCreateDlg" widgetVar="WorkListCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateWorkListTitle}">
+            <h:form id="WorkListCreateForm">
+                    <h3 style="margin-top:0">New Patient</h3>
+                <h:panelGroup id="display" >
+                    <p:panelGrid columns="1" rendered="#{workListController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateWorkListLabel_comments}" for="comments" />
+                        <p:inputText id="comments" value="#{workListController.selected.comments}" title="#{bundle.CreateWorkListTitle_comments}" />
+                        <p:outputLabel value="#{bundle.CreateWorkListLabel_onprocessDate}" for="onprocessDate" />
+                        <p:calendar id="onprocessDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{workListController.selected.onprocessDate}" title="#{bundle.EditWorkListTitle_onprocessDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateWorkListLabel_doneDate}" for="doneDate" />
+                        <p:calendar id="doneDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{workListController.selected.doneDate}" title="#{bundle.EditWorkListTitle_doneDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateWorkListLabel_currentProcess}" for="currentProcess" />
+                        <p:inputText id="currentProcess" value="#{workListController.selected.currentProcess}" title="#{bundle.CreateWorkListTitle_currentProcess}" required="true" requiredMessage="#{bundle.CreateWorkListRequiredMessage_currentProcess}"/>
+                        <p:outputLabel value="#{bundle.CreateWorkListLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{workListController.selected.status}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.CreateWorkListLabel_studyId}" for="studyId" />
+                        <p:inputText id="studyId" value="#{workListController.selected.studyId}" title="#{bundle.CreateWorkListTitle_studyId}" />
+                        <p:outputLabel value="#{bundle.CreateWorkListLabel_patientId}" for="patientId" />
+                        <p:selectOneMenu id="patientId" value="#{workListController.selected.patientId}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_patientId}">
+                            <f:selectItems value="#{petPatientsController.itemsAvailableSelectOne}"
+                                           var="patientIdItem"
+                                           itemValue="#{patientIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateWorkListLabel_userId}" for="userId" />
+                        <p:selectOneMenu id="userId" value="#{workListController.selected.userId}" required="true" requiredMessage="#{bundle.EditWorkListRequiredMessage_userId}">
+                            <f:selectItems value="#{usersController.itemsAvailableSelectOne}"
+                                           var="userIdItem"
+                                           itemValue="#{userIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{workListController.create}" value="Create" update="display,@(.worklistStyle),:growl" oncomplete="handleSubmit(args,'WorkListCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="WorkListCreateDialog.hide()"/>
+                    
+                </h:panelGroup>
+            </h:form>
+            
+            
+        </p:dialog>
+         
+       
+
+    </ui:composition>
+</html>

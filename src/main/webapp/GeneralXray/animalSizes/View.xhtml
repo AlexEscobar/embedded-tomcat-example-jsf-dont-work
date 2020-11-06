@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AnimalSizesViewDlg" widgetVar="AnimalSizesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAnimalSizesTitle}">
+            <h:form id="AnimalSizesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{animalSizesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewAnimalSizesLabel_id}"/>
+                        <h:outputText value="#{animalSizesController.selected.id}" title="#{bundle.ViewAnimalSizesTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewAnimalSizesLabel_size}"/>
+                        <h:outputText value="#{animalSizesController.selected.animalSize}" title="#{bundle.ViewAnimalSizesTitle_size}"/>
+                        <h:outputText value="#{bundle.ViewAnimalSizesLabel_entryDate}"/>
+                        <h:outputText value="#{animalSizesController.selected.entryDate}" title="#{bundle.ViewAnimalSizesTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewAnimalSizesLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{animalSizesController.selected.status}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="AnimalSizesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

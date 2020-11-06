@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="WorkListViewDlg" widgetVar="WorkListViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewWorkListTitle}">
+            <h:form id="WorkListViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{workListController.selected != null}">
+                        <h:outputText value="#{bundle.ViewWorkListLabel_id}"/>
+                        <h:outputText value="#{workListController.selected.id}" title="#{bundle.ViewWorkListTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_comments}"/>
+                        <h:outputText value="#{workListController.selected.comments}" title="#{bundle.ViewWorkListTitle_comments}"/>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_creationDate}"/>
+                        <h:outputText value="#{workListController.selected.creationDate}" title="#{bundle.ViewWorkListTitle_creationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_onprocessDate}"/>
+                        <h:outputText value="#{workListController.selected.onprocessDate}" title="#{bundle.ViewWorkListTitle_onprocessDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_doneDate}"/>
+                        <h:outputText value="#{workListController.selected.doneDate}" title="#{bundle.ViewWorkListTitle_doneDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_currentProcess}"/>
+                        <h:outputText value="#{workListController.selected.currentProcess}" title="#{bundle.ViewWorkListTitle_currentProcess}"/>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{workListController.selected.status}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_studyId}"/>
+                        <h:outputText value="#{workListController.selected.studyId}" title="#{bundle.ViewWorkListTitle_studyId}"/>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_patientId}"/>
+                        <h:outputText value="#{workListController.selected.patientId}" title="#{bundle.ViewWorkListTitle_patientId}"/>
+                        <h:outputText value="#{bundle.ViewWorkListLabel_userId}"/>
+                        <h:outputText value="#{workListController.selected.userId}" title="#{bundle.ViewWorkListTitle_userId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="WorkListViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

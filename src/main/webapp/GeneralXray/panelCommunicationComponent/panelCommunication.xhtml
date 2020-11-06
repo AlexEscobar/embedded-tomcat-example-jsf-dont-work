@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition> 
+
+        <!--This is the create annotations form-->
+        <h:form>
+            <o:socket channel="panelMessageChannel" onmessage="panelMessageSocketListener" />
+            <p:remoteCommand update=":growl" name="showNotifications" action="#{generalXrayController.updateAll()}"/>
+        </h:form>
+        <script>           
+            $(function () {
+                console.log('loading panel communication component...');
+            });
+
+            function panelMessageSocketListener(message, channel, event) {
+//                console.log('Calling socketListener client side PANEL SOCKET Server');
+//                console.log(message);
+//                console.log(channel);
+//                console.log(event);
+//                console.log($(".ui-progressbar-value"));
+
+//                console.log('End Calling socketListener client side PANEL Socket Client');
+//                console.log(message.connection)    
+                setPanelStatus(message);
+                setPanelErrorMessage(message);
+            }
+
+            function setPanelStatus(message) {
+                let panelStatusButton = $("#GeneratorSlideoutForm\\:panelStatusButton");
+//                console.log('Connection value: '+message.connection);
+                if (message.connection !== undefined) {
+                    if (message.connection === 1) {
+                        panelStatusButton.removeClass("red");
+                        panelStatusButton.removeClass("yellow");
+                        panelStatusButton.addClass("green");
+                        return;
+                    }
+                    if (message.connection === 2) {//connection = wireless
+                        panelStatusButton.removeClass("red");
+                        panelStatusButton.removeClass("green");
+                        panelStatusButton.addClass("yellow");
+                        return;
+                    }
+                    //alert('Panel disconnected...')
+                }
+
+                panelStatusButton.removeClass("green");
+                panelStatusButton.removeClass("yellow");
+                panelStatusButton.addClass("red");
+            }
+
+            function setPanelErrorMessage(message) {
+                $("#GeneratorSlideoutForm\\:panelError").text(message.error);
+            }
+
+        </script>
+    </ui:composition>
+</html>

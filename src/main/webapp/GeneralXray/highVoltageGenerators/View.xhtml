@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HighVoltageGeneratorsViewDlg" widgetVar="HighVoltageGeneratorsViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewHighVoltageGeneratorsTitle}">
+            <h:form id="HighVoltageGeneratorsViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{highVoltageGeneratorsController.selected != null}">
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_id}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.id}" title="#{bundle.ViewHighVoltageGeneratorsTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_model}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.model}" title="#{bundle.ViewHighVoltageGeneratorsTitle_model}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_description}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.description}" title="#{bundle.ViewHighVoltageGeneratorsTitle_description}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_maxPower}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.maxPower}" title="#{bundle.ViewHighVoltageGeneratorsTitle_maxPower}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_minKV}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.minKV}" title="#{bundle.ViewHighVoltageGeneratorsTitle_minKV}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_maxKV}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.maxKV}" title="#{bundle.ViewHighVoltageGeneratorsTitle_maxKV}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_minMA}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.minMA}" title="#{bundle.ViewHighVoltageGeneratorsTitle_minMA}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_maxMA}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.maxMA}" title="#{bundle.ViewHighVoltageGeneratorsTitle_maxMA}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_minMS}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.minMS}" title="#{bundle.ViewHighVoltageGeneratorsTitle_minMS}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_maxMS}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.maxMS}" title="#{bundle.ViewHighVoltageGeneratorsTitle_maxMS}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_minMAS}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.minMAS}" title="#{bundle.ViewHighVoltageGeneratorsTitle_minMAS}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_maxMAS}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.maxMAS}" title="#{bundle.ViewHighVoltageGeneratorsTitle_maxMAS}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_timeout}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.timeout}" title="#{bundle.ViewHighVoltageGeneratorsTitle_timeout}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_standardLoadingTime}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.standardLoadingTime}" title="#{bundle.ViewHighVoltageGeneratorsTitle_standardLoadingTime}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_enableBucky}"/>
+                        <p:selectBooleanCheckbox value="#{highVoltageGeneratorsController.selected.enableBucky}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_flatPanelDectTimeout}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.flatPanelDectTimeout}" title="#{bundle.ViewHighVoltageGeneratorsTitle_flatPanelDectTimeout}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_comPort}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.comPort}" title="#{bundle.ViewHighVoltageGeneratorsTitle_comPort}"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_entryDate}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.entryDate}" title="#{bundle.ViewHighVoltageGeneratorsTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{highVoltageGeneratorsController.selected.status}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewHighVoltageGeneratorsLabel_userId}"/>
+                        <h:outputText value="#{highVoltageGeneratorsController.selected.userId}" title="#{bundle.ViewHighVoltageGeneratorsTitle_userId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="HighVoltageGeneratorsViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

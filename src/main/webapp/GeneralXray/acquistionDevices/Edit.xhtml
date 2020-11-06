@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AcquistionDevicesEditDlg" widgetVar="AcquistionDevicesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditAcquistionDevicesTitle}">
+            <h:form id="AcquistionDevicesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{acquistionDevicesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{acquistionDevicesController.selected.id}" title="#{bundle.EditAcquistionDevicesTitle_id}" />
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{acquistionDevicesController.selected.name}" title="#{bundle.EditAcquistionDevicesTitle_name}" required="true" requiredMessage="#{bundle.EditAcquistionDevicesRequiredMessage_name}"/>
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_brand}" for="brand" />
+                        <p:inputText id="brand" value="#{acquistionDevicesController.selected.brand}" title="#{bundle.EditAcquistionDevicesTitle_brand}" />
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_serialNumber}" for="serialNumber" />
+                        <p:inputText id="serialNumber" value="#{acquistionDevicesController.selected.serialNumber}" title="#{bundle.EditAcquistionDevicesTitle_serialNumber}" />
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_type}" for="type" />
+                        <p:inputText id="type" value="#{acquistionDevicesController.selected.type}" title="#{bundle.EditAcquistionDevicesTitle_type}" required="true" requiredMessage="#{bundle.EditAcquistionDevicesRequiredMessage_type}"/>
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_columnCellSpacing}" for="columnCellSpacing" />
+                        <p:inputText id="columnCellSpacing" value="#{acquistionDevicesController.selected.columnCellSpacing}" title="#{bundle.EditAcquistionDevicesTitle_columnCellSpacing}" />
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_rowCellSpacing}" for="rowCellSpacing" />
+                        <p:inputText id="rowCellSpacing" value="#{acquistionDevicesController.selected.rowCellSpacing}" title="#{bundle.EditAcquistionDevicesTitle_rowCellSpacing}" />
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_height}" for="height" />
+                        <p:inputText id="height" value="#{acquistionDevicesController.selected.height}" title="#{bundle.EditAcquistionDevicesTitle_height}" />
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_witdh}" for="witdh" />
+                        <p:inputText id="witdh" value="#{acquistionDevicesController.selected.witdh}" title="#{bundle.EditAcquistionDevicesTitle_witdh}" />
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_timeout}" for="timeout" />
+                        <p:inputText id="timeout" value="#{acquistionDevicesController.selected.timeout}" title="#{bundle.EditAcquistionDevicesTitle_timeout}" required="true" requiredMessage="#{bundle.EditAcquistionDevicesRequiredMessage_timeout}"/>
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_outputPath}" for="outputPath" />
+                        <p:inputText id="outputPath" value="#{acquistionDevicesController.selected.outputPath}" title="#{bundle.EditAcquistionDevicesTitle_outputPath}" required="true" requiredMessage="#{bundle.EditAcquistionDevicesRequiredMessage_outputPath}"/>
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_entryDate}" for="entryDate" />
+                        <p:calendar id="entryDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{acquistionDevicesController.selected.entryDate}" title="#{bundle.EditAcquistionDevicesTitle_entryDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{acquistionDevicesController.selected.status}" required="true" requiredMessage="#{bundle.EditAcquistionDevicesRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.EditAcquistionDevicesLabel_userId}" for="userId" />
+                        <p:inputText id="userId" value="#{acquistionDevicesController.selected.userId}" title="#{bundle.EditAcquistionDevicesTitle_userId}" required="true" requiredMessage="#{bundle.EditAcquistionDevicesRequiredMessage_userId}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{acquistionDevicesController.update}" value="#{bundle.Save}" update="display,:AcquistionDevicesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AcquistionDevicesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="AcquistionDevicesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

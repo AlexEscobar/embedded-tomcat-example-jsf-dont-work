@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AcquistionDevicesViewDlg" widgetVar="AcquistionDevicesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAcquistionDevicesTitle}">
+            <h:form id="AcquistionDevicesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{acquistionDevicesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_id}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.id}" title="#{bundle.ViewAcquistionDevicesTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_name}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.name}" title="#{bundle.ViewAcquistionDevicesTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_brand}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.brand}" title="#{bundle.ViewAcquistionDevicesTitle_brand}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_serialNumber}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.serialNumber}" title="#{bundle.ViewAcquistionDevicesTitle_serialNumber}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_type}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.type}" title="#{bundle.ViewAcquistionDevicesTitle_type}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_columnCellSpacing}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.columnCellSpacing}" title="#{bundle.ViewAcquistionDevicesTitle_columnCellSpacing}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_rowCellSpacing}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.rowCellSpacing}" title="#{bundle.ViewAcquistionDevicesTitle_rowCellSpacing}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_height}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.height}" title="#{bundle.ViewAcquistionDevicesTitle_height}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_witdh}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.witdh}" title="#{bundle.ViewAcquistionDevicesTitle_witdh}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_timeout}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.timeout}" title="#{bundle.ViewAcquistionDevicesTitle_timeout}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_outputPath}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.outputPath}" title="#{bundle.ViewAcquistionDevicesTitle_outputPath}"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_entryDate}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.entryDate}" title="#{bundle.ViewAcquistionDevicesTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{acquistionDevicesController.selected.status}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewAcquistionDevicesLabel_userId}"/>
+                        <h:outputText value="#{acquistionDevicesController.selected.userId}" title="#{bundle.ViewAcquistionDevicesTitle_userId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="AcquistionDevicesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

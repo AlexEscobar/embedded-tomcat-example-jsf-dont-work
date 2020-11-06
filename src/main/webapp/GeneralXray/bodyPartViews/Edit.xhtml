@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BodyPartViewsEditDlg" widgetVar="BodyPartViewsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleBodyParts.EditBodyPartViewsTitle}">
+            <h:form id="BodyPartViewsEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bodyPartViewsController.selected != null}">
+                        <p:outputLabel value="#{bundleBodyParts.EditBodyPartViewsLabel_abbreviation}" for="abbreviation" />
+                        <p:inputText id="abbreviation" value="#{bodyPartViewsController.selected.abbreviation}" title="#{bundleBodyParts.EditBodyPartViewsTitle_abbreviation}" required="true" requiredMessage="#{bundleBodyParts.EditBodyPartViewsRequiredMessage_abbreviation}"/>
+                        <p:outputLabel value="#{bundleBodyParts.EditBodyPartViewsLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{bodyPartViewsController.selected.description}" title="#{bundleBodyParts.EditBodyPartViewsTitle_description}" />
+                        <p:outputLabel value="#{bundleBodyParts.EditBodyPartViewsLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{bodyPartViewsController.selected.status}" required="true" requiredMessage="#{bundleBodyParts.EditBodyPartViewsRequiredMessage_status}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bodyPartViewsController.update}" value="#{bundleBodyParts.Save}" update="display,:BodyPartViewsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BodyPartViewsEditDialog');"/>
+                    <p:commandButton value="#{bundleBodyParts.Cancel}" onclick="PF('BodyPartViewsEditDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

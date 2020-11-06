@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImagesCreateDlg" widgetVar="ImagesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateImagesTitle}">
+            <h:form id="ImagesCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{imagesController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateImagesLabel_pattern}" for="pattern" />
+                        <p:inputText id="pattern" value="#{imagesController.selected.pattern}" title="#{bundle.CreateImagesTitle_pattern}" required="true" requiredMessage="#{bundle.CreateImagesRequiredMessage_pattern}"/>
+                        <p:outputLabel value="#{bundle.CreateImagesLabel_mimeType}" for="mimeType" />
+                        <p:inputText id="mimeType" value="#{imagesController.selected.mimeType}" title="#{bundle.CreateImagesTitle_mimeType}" />
+                        <p:outputLabel value="#{bundle.CreateImagesLabel_modalityId}" for="modalityId" />
+                        <p:selectOneMenu id="modalityId" value="#{imagesController.selected.modalityId}" required="true" requiredMessage="#{bundle.EditImagesRequiredMessage_modalityId}">
+                            <f:selectItems value="#{modalitiesController.itemsAvailableSelectOne}"
+                                           var="modalityIdItem"
+                                           itemValue="#{modalityIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateImagesLabel_studyId}" for="studyId" />
+                        <p:selectOneMenu id="studyId" value="#{imagesController.selected.studyId}" required="true" requiredMessage="#{bundle.EditImagesRequiredMessage_studyId}">
+                            <f:selectItems value="#{studiesController.itemsAvailableSelectOne}"
+                                           var="studyIdItem"
+                                           itemValue="#{studyIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateImagesLabel_userId}" for="userId" />
+                        <p:selectOneMenu id="userId" value="#{imagesController.selected.userId}" required="true" requiredMessage="#{bundle.EditImagesRequiredMessage_userId}">
+                            <f:selectItems value="#{usersController.itemsAvailableSelectOne}"
+                                           var="userIdItem"
+                                           itemValue="#{userIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{imagesController.create}" value="#{bundle.Save}" update="display,:ImagesListForm:datalist,:growl" oncomplete="handleSubmit(args,'ImagesCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ImagesCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

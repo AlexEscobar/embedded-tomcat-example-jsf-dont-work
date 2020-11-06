@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <style>
+            .display {
+                align-self: center;
+                margin-bottom: 20px;
+            }
+        </style>
+        
+        <!--This is the create annotations form-->
+        <h:form id="AnnotationsCreateForm" class="annotationFormStyle">
+            <p:panelGrid id="pollGrid" class="pollStyle">                
+                <p:poll id="relauchSensorApp_Poll"
+                        update="AnnotationsCreateForm:relauchSensorApp_Poll,:growl @(.pollStyle) :AnnotationsListForm:datalist AnnotationsCreateMapForm:xrayActionButtons" autoStart="true"  
+                        delay="10000" interval="#{annotationsDentalXrayController.interval}" 
+                        onstart="PF('AnnotationsRelaunchDialog').show()" listener="#{annotationsDentalXrayController.sensorKiller}" async="true"/>
+            </p:panelGrid>
+
+
+            <div id="image-preview" class="card ui-g-12">
+                <h:panelGroup id="xrayCurrentContainer" styleClass="col-md-6"  >
+                    <h:panelGroup layout="block" id="xrayCurrent" class="xrayCurrent" >
+                        <div class="image-info" style="font-size: 15px;">-</div>
+                        <div class="display">
+                            <img id="currentImage"  border="0" src="data:image/jpg;base64,#{viewerController.currentXrayImage}" 
+                                 class="currentImage sensor-image" />                            
+                        </div>
+                    </h:panelGroup>
+                </h:panelGroup>                        
+            </div>
+        </h:form>
+
+        <ui:include src="RelaunchSensor.xhtml"/>
+
+        <h:form class="annotationFormScriptsStyle" style="display: none !important;" >
+            <!-- js-->
+            <h:outputScript library="js" name="jquery.maphilight.js"/>
+            <h:outputScript library="js" name="jquery.rwdImageMaps.min.js"/>
+            <script>
+                var interval = undefined;
+                $(function () {
+                    const teethMapHeight = $("#teeth-map").height();
+                    const actionFormHeight = $("#XrayActionForm").height();
+                    startXrayPage();
+                    setCurrentImageStyle();
+                    setBodyPartListHeight(teethMapHeight - actionFormHeight - 10);
+                    setImageDisplayHeight(teethMapHeight - 32);
+                    //prepViewer();
+                    console.log("Time until DOMready: ", Date.now() - timerStart);
+                });
+
+                window.addEventListener("unload", function (event) {
+                //{annotationsDentalXrayController.preDestroy()};
+                });
+
+                //starts the image acquisition progress bar on xray button click
+                function startProgressBar() {
+                    PF('pbAjax').start();
+                }
+
+                //starts the image acquisition progress bar on xray button click
+                function stopProgressBar() {
+                    PF('pbAjax').cancel();
+                }
+
+                function startXrayPage() {
+                    $('img[usemap]').rwdImageMaps(); // Add responsivity to the map areas
+                    $('.map').maphilight(); // Add Light to the map area on mouseover
+
+                    // executes setColorToAnnotatedAreas 1 ms after page rendering
+
+                    if (counter > 0) {
+                        initImages();
+                        interval = setInterval(setColorToAnnotatedAreas, 50);
+                    } else {
+                        interval = setInterval(setColorToAnnotatedAreas, 5);
+                        initImages();
+//                        setColorToAnnotatedAreas();
+                    }
+
+                }
+
+                function initImages() {
+//                    $('img[usemap]').rwdImageMaps(); // Add responsivity to the map areas
+//                    $('.map').maphilight(); // Add Light to the map area on mouseover
+
+                    // executes setColorToAnnotatedAreas 1 ms after page rendering
+//                    interval = setInterval(setColorToAnnotatedAreas, 1);
+                    // add on click functionality to the selected area
+                    $('.colorArea').click(setUnsetAreaColor);
+                    $('.currentImage').click(function (e) {
+                        const clicked = e.target.path;
+                        //                        console.log('clicked the currentImage: ' + clicked);
+                        //                        console.log(e);
+
+                    });
+                }
+                /**
+                 * Add color to the map areas that are already annotated depending on the EJB state 
+                 *  
+                 */
+
+                function setColorToAnnotatedAreas() {
+                    console.log("counter: " + counter);
+                    const items = #{annotationsDentalXrayController.annotationsAsJson};
+                    console.log(items);
+                    
+                    $('.colorArea').each(function () {
+                        let data = $(this).data('maphilight') || {};
+                      
+                        const itemFound = items.some(item => item.id === this.id);
+                        data.alwaysOn = itemFound;
+                        
+                        $(this).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    });
+                    clearInterval(interval);
+                    counter++;
+                }
+
+                function setUnsetAreaColor() {
+                    let data = $(this).data('maphilight') || {};
+                    if (data.alwaysOn !== true) {
+                        data.alwaysOn = true;
+                    } else {
+                        data.alwaysOn = false;
+                    }
+                    $(this).data('maphilight', data).trigger('alwaysOn.maphilight');
+                }
+
+                /**
+                 * Adds style = display: none to avoid showing the image crash icon, if the component current image does not contain an image.
+                 * Otherwise Adds style = display: block. 
+                 * @returns {undefined}
+                 */
+                function setCurrentImageStyle() {
+                    let imageSrc = $('#currentImage');
+                    if (imageSrc.attr('src').length > 50) {
+//                        $("#AnnotationsCreateForm\\:xrayProgressBar").css('display', 'block');
+                        imageSrc.css('display', 'block');
+                    } else {
+//                        $("#AnnotationsCreateForm\\:xrayProgressBar").css('display', 'none');
+                        imageSrc.css('display', 'none');
+                    }
+                }
+
+                /**
+                 * Loads the image list and the canvas state for each image on the list depending on the current study.
+                 * This data will be used by the dicom viewer especifically for the cornerstone tools library.
+                 * @returns {undefined}
+                 */
+                function loadImagesAndImageState() {
+                }
+
+
+            </script>
+        </h:form>
+    </ui:composition>
+</html>

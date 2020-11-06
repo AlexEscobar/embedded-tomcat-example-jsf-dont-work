@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ConfigureEmail}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="BreedsCreateForm">
+                <div class="ui-fluid">
+                    <p:panelGrid columns="4" columnClasses="ui-g-12 ui-md-2,ui-g-12 ui-md-4,ui-g-12 ui-md-2,ui-g-12 ui-md-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:outputLabel for="host" value="#{bundle.HostName}"/>
+                        <p:inputText id="host"/>
+
+                        <p:outputLabel for="port" value="#{bundle.SmtpPort}"/>
+                        <p:inputText id="port"/>
+
+                        <p:outputLabel for="user" value="#{bundle.EmailUser}"/>
+                        <p:inputText id="user"/>
+
+                        <p:outputLabel for="pwd" value="#{bundle.EmailPassword}"/>
+                        <p:password id="pwd" />
+                        <p:outputLabel for="from" value="#{bundle.From}"/>
+                        <p:password id="from" />
+                        <p:outputLabel for="to" value="#{bundle.To}"/>
+                        <p:password id="to" />
+                        <p:outputLabel for="subject" value="#{bundle.Subject}"/>
+                        <p:password id="subject" />
+
+                        <p:outputLabel for="message" value="#{bundle.Message}"/>
+                        <p:inputTextarea id="message"/>
+
+                    </p:panelGrid>
+                       
+                        <p:splitButton id="spbtn" value="Save" type="button" icon="pi pi-save">
+                            <p:menuitem value="Update" url="#" icon="pi pi-refresh" />
+                            <p:menuitem value="Delete" url="#" icon="pi pi-times" />
+                            <p:separator />
+                            <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="pi pi-home" />
+                        </p:splitButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

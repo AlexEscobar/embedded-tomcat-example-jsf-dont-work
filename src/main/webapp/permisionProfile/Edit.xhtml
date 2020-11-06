@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PermisionProfileEditDlg" widgetVar="PermisionProfileEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPermisionProfileTitle}">
+            <h:form id="PermisionProfileEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{permisionProfileController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditPermisionProfileLabel_entryDate}" for="entryDate" />
+                        <p:calendar id="entryDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{permisionProfileController.selected.entryDate}" title="#{bundle.EditPermisionProfileTitle_entryDate}" required="true" requiredMessage="#{bundle.EditPermisionProfileRequiredMessage_entryDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditPermisionProfileLabel_status}" for="status" />
+                        <p:selectBooleanCheckbox id="status" value="#{permisionProfileController.selected.status}" required="true" requiredMessage="#{bundle.EditPermisionProfileRequiredMessage_status}"/>
+                        <p:outputLabel value="#{bundle.EditPermisionProfileLabel_permisions}" for="permisions" />
+                        <p:selectOneMenu id="permisions" value="#{permisionProfileController.selected.permisions}" required="true" requiredMessage="#{bundle.EditPermisionProfileRequiredMessage_permisions}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{permisionsController.itemsAvailableSelectOne}"
+                                           var="permisionsItem"
+                                           itemValue="#{permisionsItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditPermisionProfileLabel_profiles}" for="profiles" />
+                        <p:selectOneMenu id="profiles" value="#{permisionProfileController.selected.profiles}" required="true" requiredMessage="#{bundle.EditPermisionProfileRequiredMessage_profiles}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{profilesController.itemsAvailableSelectOne}"
+                                           var="profilesItem"
+                                           itemValue="#{profilesItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{permisionProfileController.update}" value="#{bundle.Save}" update="display,:PermisionProfileListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PermisionProfileEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PermisionProfileEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

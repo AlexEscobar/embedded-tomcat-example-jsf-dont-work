@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BranchOfficesViewDlg" widgetVar="BranchOfficesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewBranchOfficesTitle}">
+            <h:form id="BranchOfficesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{branchOfficesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewBranchOfficesLabel_id}"/>
+                        <h:outputText value="#{branchOfficesController.selected.id}" title="#{bundle.ViewBranchOfficesTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewBranchOfficesLabel_name}"/>
+                        <h:outputText value="#{branchOfficesController.selected.name}" title="#{bundle.ViewBranchOfficesTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewBranchOfficesLabel_address}"/>
+                        <h:outputText value="#{branchOfficesController.selected.address}" title="#{bundle.ViewBranchOfficesTitle_address}"/>
+                        <h:outputText value="#{bundle.ViewBranchOfficesLabel_entryDate}"/>
+                        <h:outputText value="#{branchOfficesController.selected.entryDate}" title="#{bundle.ViewBranchOfficesTitle_entryDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewBranchOfficesLabel_status}"/>
+                        <p:selectBooleanCheckbox value="#{branchOfficesController.selected.status}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewBranchOfficesLabel_clinicId}"/>
+                        <h:outputText value="#{branchOfficesController.selected.clinicId}" title="#{bundle.ViewBranchOfficesTitle_clinicId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="BranchOfficesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
